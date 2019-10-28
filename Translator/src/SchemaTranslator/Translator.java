@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -29,16 +29,16 @@ public class Translator {
 		}
 	}
 	
-	public static void cleanDumpFile(Path neo4jDumpFilePath) {
+	public static void cleanDumpFile(String neo4jDumpFilePath) {
 		try {
-			List<String> dumpFileContents = Files.readAllLines(neo4jDumpFilePath);
+			List<String> dumpFileContents = Files.readAllLines(Paths.get(neo4jDumpFilePath));
 			dumpFileContents.remove(0);
 			dumpFileContents.remove(0);
 			dumpFileContents.remove(0);
 			dumpFileContents.remove(0);
 			dumpFileContents.remove(dumpFileContents.size() - 1);
 			dumpFileContents.remove(dumpFileContents.size() - 1);
-			Files.write(neo4jDumpFilePath, dumpFileContents);
+			Files.write(Paths.get(neo4jDumpFilePath), dumpFileContents);
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();

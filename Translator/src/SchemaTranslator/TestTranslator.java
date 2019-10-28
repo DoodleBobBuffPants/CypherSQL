@@ -3,7 +3,6 @@ package SchemaTranslator;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.nio.file.Paths;
 
 import org.junit.Test;
 
@@ -23,7 +22,7 @@ public class TestTranslator {
 	public void testCleanDumpFile() {
 		String neo4jDumpFilePath = "D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\dump.txt";
 		
-		Translator.cleanDumpFile(Paths.get(neo4jDumpFilePath));
+		Translator.cleanDumpFile(neo4jDumpFilePath);
 		
 		File neo4jDumpFile = new File(neo4jDumpFilePath);
 		assertTrue(neo4jDumpFile.exists());
