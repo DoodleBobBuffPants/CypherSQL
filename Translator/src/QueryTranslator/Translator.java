@@ -38,7 +38,7 @@ public class Translator {
 	
 	public static void printCreateNode(CreateNode createNode) {
 		System.out.println("id: " + createNode.getId());
-		System.out.println("label: " + createNode.getLabel());
-		createNode.getColumnValues().forEach((k, v) -> System.out.println(k + ": " + v));
+		System.out.println("labels: " + createNode.getLabelList());
+		createNode.getColumnValueMap().forEach((k, v) -> System.out.println(k + ": " + v));
 	}
 }

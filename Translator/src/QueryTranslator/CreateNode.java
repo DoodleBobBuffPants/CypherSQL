@@ -1,11 +1,13 @@
 package QueryTranslator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CreateNode {
 	private String id;
-	private String label;
+	private List<String> label = new ArrayList<String>();
 	private Map<String, Object> columnValue = new HashMap<String, Object>();
 	
 	public void setId(String id) {
@@ -16,19 +18,19 @@ public class CreateNode {
 		return id;
 	}
 	
-	public void setLabel(String label) {
-		this.label = label;
+	public void addLabel(String label) {
+		this.label.add(label);
 	}
 	
-	public String getLabel() {
-		return label;
+	public List<String> getLabelList() {
+		return new ArrayList<String>(label);
 	}
 	
 	public void addColumnValue(String column, Object value) {
 		columnValue.put(column, value);
 	}
 	
-	public Map<String, Object> getColumnValues() {
+	public Map<String, Object> getColumnValueMap() {
 		return new HashMap<String, Object>(columnValue);
 	}
 }

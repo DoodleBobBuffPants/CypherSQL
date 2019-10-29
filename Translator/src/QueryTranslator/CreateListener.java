@@ -32,6 +32,16 @@ public class CreateListener extends antlr4.CypherBaseListener {
 	}
 	
 	@Override
+	public void enterOC_NodeLabels(CypherParser.OC_NodeLabelsContext ctx) {
+		terminalStack.push("ENTER NODE LABELS");	
+	}
+	
+	@Override
+	public void exitOC_NodeLabels(CypherParser.OC_NodeLabelsContext ctx) {
+		terminalStack.push("EXIT NODE LABELS");	
+	}
+	
+	@Override
 	public void enterOC_MapLiteral(CypherParser.OC_MapLiteralContext ctx) {
 		terminalStack.push("ENTER MAP");	
 	}
@@ -62,7 +72,13 @@ public class CreateListener extends antlr4.CypherBaseListener {
 			}
 			terminalStack.pop();
 		}
-		createNode.setLabel(terminalStack.pop().toString());
+		if (terminalStack.peek().toString().equals("EXIT NODE LABELS")) {
+			terminalStack.pop();
+			while(!terminalStack.peek().toString().equals("ENTER NODE LABELS")) {
+				createNode.addLabel(terminalStack.pop().toString());
+			}
+			terminalStack.pop();
+		}
 		createNode.setId(terminalStack.pop().toString());
 		createNodeStack.push(createNode);
 	}
