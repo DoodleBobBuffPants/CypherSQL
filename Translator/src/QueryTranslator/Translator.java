@@ -19,20 +19,21 @@ public class Translator {
 	public static void main(String[] args) throws IOException {
 		String neo4jDumpFilePath = "D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.dbdump.txt";
 		List<String> dumpFileContents = Files.readAllLines(Paths.get(neo4jDumpFilePath));
-		String firstCreate = dumpFileContents.get(0);
+		String firstCreateStatement = dumpFileContents.get(0);
 		
-		CharStream stringStream = CharStreams.fromString(firstCreate);
-		CypherLexer lexer = new CypherLexer(stringStream);
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		CypherParser parser = new CypherParser(tokens);
-		ParseTree tree = parser.oC_Cypher();
-		//Trees.inspect(tree, parser);
-		ParseTreeWalker walker = new ParseTreeWalker();
-		SchemaListener listener = new SchemaListener();
-		walker.walk(listener, tree);
+		CharStream fcsStream = CharStreams.fromString(firstCreateStatement);
+		CypherLexer inputLexer = new CypherLexer(fcsStream);
+		CommonTokenStream tokens = new CommonTokenStream(inputLexer);
+		CypherParser inputParser = new CypherParser(tokens);
 		
-		CreateNode createNode = listener.getCreateNode();
-		printCreateNode(createNode);
+		ParseTree parseTree = inputParser.oC_Cypher();
+		Trees.inspect(parseTree, inputParser);
+		
+		ParseTreeWalker treeWalker = new ParseTreeWalker();
+		CreateListener createListener = new CreateListener();
+		treeWalker.walk(createListener, parseTree);
+		
+		createListener.getCreateNodeStack().forEach(n -> printCreateNode(n));
 	}
 	
 	public static void printCreateNode(CreateNode createNode) {

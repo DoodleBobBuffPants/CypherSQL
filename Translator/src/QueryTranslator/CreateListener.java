@@ -4,12 +4,13 @@ import java.util.Stack;
 
 import antlr4.CypherParser;
 
-public class SchemaListener extends antlr4.CypherBaseListener {
-	private Stack<String> terminalStack = new Stack<String>();
-	private CreateNode createNode = new CreateNode();
+public class CreateListener extends antlr4.CypherBaseListener {
+	private Stack<CreateNode> createNodeStack = new Stack<CreateNode>();
+	private Stack<Object> terminalStack = new Stack<Object>();
+	private CreateNode createNode;
 	
-	public CreateNode getCreateNode() {
-		return createNode;
+	public Stack<CreateNode> getCreateNodeStack() {
+		return createNodeStack;
 	}
 	
 	private String removeQuotes(String unformattedString) {
@@ -23,7 +24,11 @@ public class SchemaListener extends antlr4.CypherBaseListener {
 	
 	@Override
 	public void exitOC_Literal(CypherParser.OC_LiteralContext ctx) {
-		terminalStack.push(removeQuotes(ctx.getChild(0).getText()));	
+		if (ctx.oC_NumberLiteral() != null && ctx.oC_NumberLiteral().oC_IntegerLiteral() != null) {
+			terminalStack.push(Integer.parseInt(ctx.getChild(0).getText()));
+		} else {
+			terminalStack.push(removeQuotes(ctx.getChild(0).getText()));
+		}
 	}
 	
 	@Override
@@ -32,15 +37,33 @@ public class SchemaListener extends antlr4.CypherBaseListener {
 	}
 	
 	@Override
-	public void exitOC_Create(CypherParser.OC_CreateContext ctx) {
-		while(!terminalStack.peek().equals("ENTER MAP")) {
-			String value = terminalStack.pop();
-			String key = terminalStack.pop();
-			
-			createNode.addColumnValues(key, value);
+	public void exitOC_MapLiteral(CypherParser.OC_MapLiteralContext ctx) {
+		terminalStack.push("EXIT MAP");	
+	}
+	
+	@Override
+	public void enterOC_NodePattern(CypherParser.OC_NodePatternContext ctx) {
+		createNode = new CreateNode();
+	}
+	
+	@Override
+	public void exitOC_NodePattern(CypherParser.OC_NodePatternContext ctx) {
+		if (terminalStack.peek().toString().equals("EXIT MAP")) {
+			terminalStack.pop();
+			while(!terminalStack.peek().toString().equals("ENTER MAP")) {
+				Object value = terminalStack.pop();
+				String column = (String) terminalStack.pop();
+				
+				if (value instanceof Integer) {
+					createNode.addColumnValue(column, (Integer) value);
+				} else {
+					createNode.addColumnValue(column, (String) value);
+				}
+			}
+			terminalStack.pop();
 		}
-		terminalStack.pop();
-		createNode.setLabel(terminalStack.pop());
-		createNode.setId(terminalStack.pop());
+		createNode.setLabel(terminalStack.pop().toString());
+		createNode.setId(terminalStack.pop().toString());
+		createNodeStack.push(createNode);
 	}
 }

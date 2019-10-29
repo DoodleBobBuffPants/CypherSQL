@@ -6,7 +6,7 @@ import java.util.Map;
 public class CreateNode {
 	private String id;
 	private String label;
-	private Map<String, String> columnValues = new HashMap<String, String>();
+	private Map<String, Object> columnValue = new HashMap<String, Object>();
 	
 	public void setId(String id) {
 		this.id = id;
@@ -24,11 +24,11 @@ public class CreateNode {
 		return label;
 	}
 	
-	public void addColumnValues(String key, String value) {
-		columnValues.put(key, value);
+	public void addColumnValue(String column, Object value) {
+		columnValue.put(column, value);
 	}
 	
-	public Map<String, String> getColumnValues() {
-		return new HashMap<String, String>(columnValues);
+	public Map<String, Object> getColumnValues() {
+		return new HashMap<String, Object>(columnValue);
 	}
 }
