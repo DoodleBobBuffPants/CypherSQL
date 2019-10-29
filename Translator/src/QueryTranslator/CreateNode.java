@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CreateNode {
+public class CreateNode extends Create {
 	private String id;
 	private List<String> label = new ArrayList<String>();
 	private Map<String, Object> columnValue = new HashMap<String, Object>();

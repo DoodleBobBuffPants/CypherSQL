@@ -5,11 +5,12 @@ import java.util.Stack;
 import antlr4.CypherParser;
 
 public class CreateListener extends antlr4.CypherBaseListener {
-	private Stack<CreateNode> createNodeStack = new Stack<CreateNode>();
+	private Stack<Create> createNodeStack = new Stack<Create>();
 	private Stack<Object> terminalStack = new Stack<Object>();
 	private CreateNode createNode;
+	private CreateEdge createEdge;
 	
-	public Stack<CreateNode> getCreateNodeStack() {
+	public Stack<Create> getCreateNodeStack() {
 		return createNodeStack;
 	}
 	

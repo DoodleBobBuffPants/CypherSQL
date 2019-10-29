@@ -33,12 +33,24 @@ public class Translator {
 		CreateListener createListener = new CreateListener();
 		treeWalker.walk(createListener, parseTree);
 		
-		createListener.getCreateNodeStack().forEach(n -> {printCreateNode(n); System.out.println();});
+		createListener.getCreateNodeStack().forEach(n -> {printCreate(n); System.out.println();});
+	}
+	
+	public static void printCreate(Create create) {
+		if (create instanceof CreateNode) {
+			printCreateNode((CreateNode) create);
+		} else {
+			printCreateEdge((CreateEdge) create);
+		}
 	}
 	
 	public static void printCreateNode(CreateNode createNode) {
 		System.out.println("id: " + createNode.getId());
 		System.out.println("labels: " + createNode.getLabelList());
 		createNode.getColumnValueMap().forEach((k, v) -> System.out.println(k + ": " + v));
+	}
+	
+	public static void printCreateEdge(CreateEdge createEdge) {
+		System.out.println("Not yet implemented");
 	}
 }
