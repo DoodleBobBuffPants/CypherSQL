@@ -8,6 +8,13 @@ import org.junit.Test;
 
 public class TestAPI {
 	@Test
+	public void testNoArguments() {
+		API.main(new String[] {});
+		
+		assertTrue(true);
+	}
+	
+	@Test
 	public void testGraphDB() {
 		String neo4jDBPath = "D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db";
 		String[] args = {"--graphdb", neo4jDBPath};
