@@ -24,16 +24,20 @@ public class Translator {
 		CharStream stringStream = CharStreams.fromString(firstCreate);
 		CypherLexer lexer = new CypherLexer(stringStream);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		
-		tokens.fill();
-		System.out.println(tokens.getText());
-		
 		CypherParser parser = new CypherParser(tokens);
 		ParseTree tree = parser.oC_Cypher();
-		Trees.inspect(tree, parser);
-		
+		//Trees.inspect(tree, parser);
 		ParseTreeWalker walker = new ParseTreeWalker();
 		SchemaListener listener = new SchemaListener();
 		walker.walk(listener, tree);
+		
+		CreateNode createNode = listener.getCreateNode();
+		printCreateNode(createNode);
+	}
+	
+	public static void printCreateNode(CreateNode createNode) {
+		System.out.println("id: " + createNode.getId());
+		System.out.println("label: " + createNode.getLabel());
+		createNode.getColumnValues().forEach((k, v) -> System.out.println(k + ": " + v));
 	}
 }
