@@ -9,6 +9,8 @@ import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import antlr4.CypherLexer;
 import antlr4.CypherParser;
@@ -27,6 +29,11 @@ public class Translator {
 		System.out.println(tokens.getText());
 		
 		CypherParser parser = new CypherParser(tokens);
-		Trees.inspect(parser.oC_Cypher(), parser);
+		ParseTree tree = parser.oC_Cypher();
+		Trees.inspect(tree, parser);
+		
+		ParseTreeWalker walker = new ParseTreeWalker();
+		SchemaListener listener = new SchemaListener();
+		walker.walk(listener, tree);
 	}
 }
