@@ -1,4 +1,5 @@
 // Generated from Cypher.g4 by ANTLR 4.7.2
+package antlr4;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
