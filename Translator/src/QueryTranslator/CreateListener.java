@@ -19,7 +19,7 @@ public class CreateListener extends antlr4.CypherBaseListener {
 	
 	@Override
 	public void exitOC_SymbolicName(CypherParser.OC_SymbolicNameContext ctx) {
-		terminalStack.push(removeQuotes(ctx.getChild(0).getText()));	
+		terminalStack.push(new String(removeQuotes(ctx.getChild(0).getText())));	
 	}
 	
 	@Override
@@ -27,7 +27,7 @@ public class CreateListener extends antlr4.CypherBaseListener {
 		if (ctx.oC_NumberLiteral() != null && ctx.oC_NumberLiteral().oC_IntegerLiteral() != null) {
 			terminalStack.push(Integer.parseInt(ctx.getChild(0).getText()));
 		} else {
-			terminalStack.push(removeQuotes(ctx.getChild(0).getText()));
+			terminalStack.push(new String(removeQuotes(ctx.getChild(0).getText())));
 		}
 	}
 	
@@ -65,9 +65,9 @@ public class CreateListener extends antlr4.CypherBaseListener {
 				String column = (String) terminalStack.pop();
 				
 				if (value instanceof Integer) {
-					createNode.addColumnValue(column, (Integer) value);
+					createNode.addColumnValue(column, Integer.valueOf(((Integer) value).intValue()));
 				} else {
-					createNode.addColumnValue(column, (String) value);
+					createNode.addColumnValue(column, new String(value.toString()));
 				}
 			}
 			terminalStack.pop();
@@ -75,11 +75,11 @@ public class CreateListener extends antlr4.CypherBaseListener {
 		if (terminalStack.peek().toString().equals("EXIT NODE LABELS")) {
 			terminalStack.pop();
 			while(!terminalStack.peek().toString().equals("ENTER NODE LABELS")) {
-				createNode.addLabel(terminalStack.pop().toString());
+				createNode.addLabel(new String(terminalStack.pop().toString()));
 			}
 			terminalStack.pop();
 		}
-		createNode.setId(terminalStack.pop().toString());
+		createNode.setId(new String(terminalStack.pop().toString()));
 		createNodeStack.push(createNode);
 	}
 }
