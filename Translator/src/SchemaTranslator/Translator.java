@@ -15,7 +15,15 @@ import java.util.List;
 import org.neo4j.shell.StartClient;
 
 public class Translator {
-	public static void dumpGraphDatabase(String neo4jDBPath, String neo4jDumpFilePath) {		
+	String neo4jDBPath;
+	String neo4jDumpFilePath;
+	
+	public Translator(String neo4jDBPath) {
+		this.neo4jDBPath = neo4jDBPath;
+		this.neo4jDumpFilePath = neo4jDBPath + "dump.txt";
+	}
+	
+	public void dumpGraphDatabase() {		
 		try {
 			String[] neo4jDumpArgs = {"-path", neo4jDBPath, "-c", "dump"};
 			PrintStream neo4jDumpOut = new PrintStream(neo4jDumpFilePath);
@@ -23,13 +31,14 @@ public class Translator {
 			StartClient.main(neo4jDumpArgs);
 			System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
 			neo4jDumpOut.close();
+			cleanDumpFile();
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
 	}
 	
-	public static void cleanDumpFile(String neo4jDumpFilePath) {
+	private void cleanDumpFile() {
 		try {
 			List<String> dumpFileContents = Files.readAllLines(Paths.get(neo4jDumpFilePath));
 			dumpFileContents.remove(0);

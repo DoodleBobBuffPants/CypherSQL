@@ -9,11 +9,12 @@ import org.junit.Test;
 public class TestAPI {
 	@Test
 	public void testGraphDB() {
-		String[] args = {"--graphdb", "D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db"};
+		String neo4jDBPath = "D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db";
+		String[] args = {"--graphdb", neo4jDBPath};
 		
 		API.main(args);
 		
-		File dumpFilePath = new File("D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db" + "dump.txt");
+		File dumpFilePath = new File(neo4jDBPath + "dump.txt");
 		assertTrue(dumpFilePath.exists());
 	}
 

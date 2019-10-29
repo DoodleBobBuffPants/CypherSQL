@@ -1,7 +1,5 @@
 package FrontEndAPI;
 
-import SchemaTranslator.Translator;
-
 public class API {
 	public static void main(String[] args) {
 		if (args.length != 2) {
@@ -28,9 +26,8 @@ public class API {
 	}
 	
 	private static void handleGraphDB(String graphDBPath) {
-		String dumpFilePath = graphDBPath + "dump.txt";
-		Translator.dumpGraphDatabase(graphDBPath, dumpFilePath);
-		Translator.cleanDumpFile(dumpFilePath);
+		SchemaTranslator.Translator schemaTranslator = new SchemaTranslator.Translator(graphDBPath);
+		schemaTranslator.dumpGraphDatabase();
 	}
 	
 	private static void handleSchema(String schema) {

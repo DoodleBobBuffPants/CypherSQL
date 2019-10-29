@@ -10,21 +10,11 @@ public class TestTranslator {
 	@Test
 	public void testDumpGraphDatabase() {
 		String neo4jDBPath = "D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db";
-		String neo4jDumpFilePath = "D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\dump.txt";
+		Translator schemaTranslator = new Translator(neo4jDBPath);
 		
-		Translator.dumpGraphDatabase(neo4jDBPath, neo4jDumpFilePath);
+		schemaTranslator.dumpGraphDatabase();
 		
-		File neo4jDumpFile = new File(neo4jDumpFilePath);
-		assertTrue(neo4jDumpFile.exists());
-	}
-
-	@Test
-	public void testCleanDumpFile() {
-		String neo4jDumpFilePath = "D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\dump.txt";
-		
-		Translator.cleanDumpFile(neo4jDumpFilePath);
-		
-		File neo4jDumpFile = new File(neo4jDumpFilePath);
+		File neo4jDumpFile = new File(neo4jDBPath + "dump.txt");
 		assertTrue(neo4jDumpFile.exists());
 	}
 	
