@@ -98,33 +98,7 @@ public class CreateListener extends antlr4.CypherBaseListener {
 	@Override
 	public void exitOC_RelationshipPattern(CypherParser.OC_RelationshipPatternContext ctx) {
 		leftRight = (ctx.oC_LeftArrowHead() == null);
-		if (terminalStack.peek().toString().equals("EXIT MAP")) {
-			terminalStack.pop();
-			while(!terminalStack.peek().toString().equals("ENTER MAP")) {
-				Object top = terminalStack.pop();
-				
-				if (top instanceof Integer) {
-					String column = (String) terminalStack.pop();
-					createEdge.addColumnValue(column, Integer.valueOf(((Integer) top).intValue()));
-				} else if (top.toString().equals("EXIT LIST")) { 
-					List<Object> list = new ArrayList<Object>();
-					while(!terminalStack.peek().toString().equals("ENTER LIST")) {
-						list.add(terminalStack.pop());
-					}
-					terminalStack.pop();
-					String column = (String) terminalStack.pop();
-					if (list.stream().allMatch(e -> e instanceof Integer)) {
-						createEdge.addColumnValue(column, new ArrayList<Integer>(list.stream().map(e -> (Integer) e).collect(Collectors.toList())));
-					} else {
-						createEdge.addColumnValue(column, new ArrayList<String>(list.stream().map(e -> e.toString()).collect(Collectors.toList())));
-					}
-				} else {
-					String column = (String) terminalStack.pop();
-					createEdge.addColumnValue(column, new String(top.toString()));
-				}
-			}
-			terminalStack.pop();
-		}
+		processMapLiteral(createEdge);
 		createEdge.setType(new String(terminalStack.pop().toString()));
 	}
 	
@@ -135,33 +109,7 @@ public class CreateListener extends antlr4.CypherBaseListener {
 	
 	@Override
 	public void exitOC_NodePattern(CypherParser.OC_NodePatternContext ctx) {
-		if (terminalStack.peek().toString().equals("EXIT MAP")) {
-			terminalStack.pop();
-			while(!terminalStack.peek().toString().equals("ENTER MAP")) {
-				Object top = terminalStack.pop();
-				
-				if (top instanceof Integer) {
-					String column = (String) terminalStack.pop();
-					createNode.addColumnValue(column, Integer.valueOf(((Integer) top).intValue()));
-				} else if (top.toString().equals("EXIT LIST")) { 
-					List<Object> list = new ArrayList<Object>();
-					while(!terminalStack.peek().toString().equals("ENTER LIST")) {
-						list.add(terminalStack.pop().toString());
-					}
-					terminalStack.pop();
-					String column = (String) terminalStack.pop();
-					if (list.stream().allMatch(e -> e instanceof Integer)) {
-						createNode.addColumnValue(column, new ArrayList<Integer>(list.stream().map(e -> (Integer) e).collect(Collectors.toList())));
-					} else {
-						createNode.addColumnValue(column, new ArrayList<String>(list.stream().map(e -> e.toString()).collect(Collectors.toList())));
-					}
-				} else {
-					String column = (String) terminalStack.pop();
-					createNode.addColumnValue(column, new String(top.toString()));
-				}
-			}
-			terminalStack.pop();
-		}
+		processMapLiteral(createNode);
 		if (terminalStack.peek().toString().equals("EXIT NODE LABELS")) {
 			terminalStack.pop();
 			while(!terminalStack.peek().toString().equals("ENTER NODE LABELS")) {
@@ -171,5 +119,35 @@ public class CreateListener extends antlr4.CypherBaseListener {
 		}
 		createNode.setId(new String(terminalStack.pop().toString()));
 		createStack.push(createNode);
+	}
+	
+	private void processMapLiteral(Create create) {
+		if (terminalStack.peek().toString().equals("EXIT MAP")) {
+			terminalStack.pop();
+			while(!terminalStack.peek().toString().equals("ENTER MAP")) {
+				Object top = terminalStack.pop();
+				
+				if (top instanceof Integer) {
+					String column = terminalStack.pop().toString();
+					create.addColumnValue(column, Integer.valueOf(((Integer) top).intValue()));
+				} else if (top.toString().equals("EXIT LIST")) { 
+					List<Object> list = new ArrayList<Object>();
+					while(!terminalStack.peek().toString().equals("ENTER LIST")) {
+						list.add(terminalStack.pop());
+					}
+					terminalStack.pop();
+					String column = terminalStack.pop().toString();
+					if (list.stream().allMatch(e -> e instanceof Integer)) {
+						create.addColumnValue(column, new ArrayList<Integer>(list.stream().map(e -> (Integer) e).collect(Collectors.toList())));
+					} else {
+						create.addColumnValue(column, new ArrayList<String>(list.stream().map(e -> e.toString()).collect(Collectors.toList())));
+					}
+				} else {
+					String column = terminalStack.pop().toString();
+					create.addColumnValue(column, new String(top.toString()));
+				}
+			}
+			terminalStack.pop();
+		}
 	}
 }
