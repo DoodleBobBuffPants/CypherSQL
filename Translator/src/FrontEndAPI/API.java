@@ -1,5 +1,7 @@
 package FrontEndAPI;
 
+import java.nio.file.Paths;
+
 public class API {
 	public static void main(String[] args) {
 		if (args.length != 2) {
@@ -30,8 +32,9 @@ public class API {
 		schemaTranslator.dumpGraphDatabase();
 	}
 	
-	private static void handleSchema(String schema) {
-		System.out.println("Not yet implemented");
+	private static void handleSchema(String createFile) {
+		SchemaTranslator.Translator schemaTranslator = new SchemaTranslator.Translator(Paths.get(createFile));
+		schemaTranslator.createAST();
 	}
 	
 	private static void handleQuery(String query) {

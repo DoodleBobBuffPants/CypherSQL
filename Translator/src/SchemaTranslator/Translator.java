@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -32,6 +33,10 @@ public class Translator {
 	public Translator(String neo4jDBPath) {
 		this.neo4jDBPath = neo4jDBPath;
 		this.neo4jDumpFilePath = neo4jDBPath + "dump.txt";
+	}
+	
+	public Translator(Path createFilePath) {
+		this.neo4jDumpFilePath = createFilePath.toString();
 	}
 	
 	public void dumpGraphDatabase() {		
@@ -66,7 +71,7 @@ public class Translator {
 		}
 	}
 	
-	private void createAST() {
+	public void createAST() {
 		try {
 			List<String> dumpFileContents = Files.readAllLines(Paths.get(neo4jDumpFilePath));
 			
