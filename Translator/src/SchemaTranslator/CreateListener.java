@@ -1,4 +1,4 @@
-package QueryTranslator;
+package SchemaTranslator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
