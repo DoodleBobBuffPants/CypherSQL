@@ -9,6 +9,7 @@ public class CreateListener extends antlr4.CypherBaseListener {
 	private Stack<Object> terminalStack = new Stack<Object>();
 	private CreateNode createNode;
 	private CreateEdge createEdge;
+	private boolean hasEdge;
 	
 	public Stack<Create> getCreateStack() {
 		return createStack;
@@ -50,6 +51,29 @@ public class CreateListener extends antlr4.CypherBaseListener {
 	@Override
 	public void exitOC_MapLiteral(CypherParser.OC_MapLiteralContext ctx) {
 		terminalStack.push("EXIT MAP");	
+	}
+	
+	@Override
+	public void enterOC_PatternElement(CypherParser.OC_PatternElementContext ctx) {
+		hasEdge = false;
+	}
+	
+	@Override
+	public void exitOC_PatternElement(CypherParser.OC_PatternElementContext ctx) {
+		if (hasEdge) {
+			
+		}
+	}
+	
+	@Override
+	public void enterOC_RelationshipPattern(CypherParser.OC_RelationshipPatternContext ctx) {
+		hasEdge = true;
+		createEdge = new CreateEdge();
+	}
+	
+	@Override
+	public void exitOC_RelationshipPattern(CypherParser.OC_RelationshipPatternContext ctx) {
+		
 	}
 	
 	@Override
