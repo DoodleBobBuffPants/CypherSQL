@@ -1,6 +1,9 @@
 package QueryTranslator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 import antlr4.CypherParser;
 
@@ -10,6 +13,7 @@ public class CreateListener extends antlr4.CypherBaseListener {
 	private CreateNode createNode;
 	private CreateEdge createEdge;
 	private boolean hasEdge;
+	private boolean leftRight;
 	
 	public Stack<Create> getCreateStack() {
 		return createStack;
@@ -28,9 +32,21 @@ public class CreateListener extends antlr4.CypherBaseListener {
 	public void exitOC_Literal(CypherParser.OC_LiteralContext ctx) {
 		if (ctx.oC_NumberLiteral() != null && ctx.oC_NumberLiteral().oC_IntegerLiteral() != null) {
 			terminalStack.push(Integer.parseInt(ctx.getChild(0).getText()));
+		} else if (ctx.oC_ListLiteral() != null) {
+			//Do not process lists here
 		} else {
 			terminalStack.push(new String(removeQuotes(ctx.getChild(0).getText())));
 		}
+	}
+	
+	@Override
+	public void enterOC_ListLiteral(CypherParser.OC_ListLiteralContext ctx) {
+		terminalStack.push("ENTER LIST");	
+	}
+	
+	@Override
+	public void exitOC_ListLiteral(CypherParser.OC_ListLiteralContext ctx) {
+		terminalStack.push("EXIT LIST");	
 	}
 	
 	@Override
@@ -61,7 +77,15 @@ public class CreateListener extends antlr4.CypherBaseListener {
 	@Override
 	public void exitOC_PatternElement(CypherParser.OC_PatternElementContext ctx) {
 		if (hasEdge) {
-			
+			if (leftRight) {
+				createEdge.setTargetID(new String(((CreateNode) createStack.pop()).getId()));
+				createEdge.setSourceID(new String(((CreateNode) createStack.pop()).getId()));
+			} else {
+				createEdge.setSourceID(new String(((CreateNode) createStack.pop()).getId()));
+				createEdge.setTargetID(new String(((CreateNode) createStack.pop()).getId()));
+			}
+			createStack.push(createEdge);
+			hasEdge = false;
 		}
 	}
 	
@@ -73,7 +97,35 @@ public class CreateListener extends antlr4.CypherBaseListener {
 	
 	@Override
 	public void exitOC_RelationshipPattern(CypherParser.OC_RelationshipPatternContext ctx) {
-		
+		leftRight = (ctx.oC_LeftArrowHead() == null);
+		if (terminalStack.peek().toString().equals("EXIT MAP")) {
+			terminalStack.pop();
+			while(!terminalStack.peek().toString().equals("ENTER MAP")) {
+				Object top = terminalStack.pop();
+				
+				if (top instanceof Integer) {
+					String column = (String) terminalStack.pop();
+					createEdge.addColumnValue(column, Integer.valueOf(((Integer) top).intValue()));
+				} else if (top.toString().equals("EXIT LIST")) { 
+					List<Object> list = new ArrayList<Object>();
+					while(!terminalStack.peek().toString().equals("ENTER LIST")) {
+						list.add(terminalStack.pop());
+					}
+					terminalStack.pop();
+					String column = (String) terminalStack.pop();
+					if (list.stream().allMatch(e -> e instanceof Integer)) {
+						createEdge.addColumnValue(column, new ArrayList<Integer>(list.stream().map(e -> (Integer) e).collect(Collectors.toList())));
+					} else {
+						createEdge.addColumnValue(column, new ArrayList<String>(list.stream().map(e -> e.toString()).collect(Collectors.toList())));
+					}
+				} else {
+					String column = (String) terminalStack.pop();
+					createEdge.addColumnValue(column, new String(top.toString()));
+				}
+			}
+			terminalStack.pop();
+		}
+		createEdge.setType(new String(terminalStack.pop().toString()));
 	}
 	
 	@Override
@@ -86,13 +138,26 @@ public class CreateListener extends antlr4.CypherBaseListener {
 		if (terminalStack.peek().toString().equals("EXIT MAP")) {
 			terminalStack.pop();
 			while(!terminalStack.peek().toString().equals("ENTER MAP")) {
-				Object value = terminalStack.pop();
-				String column = (String) terminalStack.pop();
+				Object top = terminalStack.pop();
 				
-				if (value instanceof Integer) {
-					createNode.addColumnValue(column, Integer.valueOf(((Integer) value).intValue()));
+				if (top instanceof Integer) {
+					String column = (String) terminalStack.pop();
+					createNode.addColumnValue(column, Integer.valueOf(((Integer) top).intValue()));
+				} else if (top.toString().equals("EXIT LIST")) { 
+					List<Object> list = new ArrayList<Object>();
+					while(!terminalStack.peek().toString().equals("ENTER LIST")) {
+						list.add(terminalStack.pop().toString());
+					}
+					terminalStack.pop();
+					String column = (String) terminalStack.pop();
+					if (list.stream().allMatch(e -> e instanceof Integer)) {
+						createNode.addColumnValue(column, new ArrayList<Integer>(list.stream().map(e -> (Integer) e).collect(Collectors.toList())));
+					} else {
+						createNode.addColumnValue(column, new ArrayList<String>(list.stream().map(e -> e.toString()).collect(Collectors.toList())));
+					}
 				} else {
-					createNode.addColumnValue(column, new String(value.toString()));
+					String column = (String) terminalStack.pop();
+					createNode.addColumnValue(column, new String(top.toString()));
 				}
 			}
 			terminalStack.pop();

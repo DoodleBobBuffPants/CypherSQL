@@ -51,6 +51,9 @@ public class Translator {
 	}
 	
 	public static void printCreateEdge(CreateEdge createEdge) {
-		System.out.println("Not yet implemented");
+		System.out.println("source: " + createEdge.getSourceID());
+		System.out.println("target: " + createEdge.getTargetID());
+		System.out.println("type: " + createEdge.getType());
+		createEdge.getColumnValueMap().forEach((k, v) -> System.out.println(k + ": " + v));
 	}
 }
