@@ -1,3 +1,16 @@
 package QueryTranslator;
 
-public class Create {}
+import java.util.HashMap;
+import java.util.Map;
+
+public class Create {
+	private Map<String, Object> columnValue = new HashMap<String, Object>();
+	
+	public void addColumnValue(String column, Object value) {
+		columnValue.put(column, value);
+	}
+	
+	public Map<String, Object> getColumnValueMap() {
+		return new HashMap<String, Object>(columnValue);
+	}
+}
