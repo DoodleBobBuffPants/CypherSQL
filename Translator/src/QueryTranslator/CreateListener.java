@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Stack;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import antlr4.CypherParser;
@@ -14,8 +12,8 @@ import antlr4.CypherParser;
 public class CreateListener extends antlr4.CypherBaseListener {
 	private Stack<Create> createStack = new Stack<Create>();
 	private Stack<Object> terminalStack = new Stack<Object>();
-	private Map<String, Set<String>> labelTables = new HashMap<String, Set<String>>();
-	private Map<String, Set<String>> typeTables = new HashMap<String, Set<String>>();
+	private Map<String, Map<String, Object>> labelTables = new HashMap<String, Map<String, Object>>();
+	private Map<String, Map<String, Object>> typeTables = new HashMap<String, Map<String, Object>>();
 	private CreateNode createNode;
 	private CreateEdge createEdge;
 	private boolean hasEdge;
@@ -25,12 +23,12 @@ public class CreateListener extends antlr4.CypherBaseListener {
 		return createStack;
 	}
 	
-	public Map<String, Set<String>> getLabelTables() {
-		return new HashMap<String, Set<String>>(labelTables);
+	public Map<String, Map<String, Object>> getLabelTables() {
+		return new HashMap<String, Map<String, Object>>(labelTables);
 	}
 	
-	public Map<String, Set<String>> getTypeTables() {
-		return new HashMap<String, Set<String>>(typeTables);
+	public Map<String, Map<String, Object>> getTypeTables() {
+		return new HashMap<String, Map<String, Object>>(typeTables);
 	}
 	
 	private String removeQuotes(String unformattedString) {
@@ -109,20 +107,34 @@ public class CreateListener extends antlr4.CypherBaseListener {
 		createEdge = new CreateEdge();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void exitOC_RelationshipPattern(CypherParser.OC_RelationshipPatternContext ctx) {
 		leftRight = (ctx.oC_LeftArrowHead() == null);
 		processMapLiteral(createEdge);
 		createEdge.setType(new String(terminalStack.pop().toString()));
 		
-		Set<String> newColumns = createEdge.getColumnValueMap().keySet();
+		Map<String, Object> newColumns = createEdge.getColumnValueMap();
 		if (newColumns.size() > 0) {
 			String label = createEdge.getType();
-			Set<String> columns = typeTables.get(label);
+			Map<String, Object> columns = typeTables.get(label);
 			if (columns == null) {
-				columns = new TreeSet<String>();
+				columns = new HashMap<String, Object>();
 			}
-			columns.addAll(newColumns);
+			for (String key : newColumns.keySet()) {
+				if (!columns.keySet().contains(key)) {
+					Object value = newColumns.get(key);
+					if (value instanceof Integer) {
+						columns.put(key, Integer.parseInt(value.toString()));
+					} else if (value instanceof String) {
+						columns.put(key, value.toString());
+					} else if (value instanceof List<?> && ((List<?>) value).get(0) instanceof Integer) {
+						columns.put(key, new ArrayList<Integer>((List<Integer>) value));
+					} else {
+						columns.put(key, new ArrayList<String>((List<String>) value));
+					}
+				}
+			}
 			typeTables.put(label, columns);
 		}
 	}
@@ -132,6 +144,7 @@ public class CreateListener extends antlr4.CypherBaseListener {
 		createNode = new CreateNode();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void exitOC_NodePattern(CypherParser.OC_NodePatternContext ctx) {
 		processMapLiteral(createNode);
@@ -145,14 +158,27 @@ public class CreateListener extends antlr4.CypherBaseListener {
 		createNode.setId(new String(terminalStack.pop().toString()));
 		createStack.push(createNode);
 		
-		Set<String> newColumns = createNode.getColumnValueMap().keySet();
+		Map<String, Object> newColumns = createNode.getColumnValueMap();
 		if (newColumns.size() > 0) {
 			String label = createNode.getLabelList().get(0);
-			Set<String> columns = labelTables.get(label);
+			Map<String, Object> columns = labelTables.get(label);
 			if (columns == null) {
-				columns = new TreeSet<String>();
+				columns = new HashMap<String, Object>();
 			}
-			columns.addAll(newColumns);
+			for (String key : newColumns.keySet()) {
+				if (!columns.keySet().contains(key)) {
+					Object value = newColumns.get(key);
+					if (value instanceof Integer) {
+						columns.put(key, Integer.parseInt(value.toString()));
+					} else if (value instanceof String) {
+						columns.put(key, value.toString());
+					} else if (value instanceof List<?> && ((List<?>) value).get(0) instanceof Integer) {
+						columns.put(key, new ArrayList<Integer>((List<Integer>) value));
+					} else {
+						columns.put(key, new ArrayList<String>((List<String>) value));
+					}
+				}
+			}
 			labelTables.put(label, columns);
 		}
 	}
