@@ -1,8 +1,12 @@
 package QueryTranslator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import antlr4.CypherParser;
@@ -10,6 +14,8 @@ import antlr4.CypherParser;
 public class CreateListener extends antlr4.CypherBaseListener {
 	private Stack<Create> createStack = new Stack<Create>();
 	private Stack<Object> terminalStack = new Stack<Object>();
+	private Map<String, Set<String>> labelTables = new HashMap<String, Set<String>>();
+	private Map<String, Set<String>> typeTables = new HashMap<String, Set<String>>();
 	private CreateNode createNode;
 	private CreateEdge createEdge;
 	private boolean hasEdge;
@@ -17,6 +23,14 @@ public class CreateListener extends antlr4.CypherBaseListener {
 	
 	public Stack<Create> getCreateStack() {
 		return createStack;
+	}
+	
+	public Map<String, Set<String>> getLabelTables() {
+		return new HashMap<String, Set<String>>(labelTables);
+	}
+	
+	public Map<String, Set<String>> getTypeTables() {
+		return new HashMap<String, Set<String>>(typeTables);
 	}
 	
 	private String removeQuotes(String unformattedString) {
@@ -100,6 +114,17 @@ public class CreateListener extends antlr4.CypherBaseListener {
 		leftRight = (ctx.oC_LeftArrowHead() == null);
 		processMapLiteral(createEdge);
 		createEdge.setType(new String(terminalStack.pop().toString()));
+		
+		Set<String> newColumns = createEdge.getColumnValueMap().keySet();
+		if (newColumns.size() > 0) {
+			String label = createEdge.getType();
+			Set<String> columns = typeTables.get(label);
+			if (columns == null) {
+				columns = new TreeSet<String>();
+			}
+			columns.addAll(newColumns);
+			typeTables.put(label, columns);
+		}
 	}
 	
 	@Override
@@ -119,6 +144,17 @@ public class CreateListener extends antlr4.CypherBaseListener {
 		}
 		createNode.setId(new String(terminalStack.pop().toString()));
 		createStack.push(createNode);
+		
+		Set<String> newColumns = createNode.getColumnValueMap().keySet();
+		if (newColumns.size() > 0) {
+			String label = createNode.getLabelList().get(0);
+			Set<String> columns = labelTables.get(label);
+			if (columns == null) {
+				columns = new TreeSet<String>();
+			}
+			columns.addAll(newColumns);
+			labelTables.put(label, columns);
+		}
 	}
 	
 	private void processMapLiteral(Create create) {

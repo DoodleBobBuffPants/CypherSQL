@@ -34,6 +34,8 @@ public class Translator {
 		treeWalker.walk(createListener, parseTree);
 		
 		createListener.getCreateStack().forEach(n -> {printCreate(n); System.out.println();});
+		createListener.getLabelTables().forEach((k, v) -> System.out.println(k + ": " + v));
+		createListener.getTypeTables().forEach((k, v) -> System.out.println(k + ": " + v));
 	}
 	
 	public static void printCreate(Create create) {
