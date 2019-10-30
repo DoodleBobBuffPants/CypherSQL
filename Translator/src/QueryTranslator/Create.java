@@ -1,5 +1,3 @@
 package QueryTranslator;
 
-public class Create {
-
-}
+public class Create {}

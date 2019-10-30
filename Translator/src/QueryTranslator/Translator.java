@@ -33,7 +33,7 @@ public class Translator {
 		CreateListener createListener = new CreateListener();
 		treeWalker.walk(createListener, parseTree);
 		
-		createListener.getCreateNodeStack().forEach(n -> {printCreate(n); System.out.println();});
+		createListener.getCreateStack().forEach(n -> {printCreate(n); System.out.println();});
 	}
 	
 	public static void printCreate(Create create) {

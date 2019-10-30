@@ -5,13 +5,13 @@ import java.util.Stack;
 import antlr4.CypherParser;
 
 public class CreateListener extends antlr4.CypherBaseListener {
-	private Stack<Create> createNodeStack = new Stack<Create>();
+	private Stack<Create> createStack = new Stack<Create>();
 	private Stack<Object> terminalStack = new Stack<Object>();
 	private CreateNode createNode;
 	private CreateEdge createEdge;
 	
-	public Stack<Create> getCreateNodeStack() {
-		return createNodeStack;
+	public Stack<Create> getCreateStack() {
+		return createStack;
 	}
 	
 	private String removeQuotes(String unformattedString) {
@@ -81,6 +81,6 @@ public class CreateListener extends antlr4.CypherBaseListener {
 			terminalStack.pop();
 		}
 		createNode.setId(new String(terminalStack.pop().toString()));
-		createNodeStack.push(createNode);
+		createStack.push(createNode);
 	}
 }
