@@ -12,6 +12,9 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
+import SchemaAST.Create;
+import SchemaAST.CreateEdge;
+import SchemaAST.CreateNode;
 import antlr4.CypherLexer;
 import antlr4.CypherParser;
 

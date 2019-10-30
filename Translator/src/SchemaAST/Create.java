@@ -1,4 +1,4 @@
-package QueryTranslator;
+package SchemaAST;
 
 import java.util.HashMap;
 import java.util.Map;

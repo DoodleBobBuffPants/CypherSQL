@@ -1,4 +1,4 @@
-package QueryTranslator;
+package SchemaAST;
 
 import java.util.ArrayList;
 import java.util.List;

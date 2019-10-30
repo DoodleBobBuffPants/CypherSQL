@@ -1,4 +1,4 @@
-package QueryTranslator;
+package SchemaAST;
 
 public class CreateEdge extends Create {
 	private String sourceID;
