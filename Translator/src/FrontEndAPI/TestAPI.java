@@ -27,7 +27,8 @@ public class TestAPI {
 
 	@Test
 	public void testSchema() {
-		String[] args = {"--schema", "test"};
+		String neo4jDumpFilePath = "D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.dbdump.txt";
+		String[] args = {"--schema", neo4jDumpFilePath};
 		
 		API.main(args);
 		
