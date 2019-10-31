@@ -1,5 +1,6 @@
 package SchemaTranslator;
 
+import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -11,6 +12,7 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +34,7 @@ import antlr4.CypherParser;
 public class Translator {
 	private String neo4jDBPath;
 	private String neo4jDumpFilePath;
+	private String dbName;
 	
 	private Stack<Create> createStack;
 	private Map<String, Map<String, Object>> labelTables;
@@ -40,10 +43,14 @@ public class Translator {
 	public Translator(String neo4jDBPath) {
 		this.neo4jDBPath = neo4jDBPath;
 		this.neo4jDumpFilePath = neo4jDBPath + "dump.txt";
+		this.dbName = new File(neo4jDBPath).getName();
+		dbName = dbName.substring(0, dbName.indexOf("."));
 	}
 	
 	public Translator(Path createFilePath) {
 		this.neo4jDumpFilePath = createFilePath.toString();
+		this.dbName = new File(neo4jDumpFilePath).getName();
+		dbName = dbName.substring(0, dbName.indexOf("."));
 	}
 	
 	public Stack<Create> getCreateStack() {
@@ -111,15 +118,14 @@ public class Translator {
 			labelTables = createListener.getLabelTables();
 			typeTables = createListener.getTypeTables();
 			
-			createStack.forEach(e -> printCreate(e));
-			labelTables.forEach((k, v) -> System.out.println(k + ": " + v));
-			typeTables.forEach((k, v) -> System.out.println(k + ": " + v));
+			makeNewPostgresDB();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void printCreate(Create create) {
 		if (create instanceof CreateNode) {
 			printCreateNode((CreateNode) create);
@@ -142,9 +148,11 @@ public class Translator {
 		createEdge.getColumnValueMap().forEach((k, v) -> System.out.println(k + ": " + v));
 	}
 	
-	public static void connectPostgres() {
+	private void makeNewPostgresDB() {
 		try {
 			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "admin");
+			Statement createDB = connection.createStatement();
+			createDB.execute("CREATE DATABASE " + dbName);
 			connection.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

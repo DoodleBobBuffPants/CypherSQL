@@ -58,11 +58,4 @@ public class TestTranslator {
 		
 		assertTrue(typeTables.keySet().contains("REVIEWED"));
 	}
-	
-	@Test
-	public void testConnectPostgres() {
-		Translator.connectPostgres();
-		
-		assertTrue(true);
-	}
 }
