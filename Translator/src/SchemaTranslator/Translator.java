@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -27,8 +29,12 @@ import antlr4.CypherLexer;
 import antlr4.CypherParser;
 
 public class Translator {
-	String neo4jDBPath;
-	String neo4jDumpFilePath;
+	private String neo4jDBPath;
+	private String neo4jDumpFilePath;
+	
+	private Stack<Create> createStack;
+	private Map<String, Map<String, Object>> labelTables;
+	private Map<String, Map<String, Object>> typeTables;
 	
 	public Translator(String neo4jDBPath) {
 		this.neo4jDBPath = neo4jDBPath;
@@ -88,9 +94,13 @@ public class Translator {
 				treeWalker.walk(createListener, parseTree);
 			}
 			
-			createListener.getCreateStack().forEach(e -> printCreate(e));
-			createListener.getLabelTables().forEach((k, v) -> System.out.println(k + ": " + v));
-			createListener.getTypeTables().forEach((k, v) -> System.out.println(k + ": " + v));
+			createStack = createListener.getCreateStack();
+			labelTables = createListener.getLabelTables();
+			typeTables = createListener.getTypeTables();
+			
+			createStack.forEach(e -> printCreate(e));
+			labelTables.forEach((k, v) -> System.out.println(k + ": " + v));
+			typeTables.forEach((k, v) -> System.out.println(k + ": " + v));
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
