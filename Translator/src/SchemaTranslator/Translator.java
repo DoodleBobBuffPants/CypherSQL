@@ -88,7 +88,7 @@ public class Translator {
 				treeWalker.walk(createListener, parseTree);
 			}
 			
-			createListener.getCreateStack().forEach(e -> {printCreate(e); System.out.println();});
+			createListener.getCreateStack().forEach(e -> printCreate(e));
 			createListener.getLabelTables().forEach((k, v) -> System.out.println(k + ": " + v));
 			createListener.getTypeTables().forEach((k, v) -> System.out.println(k + ": " + v));
 		} catch (IOException e) {
@@ -103,6 +103,7 @@ public class Translator {
 		} else {
 			printCreateEdge((CreateEdge) create);
 		}
+		System.out.println();
 	}
 	
 	private void printCreateNode(CreateNode createNode) {
