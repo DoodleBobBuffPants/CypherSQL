@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -43,6 +44,18 @@ public class Translator {
 	
 	public Translator(Path createFilePath) {
 		this.neo4jDumpFilePath = createFilePath.toString();
+	}
+	
+	public Stack<Create> getCreateStack() {
+		return createStack;
+	}
+
+	public Map<String, Map<String, Object>> getLabelTables() {
+		return new HashMap<String, Map<String, Object>>(labelTables);
+	}
+
+	public Map<String, Map<String, Object>> getTypeTables() {
+		return new HashMap<String, Map<String, Object>>(typeTables);
 	}
 	
 	public void dumpGraphDatabase() {		
