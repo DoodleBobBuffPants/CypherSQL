@@ -1,7 +1,5 @@
 package FrontEndAPI;
 
-import java.nio.file.Paths;
-
 public class API {
 	public static void main(String[] args) {
 		if (args.length != 2) {
@@ -28,12 +26,15 @@ public class API {
 	}
 	
 	private static void handleGraphDB(String graphDBPath) {
-		SchemaTranslator.Translator schemaTranslator = new SchemaTranslator.Translator(graphDBPath);
-		schemaTranslator.dumpGraphDatabase();
+		SchemaTranslator.GraphDumper graphDumper = new SchemaTranslator.GraphDumper(graphDBPath);
+		graphDumper.dumpGraphDatabase();
+		
+		SchemaTranslator.Translator schemaTranslator = new SchemaTranslator.Translator(graphDumper.getNeo4jDumpFilePath());
+		schemaTranslator.createAST();
 	}
 	
 	private static void handleSchema(String createFile) {
-		SchemaTranslator.Translator schemaTranslator = new SchemaTranslator.Translator(Paths.get(createFile));
+		SchemaTranslator.Translator schemaTranslator = new SchemaTranslator.Translator(createFile);
 		schemaTranslator.createAST();
 	}
 	
