@@ -78,6 +78,25 @@ public class Translator {
 	
 	public void createPostgresDB() {
 		makeNewPostgresDB();
+		try {
+			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + dbName, "postgres", "admin");
+			Statement createTables = connection.createStatement();
+			
+			String makeNodeQuery = makeNodeTable();
+			String makeEdgeQuery = makeEdgeTable();
+			String makeLabelQuery = makeLabelTables();
+			String makeTypeQuery = makeTypeTables();
+			
+			createTables.execute(makeNodeQuery);
+			createTables.execute(makeEdgeQuery);
+			createTables.execute(makeLabelQuery);
+			createTables.execute(makeTypeQuery);
+			
+			connection.close();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 	
 	private void makeNewPostgresDB() {
@@ -90,5 +109,21 @@ public class Translator {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	
+	private String makeNodeTable() {
+		return "";
+	}
+	
+	private String makeEdgeTable() {
+		return "";
+	}
+	
+	private String makeLabelTables() {
+		return "";
+	}
+	
+	private String makeTypeTables() {
+		return "";
 	}
 }
