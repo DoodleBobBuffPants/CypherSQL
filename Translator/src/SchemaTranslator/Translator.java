@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,13 +85,17 @@ public class Translator {
 			
 			String makeNodeQuery = makeNodeTable();
 			String makeEdgeQuery = makeEdgeTable();
-			String makeLabelQuery = makeLabelTables();
-			String makeTypeQuery = makeTypeTables();
+			List<String> makeLabelQueries = makeLabelTables();
+			List<String> makeTypeQueries = makeTypeTables();
 			
 			createTables.execute(makeNodeQuery);
 			createTables.execute(makeEdgeQuery);
-			createTables.execute(makeLabelQuery);
-			createTables.execute(makeTypeQuery);
+			for (String query: makeLabelQueries) {
+				createTables.execute(query);
+			}
+			for (String query: makeTypeQueries) {
+				createTables.execute(query);
+			}
 			
 			connection.close();
 		} catch (SQLException e) {
@@ -112,18 +117,61 @@ public class Translator {
 	}
 	
 	private String makeNodeTable() {
-		return "";
+		return "CREATE TABLE Nodes("
+				+ "NodeID text PRIMARY KEY,"
+				+ "Labels text[])";
 	}
 	
 	private String makeEdgeTable() {
-		return "";
+		return "CREATE TABLE Edges("
+				+ "NodeSrcID text,"
+				+ "NodeTrgtID text,"
+				+ "Type text,"
+				+ "PRIMARY KEY (NodeSrcID, NodeTrgtID))";
 	}
 	
-	private String makeLabelTables() {
-		return "";
+	private List<String> makeLabelTables() {
+		List<String> labelQueries = new ArrayList<String>();
+		for (String tableName: labelTables.keySet()) {
+			Map<String, Object> columns = labelTables.get(tableName);
+			String query = "CREATE TABLE " + tableName + "("
+					+ "NodeID text PRIMARY KEY";
+			query = addTableColumns(columns, query);
+			query = query + ")";
+			labelQueries.add(query);
+		}
+		return labelQueries;
 	}
 	
-	private String makeTypeTables() {
-		return "";
+	private List<String> makeTypeTables() {
+		List<String> typeQueries = new ArrayList<String>();
+		for (String tableName: typeTables.keySet()) {
+			Map<String, Object> columns = typeTables.get(tableName);
+			String query = "CREATE TABLE " + tableName + "("
+					+ "NodeSrcID text,"
+					+ "NodeTrgtID text";
+			query = addTableColumns(columns, query);
+			query = query + ",PRIMARY KEY (NodeSrcID, NodeTrgtID))";
+			typeQueries.add(query);
+		}
+		return typeQueries;
+	}
+
+	private String addTableColumns(Map<String, Object> columns, String query) {
+		for (String columnName: columns.keySet()) {
+			Object exampleType = columns.get(columnName);
+			String type;
+			if (exampleType instanceof Integer) {
+				type = "integer";
+			} else if (exampleType instanceof String) {
+				type = "text";
+			} else if (exampleType instanceof List<?> && ((List<?>) exampleType).get(0) instanceof Integer) {
+				type = "integer[]";
+			} else {
+				type = "text[]";
+			}
+			query = query + "," + columnName + " " + type;
+		}
+		return query;
 	}
 }
