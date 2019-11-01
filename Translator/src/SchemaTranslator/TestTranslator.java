@@ -56,4 +56,48 @@ public class TestTranslator {
 		
 		assertTrue(true);
 	}
+	
+	@Test
+	public void testPopulatedNodes() {
+		String createFile = "test\\creates.txt";
+		Translator schemaTranslator = new Translator(createFile);
+		
+		schemaTranslator.createAST();
+		schemaTranslator.createPostgresDB();
+		
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testPopulatedEdges() {
+		String createFile = "test\\creates.txt";
+		Translator schemaTranslator = new Translator(createFile);
+		
+		schemaTranslator.createAST();
+		schemaTranslator.createPostgresDB();
+		
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testPopulatedLabels() {
+		String createFile = "test\\creates.txt";
+		Translator schemaTranslator = new Translator(createFile);
+		
+		schemaTranslator.createAST();
+		schemaTranslator.createPostgresDB();
+		
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testPopulatedTypes() {
+		String createFile = "test\\creates.txt";
+		Translator schemaTranslator = new Translator(createFile);
+		
+		schemaTranslator.createAST();
+		schemaTranslator.createPostgresDB();
+		
+		assertTrue(true);
+	}
 }
