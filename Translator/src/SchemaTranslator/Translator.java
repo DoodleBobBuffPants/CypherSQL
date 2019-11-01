@@ -100,13 +100,15 @@ public class Translator {
 			}
 			
 			for (Create dbItem: createStack) {
-				String query;
+				List<String> queries;
 				if (dbItem instanceof CreateNode) {
-					query = fillNodeQuery((CreateNode) dbItem);
+					queries = fillNodeQuery((CreateNode) dbItem);
 				} else {
-					query = fillEdgeQuery((CreateEdge) dbItem);
+					queries = fillEdgeQuery((CreateEdge) dbItem);
 				}
-				createTables.execute(query);
+				for (String query: queries) {
+					createTables.execute(query);
+				}
 			}
 			
 			connection.close();
@@ -187,11 +189,13 @@ public class Translator {
 		return query;
 	}
 	
-	private String fillNodeQuery(CreateNode createNode) {
-		return "";
+	private List<String> fillNodeQuery(CreateNode createNode) {
+		List<String> queries = new ArrayList<String>();
+		return queries;
 	}
 	
-	private String fillEdgeQuery(CreateEdge createEdge) {
-		return "";
+	private List<String> fillEdgeQuery(CreateEdge createEdge) {
+		List<String> queries = new ArrayList<String>();
+		return queries;
 	}
 }
