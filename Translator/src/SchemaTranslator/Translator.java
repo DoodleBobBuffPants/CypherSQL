@@ -22,6 +22,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import SchemaAST.Create;
+import SchemaAST.CreateEdge;
+import SchemaAST.CreateNode;
 import antlr4.CypherLexer;
 import antlr4.CypherParser;
 
@@ -94,6 +96,16 @@ public class Translator {
 				createTables.execute(query);
 			}
 			for (String query: makeTypeQueries) {
+				createTables.execute(query);
+			}
+			
+			for (Create dbItem: createStack) {
+				String query;
+				if (dbItem instanceof CreateNode) {
+					query = fillNodeQuery((CreateNode) dbItem);
+				} else {
+					query = fillEdgeQuery((CreateEdge) dbItem);
+				}
 				createTables.execute(query);
 			}
 			
@@ -173,5 +185,13 @@ public class Translator {
 			query = query + "," + columnName + " " + type;
 		}
 		return query;
+	}
+	
+	private String fillNodeQuery(CreateNode createNode) {
+		return "";
+	}
+	
+	private String fillEdgeQuery(CreateEdge createEdge) {
+		return "";
 	}
 }
