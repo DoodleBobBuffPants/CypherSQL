@@ -70,12 +70,14 @@ public class Translator {
 			createStack = createListener.getCreateStack();
 			labelTables = createListener.getLabelTables();
 			typeTables = createListener.getTypeTables();
-			
-			makeNewPostgresDB();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	
+	public void createPostgresDB() {
+		makeNewPostgresDB();
 	}
 	
 	private void makeNewPostgresDB() {

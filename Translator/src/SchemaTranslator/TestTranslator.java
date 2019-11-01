@@ -45,4 +45,15 @@ public class TestTranslator {
 		
 		assertTrue(typeTables.keySet().contains("REVIEWED"));
 	}
+	
+	@Test
+	public void testCreatePostgresDB() {
+		String createFile = "test\\creates.txt";
+		Translator schemaTranslator = new Translator(createFile);
+		
+		schemaTranslator.createAST();
+		schemaTranslator.createPostgresDB();
+		
+		assertTrue(true);
+	}
 }
