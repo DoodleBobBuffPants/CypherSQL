@@ -234,8 +234,9 @@ public class Translator {
 			String insert = "INSERT INTO " + labelTable + "(NodeID";
 			String values = "VALUES ('" + createNode.getId() + "'";
 			
-			for (String column: createNode.getColumnValueMap().keySet()) {
-				Object value = createNode.getColumnValueMap().get(column);
+			Map<String, Object> columnValueMap = createNode.getColumnValueMap();
+			for (String column: columnValueMap.keySet()) {
+				Object value = columnValueMap.get(column);
 				insert = insert + "," + column;
 				if (value instanceof Integer) {
 					values = values + "," + ((Integer) value);
@@ -279,8 +280,9 @@ public class Translator {
 			String insert = "INSERT INTO " + typeTable + "(NodeSrcID,NodeTrgtID";
 			String values = "VALUES ('" + createEdge.getSourceID() + "','" + createEdge.getTargetID() + "'";
 			
-			for (String column: createEdge.getColumnValueMap().keySet()) {
-				Object value = createEdge.getColumnValueMap().get(column);
+			Map<String, Object> columnValueMap = createEdge.getColumnValueMap();
+			for (String column: columnValueMap.keySet()) {
+				Object value = columnValueMap.get(column);
 				insert = insert + "," + column;
 				if (value instanceof Integer) {
 					values = values + "," + ((Integer) value);

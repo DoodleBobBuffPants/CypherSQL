@@ -112,7 +112,6 @@ public class CreateListener extends antlr4.CypherBaseListener {
 		createEdge = new CreateEdge();
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public void exitOC_RelationshipPattern(CypherParser.OC_RelationshipPatternContext ctx) {
 		leftRight = (ctx.oC_LeftArrowHead() == null);
@@ -122,23 +121,7 @@ public class CreateListener extends antlr4.CypherBaseListener {
 		Map<String, Object> newColumns = createEdge.getColumnValueMap();
 		String label = createEdge.getType();
 		Map<String, Object> columns = typeTables.get(label);
-		if (columns == null) {
-			columns = new HashMap<String, Object>();
-		}
-		for (String key : newColumns.keySet()) {
-			if (!columns.keySet().contains(key)) {
-				Object value = newColumns.get(key);
-				if (value instanceof Integer) {
-					columns.put(key, Integer.parseInt(value.toString()));
-				} else if (value instanceof String) {
-					columns.put(key, value.toString());
-				} else if (value instanceof List<?> && ((List<?>) value).get(0) instanceof Integer) {
-					columns.put(key, new ArrayList<Integer>((List<Integer>) value));
-				} else {
-					columns.put(key, new ArrayList<String>((List<String>) value));
-				}
-			}
-		}
+		addNewColumns(newColumns, columns);
 		typeTables.put(label, columns);
 	}
 	
@@ -147,7 +130,6 @@ public class CreateListener extends antlr4.CypherBaseListener {
 		createNode = new CreateNode();
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public void exitOC_NodePattern(CypherParser.OC_NodePatternContext ctx) {
 		processMapLiteral(createNode);
@@ -165,23 +147,7 @@ public class CreateListener extends antlr4.CypherBaseListener {
 		if (newColumns.size() > 0) {
 			String label = createNode.getLabelList().get(0);
 			Map<String, Object> columns = labelTables.get(label);
-			if (columns == null) {
-				columns = new HashMap<String, Object>();
-			}
-			for (String key : newColumns.keySet()) {
-				if (!columns.keySet().contains(key)) {
-					Object value = newColumns.get(key);
-					if (value instanceof Integer) {
-						columns.put(key, Integer.parseInt(value.toString()));
-					} else if (value instanceof String) {
-						columns.put(key, value.toString());
-					} else if (value instanceof List<?> && ((List<?>) value).get(0) instanceof Integer) {
-						columns.put(key, new ArrayList<Integer>((List<Integer>) value));
-					} else {
-						columns.put(key, new ArrayList<String>((List<String>) value));
-					}
-				}
-			}
+			addNewColumns(newColumns, columns);
 			labelTables.put(label, columns);
 		}
 	}
@@ -213,6 +179,27 @@ public class CreateListener extends antlr4.CypherBaseListener {
 				}
 			}
 			terminalStack.pop();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void addNewColumns(Map<String, Object> newColumns, Map<String, Object> columns) {
+		if (columns == null) {
+			columns = new HashMap<String, Object>();
+		}
+		for (String key : newColumns.keySet()) {
+			if (!columns.keySet().contains(key)) {
+				Object value = newColumns.get(key);
+				if (value instanceof Integer) {
+					columns.put(key, Integer.parseInt(value.toString()));
+				} else if (value instanceof String) {
+					columns.put(key, value.toString());
+				} else if (value instanceof List<?> && ((List<?>) value).get(0) instanceof Integer) {
+					columns.put(key, new ArrayList<Integer>((List<Integer>) value));
+				} else {
+					columns.put(key, new ArrayList<String>((List<String>) value));
+				}
+			}
 		}
 	}
 }
