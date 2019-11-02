@@ -140,7 +140,7 @@ public class Translator {
 		return "CREATE TABLE Edges("
 				+ "NodeSrcID text,"
 				+ "NodeTrgtID text,"
-				+ "Type text,"
+				+ "Type text NOT NULL,"
 				+ "PRIMARY KEY (NodeSrcID, NodeTrgtID))";
 	}
 	
@@ -189,13 +189,114 @@ public class Translator {
 		return query;
 	}
 	
+	private String formatQueryIntList(List<Integer> intList) {
+		String result = "{";
+		for (Integer item: intList) {
+			result = result + item + ",";
+		}
+		result = result.substring(0, result.length() - 1);
+		result = result + "}";
+		return result;
+	}
+	
+	private String formatQueryStringList(List<String> stringList) {
+		String result = "{";
+		for (String item: stringList) {
+			result = result + "\"" + item + "\"" + ",";
+		}
+		result = result.substring(0, result.length() - 1);
+		result = result + "}";
+		return result;
+	}
+	
+	@SuppressWarnings("unchecked")
 	private List<String> fillNodeQuery(CreateNode createNode) {
 		List<String> queries = new ArrayList<String>();
+		queries.add("INSERT INTO Nodes(NodeID, Labels)"
+				+ "VALUES ('" + createNode.getId() + "', '" + formatQueryStringList(createNode.getLabelList()) + "')");
+		
+		if (createNode.getColumnValueMap().size() == 0) {
+			for (String labelTable: createNode.getLabelList()) {
+				String insert = "INSERT INTO " + labelTable + "(NodeID";
+				String values = "VALUES ('" + createNode.getId() + "'";
+				
+				for (String column: labelTables.get(labelTable).keySet()) {
+					insert = insert + "," + column;
+					values = values + ",NULL";
+				}
+				
+				insert = insert + ")";
+				values = values + ")";
+				queries.add(insert + values);
+			}
+		} else {
+			String labelTable = createNode.getLabelList().get(0);
+			String insert = "INSERT INTO " + labelTable + "(NodeID";
+			String values = "VALUES ('" + createNode.getId() + "'";
+			
+			for (String column: createNode.getColumnValueMap().keySet()) {
+				Object value = createNode.getColumnValueMap().get(column);
+				insert = insert + "," + column;
+				if (value instanceof Integer) {
+					value = value + "," + ((Integer) value);
+				} else if (value instanceof String) {
+					value = value + ",'" + value.toString() + "'";
+				} else if (value instanceof List<?> && ((List<?>) value).get(0) instanceof Integer) {
+					value = value + ",'" + formatQueryIntList((List<Integer>)value) + "'";
+				} else {
+					value = value + ",'" + formatQueryStringList((List<String>)value) + "'";;
+				}
+			}
+			
+			insert = insert + ")";
+			values = values + ")";
+			queries.add(insert + values);
+		}
 		return queries;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private List<String> fillEdgeQuery(CreateEdge createEdge) {
 		List<String> queries = new ArrayList<String>();
+		queries.add("INSERT INTO Edges(NodeSrcID, NodeTrgtID, Type)"
+				+ "VALUES ('" + createEdge.getSourceID() + "', '" + createEdge.getTargetID() + "', '" + createEdge.getType() + "')");
+		
+		if (createEdge.getColumnValueMap().size() == 0) {
+			String typeTable = createEdge.getType();
+			String insert = "INSERT INTO " + typeTable + "(NodeSrcID,NodeTrgtID";
+			String values = "VALUES ('" + createEdge.getSourceID() + "','" + createEdge.getTargetID() + "'";
+			
+			for (String column: typeTables.get(typeTable).keySet()) {
+				insert = insert + "," + column;
+				values = values + ",NULL";
+			}
+			
+			insert = insert + ")";
+			values = values + ")";
+			queries.add(insert + values);
+		} else {
+			String typeTable = createEdge.getType();
+			String insert = "INSERT INTO " + typeTable + "(NodeSrcID,NodeTrgtID";
+			String values = "VALUES ('" + createEdge.getSourceID() + "','" + createEdge.getSourceID() + "'";
+			
+			for (String column: createEdge.getColumnValueMap().keySet()) {
+				Object value = createEdge.getColumnValueMap().get(column);
+				insert = insert + "," + column;
+				if (value instanceof Integer) {
+					value = value + "," + ((Integer) value);
+				} else if (value instanceof String) {
+					value = value + ",'" + value.toString() + "'";
+				} else if (value instanceof List<?> && ((List<?>) value).get(0) instanceof Integer) {
+					value = value + ",'" + formatQueryIntList((List<Integer>)value) + "'";
+				} else {
+					value = value + ",'" + formatQueryStringList((List<String>)value) + "'";;
+				}
+			}
+			
+			insert = insert + ")";
+			values = values + ")";
+			queries.add(insert + values);
+		}
 		return queries;
 	}
 }
