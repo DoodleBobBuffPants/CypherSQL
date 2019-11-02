@@ -140,8 +140,8 @@ public class Translator {
 		return "CREATE TABLE Edges("
 				+ "NodeSrcID text,"
 				+ "NodeTrgtID text,"
-				+ "Type text NOT NULL,"
-				+ "PRIMARY KEY (NodeSrcID, NodeTrgtID))";
+				+ "Type text,"
+				+ "PRIMARY KEY (NodeSrcID, NodeTrgtID, Type))";
 	}
 	
 	private List<String> makeLabelTables() {

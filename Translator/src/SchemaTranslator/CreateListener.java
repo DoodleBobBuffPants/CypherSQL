@@ -37,7 +37,7 @@ public class CreateListener extends antlr4.CypherBaseListener {
 	private String removeQuotes(String unformattedString) {
 		return unformattedString.replace("\\\"","<3").replace("\\`", "<4").replace("\\'", "<5")
 								.replace("\"", "").replace("`", "").replace("'", "")
-								.replace("<3", "\"").replace("<4", "`").replace("<4", "'");
+								.replace("<3", "\\\"").replace("<4", "\\`").replace("<4", "\\'");
 	}
 	
 	@Override
@@ -120,28 +120,26 @@ public class CreateListener extends antlr4.CypherBaseListener {
 		createEdge.setType(new String(terminalStack.pop().toString()));
 		
 		Map<String, Object> newColumns = createEdge.getColumnValueMap();
-		if (newColumns.size() > 0) {
-			String label = createEdge.getType();
-			Map<String, Object> columns = typeTables.get(label);
-			if (columns == null) {
-				columns = new HashMap<String, Object>();
-			}
-			for (String key : newColumns.keySet()) {
-				if (!columns.keySet().contains(key)) {
-					Object value = newColumns.get(key);
-					if (value instanceof Integer) {
-						columns.put(key, Integer.parseInt(value.toString()));
-					} else if (value instanceof String) {
-						columns.put(key, value.toString());
-					} else if (value instanceof List<?> && ((List<?>) value).get(0) instanceof Integer) {
-						columns.put(key, new ArrayList<Integer>((List<Integer>) value));
-					} else {
-						columns.put(key, new ArrayList<String>((List<String>) value));
-					}
+		String label = createEdge.getType();
+		Map<String, Object> columns = typeTables.get(label);
+		if (columns == null) {
+			columns = new HashMap<String, Object>();
+		}
+		for (String key : newColumns.keySet()) {
+			if (!columns.keySet().contains(key)) {
+				Object value = newColumns.get(key);
+				if (value instanceof Integer) {
+					columns.put(key, Integer.parseInt(value.toString()));
+				} else if (value instanceof String) {
+					columns.put(key, value.toString());
+				} else if (value instanceof List<?> && ((List<?>) value).get(0) instanceof Integer) {
+					columns.put(key, new ArrayList<Integer>((List<Integer>) value));
+				} else {
+					columns.put(key, new ArrayList<String>((List<String>) value));
 				}
 			}
-			typeTables.put(label, columns);
 		}
+		typeTables.put(label, columns);
 	}
 	
 	@Override
