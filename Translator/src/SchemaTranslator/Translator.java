@@ -238,13 +238,13 @@ public class Translator {
 				Object value = createNode.getColumnValueMap().get(column);
 				insert = insert + "," + column;
 				if (value instanceof Integer) {
-					value = value + "," + ((Integer) value);
+					values = values + "," + ((Integer) value);
 				} else if (value instanceof String) {
-					value = value + ",'" + value.toString() + "'";
+					values = values + ",'" + value.toString() + "'";
 				} else if (value instanceof List<?> && ((List<?>) value).get(0) instanceof Integer) {
-					value = value + ",'" + formatQueryIntList((List<Integer>)value) + "'";
+					values = values + ",'" + formatQueryIntList((List<Integer>)value) + "'";
 				} else {
-					value = value + ",'" + formatQueryStringList((List<String>)value) + "'";;
+					values = values + ",'" + formatQueryStringList((List<String>)value) + "'";;
 				}
 			}
 			
@@ -277,19 +277,19 @@ public class Translator {
 		} else {
 			String typeTable = createEdge.getType();
 			String insert = "INSERT INTO " + typeTable + "(NodeSrcID,NodeTrgtID";
-			String values = "VALUES ('" + createEdge.getSourceID() + "','" + createEdge.getSourceID() + "'";
+			String values = "VALUES ('" + createEdge.getSourceID() + "','" + createEdge.getTargetID() + "'";
 			
 			for (String column: createEdge.getColumnValueMap().keySet()) {
 				Object value = createEdge.getColumnValueMap().get(column);
 				insert = insert + "," + column;
 				if (value instanceof Integer) {
-					value = value + "," + ((Integer) value);
+					values = values + "," + ((Integer) value);
 				} else if (value instanceof String) {
-					value = value + ",'" + value.toString() + "'";
+					values = values + ",'" + value.toString() + "'";
 				} else if (value instanceof List<?> && ((List<?>) value).get(0) instanceof Integer) {
-					value = value + ",'" + formatQueryIntList((List<Integer>)value) + "'";
+					values = values + ",'" + formatQueryIntList((List<Integer>)value) + "'";
 				} else {
-					value = value + ",'" + formatQueryStringList((List<String>)value) + "'";;
+					values = values + ",'" + formatQueryStringList((List<String>)value) + "'";;
 				}
 			}
 			
