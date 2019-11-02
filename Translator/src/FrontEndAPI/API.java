@@ -30,14 +30,12 @@ public class API {
 		graphDumper.dumpGraphDatabase();
 		
 		SchemaTranslator.Translator schemaTranslator = new SchemaTranslator.Translator(graphDumper.getNeo4jDumpFilePath());
-		schemaTranslator.createAST();
-		schemaTranslator.createPostgresDB();
+		schemaTranslator.translate();
 	}
 	
 	private static void handleSchema(String createFile) {
 		SchemaTranslator.Translator schemaTranslator = new SchemaTranslator.Translator(createFile);
-		schemaTranslator.createAST();
-		schemaTranslator.createPostgresDB();
+		schemaTranslator.translate();
 	}
 	
 	private static void handleQuery(String query) {

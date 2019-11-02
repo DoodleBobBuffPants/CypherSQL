@@ -51,8 +51,7 @@ public class TestTranslator {
 		String createFile = "test\\creates.txt";
 		Translator schemaTranslator = new Translator(createFile);
 		
-		schemaTranslator.createAST();
-		schemaTranslator.createPostgresDB();
+		schemaTranslator.translate();
 		
 		assertTrue(true);
 	}
@@ -62,8 +61,7 @@ public class TestTranslator {
 		String createFile = "test\\creates.txt";
 		Translator schemaTranslator = new Translator(createFile);
 		
-		schemaTranslator.createAST();
-		schemaTranslator.createPostgresDB();
+		schemaTranslator.translate();
 		
 		assertTrue(true);
 	}
@@ -73,8 +71,7 @@ public class TestTranslator {
 		String createFile = "test\\creates.txt";
 		Translator schemaTranslator = new Translator(createFile);
 		
-		schemaTranslator.createAST();
-		schemaTranslator.createPostgresDB();
+		schemaTranslator.translate();
 		
 		assertTrue(true);
 	}
@@ -84,8 +81,7 @@ public class TestTranslator {
 		String createFile = "test\\creates.txt";
 		Translator schemaTranslator = new Translator(createFile);
 		
-		schemaTranslator.createAST();
-		schemaTranslator.createPostgresDB();
+		schemaTranslator.translate();
 		
 		assertTrue(true);
 	}
@@ -95,8 +91,7 @@ public class TestTranslator {
 		String createFile = "test\\creates.txt";
 		Translator schemaTranslator = new Translator(createFile);
 		
-		schemaTranslator.createAST();
-		schemaTranslator.createPostgresDB();
+		schemaTranslator.translate();
 		
 		assertTrue(true);
 	}
