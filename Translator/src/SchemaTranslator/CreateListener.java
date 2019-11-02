@@ -37,7 +37,7 @@ public class CreateListener extends antlr4.CypherBaseListener {
 	private String removeQuotes(String unformattedString) {
 		return unformattedString.replace("\\\"","<3").replace("\\`", "<4").replace("\\'", "<5")
 								.replace("\"", "").replace("`", "").replace("'", "")
-								.replace("<3", "\\\"").replace("<4", "\\`").replace("<4", "\\'");
+								.replace("<3", "\\\"").replace("<4", "\\`").replace("<5", "\\'");
 	}
 	
 	@Override
