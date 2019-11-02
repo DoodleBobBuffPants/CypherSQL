@@ -28,8 +28,6 @@ public class Translator {
 	private Map<String, Map<String, Object>> labelTables;
 	private Map<String, Map<String, Object>> typeTables;
 	
-	private DatabaseHandler dbHandler;
-	
 	public Translator(String createFilePath) {
 		this.createFilePath = Paths.get(createFilePath.toString());
 		this.dbName = new File(createFilePath).getName();
@@ -50,6 +48,7 @@ public class Translator {
 	
 	public void translate() {
 		createAST();
+		DatabaseHandler dbHandler = new DatabaseHandler(dbName, createStack, labelTables, typeTables);
 		dbHandler.createPostgresDB();
 	}
 	
@@ -70,7 +69,9 @@ public class Translator {
 				treeWalker.walk(createListener, parseTree);
 			}
 			
-			dbHandler = new DatabaseHandler(createStack = createListener.getCreateStack(), labelTables = createListener.getLabelTables(), typeTables = createListener.getTypeTables());
+			createStack = createListener.getCreateStack();
+			labelTables = createListener.getLabelTables();
+			typeTables = createListener.getTypeTables();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();

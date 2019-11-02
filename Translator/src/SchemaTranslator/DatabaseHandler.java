@@ -19,7 +19,8 @@ public class DatabaseHandler {
 	private Map<String, Map<String, Object>> labelTables;
 	private Map<String, Map<String, Object>> typeTables;
 	
-	public DatabaseHandler(Stack<Create> createStack, Map<String, Map<String, Object>> labelTables, Map<String, Map<String, Object>> typeTables) {
+	public DatabaseHandler(String dbName, Stack<Create> createStack, Map<String, Map<String, Object>> labelTables, Map<String, Map<String, Object>> typeTables) {
+		this.dbName = dbName;
 		this.createStack = createStack;
 		this.labelTables = labelTables;
 		this.typeTables = typeTables;
