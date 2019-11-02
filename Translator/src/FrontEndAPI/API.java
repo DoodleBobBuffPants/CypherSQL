@@ -27,15 +27,21 @@ public class API {
 	
 	private static void handleGraphDB(String graphDBPath) {
 		SchemaTranslator.GraphDumper graphDumper = new SchemaTranslator.GraphDumper(graphDBPath);
+		System.out.println("Graph dump starting...");
 		graphDumper.dumpGraphDatabase();
+		System.out.println("Graph dump complete");
 		
 		SchemaTranslator.Translator schemaTranslator = new SchemaTranslator.Translator(graphDumper.getNeo4jDumpFilePath());
+		System.out.println("Schema translation starting...");
 		schemaTranslator.translate();
+		System.out.println("Schema translation complete");
 	}
 	
 	private static void handleSchema(String createFile) {
 		SchemaTranslator.Translator schemaTranslator = new SchemaTranslator.Translator(createFile);
+		System.out.println("Schema translation starting...");
 		schemaTranslator.translate();
+		System.out.println("Schema translation complete");
 	}
 	
 	private static void handleQuery(String query) {
