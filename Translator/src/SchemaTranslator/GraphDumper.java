@@ -17,7 +17,7 @@ public class GraphDumper {
 	
 	public GraphDumper(String neo4jDBPath) {
 		this.neo4jDBPath = neo4jDBPath;
-		this.neo4jDBPath = neo4jDBPath + "dump.txt";
+		this.neo4jDumpFilePath = neo4jDBPath + "dump.txt";
 	}
 	
 	public String getNeo4jDumpFilePath() {
