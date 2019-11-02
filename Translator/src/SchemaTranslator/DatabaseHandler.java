@@ -95,7 +95,7 @@ public class DatabaseHandler {
 		List<String> labelQueries = new ArrayList<String>();
 		for (String tableName: labelTables.keySet()) {
 			Map<String, Object> columns = labelTables.get(tableName);
-			String query = "CREATE TABLE " + tableName + "("
+			String query = "CREATE TABLE " + (tableName.equals("Order") ? "\"" + tableName + "\"": tableName) + "("
 					+ "NodeID text PRIMARY KEY";
 			query = addTableColumns(columns, query);
 			query = query + ")";
@@ -108,7 +108,7 @@ public class DatabaseHandler {
 		List<String> typeQueries = new ArrayList<String>();
 		for (String tableName: typeTables.keySet()) {
 			Map<String, Object> columns = typeTables.get(tableName);
-			String query = "CREATE TABLE " + tableName + "("
+			String query = "CREATE TABLE " + (tableName.equals("Order") ? "\"" + tableName + "\"": tableName) + "("
 					+ "NodeSrcID text,"
 					+ "NodeTrgtID text";
 			query = addTableColumns(columns, query);
@@ -163,7 +163,7 @@ public class DatabaseHandler {
 		
 		if (createNode.getColumnValueMap().size() == 0) {
 			for (String labelTable: createNode.getLabelList()) {
-				String insert = "INSERT INTO " + labelTable + "(NodeID";
+				String insert = "INSERT INTO " + (labelTable.equals("Order") ? "\"" + labelTable + "\"": labelTable) + "(NodeID";
 				String values = "VALUES ('" + createNode.getId() + "'";
 				
 				for (String column: labelTables.get(labelTable).keySet()) {
@@ -177,7 +177,7 @@ public class DatabaseHandler {
 			}
 		} else {
 			String labelTable = createNode.getLabelList().get(0);
-			String insert = "INSERT INTO " + labelTable + "(NodeID";
+			String insert = "INSERT INTO " + (labelTable.equals("Order") ? "\"" + labelTable + "\"": labelTable) + "(NodeID";
 			String values = "VALUES ('" + createNode.getId() + "'";
 			fillInsertQuery(createNode, queries, insert, values);
 		}
@@ -191,7 +191,7 @@ public class DatabaseHandler {
 		
 		if (createEdge.getColumnValueMap().size() == 0) {
 			String typeTable = createEdge.getType();
-			String insert = "INSERT INTO " + typeTable + "(NodeSrcID,NodeTrgtID";
+			String insert = "INSERT INTO " + (typeTable.equals("Order") ? "\"" + typeTable + "\"": typeTable) + "(NodeSrcID,NodeTrgtID";
 			String values = "VALUES ('" + createEdge.getSourceID() + "','" + createEdge.getTargetID() + "'";
 			
 			for (String column: typeTables.get(typeTable).keySet()) {
@@ -204,7 +204,7 @@ public class DatabaseHandler {
 			queries.add(insert + values);
 		} else {
 			String typeTable = createEdge.getType();
-			String insert = "INSERT INTO " + typeTable + "(NodeSrcID,NodeTrgtID";
+			String insert = "INSERT INTO " + (typeTable.equals("Order") ? "\"" + typeTable + "\"": typeTable) + "(NodeSrcID,NodeTrgtID";
 			String values = "VALUES ('" + createEdge.getSourceID() + "','" + createEdge.getTargetID() + "'";
 			fillInsertQuery(createEdge, queries, insert, values);
 		}
@@ -220,7 +220,11 @@ public class DatabaseHandler {
 			if (value instanceof Integer) {
 				values = values + "," + ((Integer) value);
 			} else if (value instanceof String) {
-				values = values + ",'" + value.toString() + "'";
+				if (values.toString().equals("NULL")) {
+					values = values + ",NULL";
+				} else {
+					values = values + ",'" + value.toString() + "'";
+				}
 			} else if (value instanceof List<?> && ((List<?>) value).get(0) instanceof Integer) {
 				values = values + ",'" + formatQueryIntList((List<Integer>)value) + "'";
 			} else {
