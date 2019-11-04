@@ -23,21 +23,22 @@ public class Formatter {
 		Formatter formatter = new Formatter();
 		formatter.getNeo4JResult("D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db");
 		formatter.getPostgresResult();
+		System.out.println(formatter.compare());
 	}
 	
-	private void getNeo4JResult(String neo4jDBPath) {
+	public void getNeo4JResult(String neo4jDBPath) {
 		GraphDatabaseService neo4jConnection = new GraphDatabaseFactory().newEmbeddedDatabase(new File(neo4jDBPath));
 		Result result = neo4jConnection.execute("MATCH (n) RETURN labels(n) AS label, count(*) AS count");
 		while (result.hasNext()) {
 			Map<String, Object> row = result.next();
 			Map<String, String> newElement = new HashMap<String, String>();
-			row.forEach((k, v) -> newElement.put(k, v.toString()));
+			row.forEach((k, v) -> newElement.put(k, v.toString().replace("[", "").replace("]", "").toLowerCase()));
 			neo4jResult.add(newElement);
 		}
 		neo4jConnection.shutdown();
 	}
 	
-	private void getPostgresResult() {
+	public void getPostgresResult() {
 		try {
 			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/graph", "postgres", "admin");
 			Statement statement = connection.createStatement();
@@ -49,7 +50,7 @@ public class Formatter {
 			while(result.next()) {
 				Map<String, String> newElement = new HashMap<String, String>();
 				for (int i = 1; i <= result.getMetaData().getColumnCount(); i++) {
-					newElement.put(result.getMetaData().getColumnName(i), result.getObject(i).toString());
+					newElement.put(result.getMetaData().getColumnName(i), result.getObject(i).toString().toLowerCase());
 				}
 				postgresResult.add(newElement);
 			}
@@ -58,5 +59,13 @@ public class Formatter {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean compare() {
+		if (neo4jResult.size() != postgresResult.size()) return false;
+		for (Map<String, String> neoRow: neo4jResult) {
+			if (!postgresResult.contains(neoRow)) return false;
+		}
+		return true;
 	}
 }
