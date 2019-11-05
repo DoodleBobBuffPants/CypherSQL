@@ -19,17 +19,6 @@ public class Formatter {
 	private Set<Map<String, String>> neo4jResult;
 	private Set<Map<String, String>> postgresResult;
 	
-	public static void main(String[] args) {
-		Formatter formatter = new Formatter();
-		String neo4jQuery = "MATCH (n) RETURN labels(n) AS labels, count(*) AS count";
-		String postgresQuery = "SELECT labels, count(*) FROM nodes GROUP BY labels";
-		formatter.initialiseResultSets();
-		formatter.getNeo4JResult("D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db", neo4jQuery);
-		formatter.getPostgresResult("graph", postgresQuery);
-		System.out.println(formatter.compare());
-		formatter.printPostgresResult();
-	}
-	
 	public void initialiseResultSets() {
 		neo4jResult =  new HashSet<Map<String, String>>();
 		postgresResult =  new HashSet<Map<String, String>>();
@@ -41,7 +30,7 @@ public class Formatter {
 		while (result.hasNext()) {
 			Map<String, Object> row = result.next();
 			Map<String, String> newElement = new HashMap<String, String>();
-			row.forEach((k, v) -> newElement.put(k, v.toString().toLowerCase()));
+			row.forEach((k, v) -> newElement.put(k, formatNeo4JValue(v)));
 			neo4jResult.add(newElement);
 		}
 		neo4jConnection.shutdown();
@@ -55,7 +44,7 @@ public class Formatter {
 			while(result.next()) {
 				Map<String, String> newElement = new HashMap<String, String>();
 				for (int i = 1; i <= result.getMetaData().getColumnCount(); i++) {
-					newElement.put(result.getMetaData().getColumnName(i), result.getObject(i).toString().replace("{", "[").replace("}", "]").toLowerCase());
+					newElement.put(result.getMetaData().getColumnName(i), formatPostgresValue(result.getObject(i)));
 				}
 				postgresResult.add(newElement);
 			}
@@ -64,6 +53,22 @@ public class Formatter {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	
+	private String formatNeo4JValue(Object value) {
+		if (value instanceof Object[]) {
+			String result = "[";
+			for (int i = 0; i < ((Object[]) value).length; i++) {
+				result = result + "\"" + ((Object[]) value)[i].toString().toLowerCase() + "\",";
+			}
+			return result.substring(0, result.length() - 1) + "]";
+		} else {
+			return value.toString().toLowerCase();
+		}
+	}
+	
+	private String formatPostgresValue(Object value) {
+		return value.toString().replace("{", "[").replace("}", "]").toLowerCase();
 	}
 	
 	public boolean compare() {
