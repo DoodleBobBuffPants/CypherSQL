@@ -27,6 +27,7 @@ public class Formatter {
 		formatter.getNeo4JResult("D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db", neo4jQuery);
 		formatter.getPostgresResult("graph", postgresQuery);
 		System.out.println(formatter.compare());
+		formatter.printPostgresResult();
 	}
 	
 	public void initialiseResultSets() {
@@ -73,19 +74,10 @@ public class Formatter {
 		return true;
 	}
 	
-	public String printPostgresResult(ResultSet result) {
-		try {
-			String stringResult = "";
-			while(result.next()) {
-				for (int i = 1; i <= result.getMetaData().getColumnCount(); i++) {
-					
-				}
-			}
-			return stringResult;
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
+	public void printPostgresResult() {
+		for (Map<String, String> row: postgresResult) {
+			row.forEach((k, v) -> System.out.print(k + " - " + v + " ; "));
+			System.out.println();
 		}
-		return null;
 	}
 }
