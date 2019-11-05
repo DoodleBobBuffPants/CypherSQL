@@ -1,5 +1,8 @@
 package FrontEndAPI;
 
+import java.io.File;
+import java.nio.file.Paths;
+
 public class API {
 	public static void main(String[] args) {
 		if (args.length != 2) {
@@ -45,6 +48,14 @@ public class API {
 	}
 	
 	private static void handleQuery(String query) {
-		System.out.println("Not yet implemented");
+		QueryTranslator.Translator queryTranslator;
+		if (new File(query).exists()) {
+			queryTranslator = new QueryTranslator.Translator(Paths.get(query));
+		} else {
+			queryTranslator = new QueryTranslator.Translator(query);
+		}
+		System.out.println("Query translation starting...");
+		queryTranslator.translate();
+		System.out.println("Query translation completed");
 	}
 }
