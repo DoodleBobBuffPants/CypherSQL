@@ -21,14 +21,10 @@ public class Formatter {
 	
 	public static void main(String[] args) {
 		Formatter formatter = new Formatter();
+		String neo4jQuery = "MATCH (n) RETURN labels(n) AS labels, count(*) AS count";
+		String postgresQuery = "SELECT labels, count(*) FROM nodes GROUP BY labels";
 		formatter.initialiseResultSets();
-		String neo4jQuery = "MATCH (n) RETURN labels(n) AS label, count(*) AS count";
 		formatter.getNeo4JResult("D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db", neo4jQuery);
-		String postgresQuery = "SELECT relname AS label, n_live_tup AS count "
-				+ "FROM pg_stat_user_tables t "
-				+ "INNER JOIN information_schema.columns c ON c.table_name = t.relname "
-				+ "WHERE c.column_name = 'nodeid' "
-				+ "AND t.relname <> 'nodes'";
 		formatter.getPostgresResult("graph", postgresQuery);
 		System.out.println(formatter.compare());
 	}
@@ -44,7 +40,7 @@ public class Formatter {
 		while (result.hasNext()) {
 			Map<String, Object> row = result.next();
 			Map<String, String> newElement = new HashMap<String, String>();
-			row.forEach((k, v) -> newElement.put(k, v.toString().replace("[", "").replace("]", "").toLowerCase()));
+			row.forEach((k, v) -> newElement.put(k, v.toString().toLowerCase()));
 			neo4jResult.add(newElement);
 		}
 		neo4jConnection.shutdown();
@@ -58,7 +54,7 @@ public class Formatter {
 			while(result.next()) {
 				Map<String, String> newElement = new HashMap<String, String>();
 				for (int i = 1; i <= result.getMetaData().getColumnCount(); i++) {
-					newElement.put(result.getMetaData().getColumnName(i), result.getObject(i).toString().toLowerCase());
+					newElement.put(result.getMetaData().getColumnName(i), result.getObject(i).toString().replace("{", "[").replace("}", "]").toLowerCase());
 				}
 				postgresResult.add(newElement);
 			}
@@ -75,5 +71,21 @@ public class Formatter {
 			if (!postgresResult.contains(neoRow)) return false;
 		}
 		return true;
+	}
+	
+	public String printPostgresResult(ResultSet result) {
+		try {
+			String stringResult = "";
+			while(result.next()) {
+				for (int i = 1; i <= result.getMetaData().getColumnCount(); i++) {
+					
+				}
+			}
+			return stringResult;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
