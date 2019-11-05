@@ -37,7 +37,7 @@ public class TestAPI {
 	
 	@Test
 	public void testQuery() {
-		String[] args = {"--query", "test"};
+		String[] args = {"--query", "MATCH (n) RETURN labels(n) AS labels, count(*) AS count"};
 		
 		API.main(args);
 		
