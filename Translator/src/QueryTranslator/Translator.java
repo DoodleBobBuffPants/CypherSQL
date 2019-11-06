@@ -50,5 +50,10 @@ public class Translator {
 		treeWalker.walk(queryListener, parseTree);
 		
 		Query parsedQuery = queryListener.getQuery();
+		generatePostgresQuery(parsedQuery);
+	}
+	
+	private String generatePostgresQuery(Query parsedQuery) {
+		return "";
 	}
 }
