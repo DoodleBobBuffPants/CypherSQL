@@ -36,8 +36,8 @@ public class TestFormatter {
 	@Test
 	public void testCompareEdgeGraph() {
 		Formatter formatter = new Formatter();
-		String neo4jQuery = "MATCH (m)-[r:ACTED_IN]->(n) WHERE ID(m) = 24 AND ID(n) = 141 RETURN r.roles AS roles";
-		String postgresQuery = "SELECT roles FROM ACTED_IN WHERE nodesrcid = '_24' AND nodetrgtid = '_141'";
+		String neo4jQuery = "MATCH (m)-[r:ACTED_IN]->(n) WHERE ID(m) = 34 AND ID(n) = 78 RETURN r.roles AS roles";
+		String postgresQuery = "SELECT roles FROM ACTED_IN WHERE nodesrcid = '_34' AND nodetrgtid = '_78'";
 		
 		formatter.initialiseResultSets();
 		formatter.getNeo4JResult("D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db", neo4jQuery);

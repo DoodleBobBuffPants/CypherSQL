@@ -57,18 +57,19 @@ public class Formatter {
 	
 	private String formatNeo4JValue(Object value) {
 		if (value instanceof Object[]) {
-			String result = "[";
+			String result = "]";
 			for (int i = 0; i < ((Object[]) value).length; i++) {
-				result = result + "\"" + ((Object[]) value)[i].toString().toLowerCase() + "\",";
+				result = "," + ((Object[]) value)[i].toString().toLowerCase() + result;
 			}
-			return result.substring(0, result.length() - 1) + "]";
+			return "[" + result.substring(1, result.length());
 		} else {
 			return value.toString().toLowerCase();
 		}
 	}
 	
 	private String formatPostgresValue(Object value) {
-		return value.toString().replace("{", "[").replace("}", "]").toLowerCase();
+		return value.toString().replace("{", "[").replace("}", "]")
+							   .replace("\\\"", "<3").replace("\"", "").replace("<3", "\\\"").toLowerCase();
 	}
 	
 	public boolean compare() {
