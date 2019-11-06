@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
+import QueryAST.Query;
 import antlr4.CypherLexer;
 import antlr4.CypherParser;
 
@@ -47,5 +48,7 @@ public class Translator {
 		ParseTree parseTree = inputParser.oC_Cypher();
 		Trees.inspect(parseTree, inputParser);
 		treeWalker.walk(queryListener, parseTree);
+		
+		Query parsedQuery = queryListener.getQuery();
 	}
 }
