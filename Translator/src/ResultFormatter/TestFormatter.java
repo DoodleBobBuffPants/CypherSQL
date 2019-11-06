@@ -23,7 +23,7 @@ public class TestFormatter {
 	public void testCompareNodeGraph() {
 		Formatter formatter = new Formatter();
 		String neo4jQuery = "MATCH (n:Movie) WHERE ID(n) = 0 RETURN n.title AS title";
-		String postgresQuery = "SELECT title FROM movie WHERE nodeid = '_0'";
+		String postgresQuery = "SELECT title FROM movie WHERE nodeid = 0";
 		
 		formatter.initialiseResultSets();
 		formatter.getNeo4JResult("D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db", neo4jQuery);
@@ -37,7 +37,7 @@ public class TestFormatter {
 	public void testCompareEdgeGraph() {
 		Formatter formatter = new Formatter();
 		String neo4jQuery = "MATCH (m)-[r:ACTED_IN]->(n) WHERE ID(m) = 34 AND ID(n) = 78 RETURN r.roles AS roles";
-		String postgresQuery = "SELECT roles FROM ACTED_IN WHERE nodesrcid = '_34' AND nodetrgtid = '_78'";
+		String postgresQuery = "SELECT roles FROM ACTED_IN WHERE nodesrcid = 34 AND nodetrgtid = 78";
 		
 		formatter.initialiseResultSets();
 		formatter.getNeo4JResult("D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db", neo4jQuery);
@@ -65,7 +65,7 @@ public class TestFormatter {
 	public void testCompareNodeNorthwind() {
 		Formatter formatter = new Formatter();
 		String neo4jQuery = "MATCH (n:Product) WHERE ID(n) = 0 RETURN n.productName AS productname";
-		String postgresQuery = "SELECT productname FROM product WHERE nodeid = '_0'";
+		String postgresQuery = "SELECT productname FROM product WHERE nodeid = 0";
 		
 		formatter.initialiseResultSets();
 		formatter.getNeo4JResult("D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\northwind.db", neo4jQuery);
@@ -79,7 +79,7 @@ public class TestFormatter {
 	public void testCompareEdgeNorthwind() {
 		Formatter formatter = new Formatter();
 		String neo4jQuery = "MATCH (m)-[r:ORDERS]->(n) WHERE ID(m) = 205 AND ID(n) = 41 RETURN r.quantity AS quantity";
-		String postgresQuery = "SELECT quantity FROM ORDERS WHERE nodesrcid = '_205' AND nodetrgtid = '_41'";
+		String postgresQuery = "SELECT quantity FROM ORDERS WHERE nodesrcid = 205 AND nodetrgtid = 41";
 		
 		formatter.initialiseResultSets();
 		formatter.getNeo4JResult("D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\northwind.db", neo4jQuery);

@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CreateNode extends Create {
-	private String id;
+	private int id;
 	private List<String> labels = new ArrayList<String>();
 	
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 	

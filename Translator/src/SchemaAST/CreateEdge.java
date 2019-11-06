@@ -1,8 +1,8 @@
 package SchemaAST;
 
 public class CreateEdge extends Create {
-	private String sourceID;
-	private String targetID;
+	private int sourceID;
+	private int targetID;
 	private String type;
 	
 	public void setType(String type) {
@@ -13,19 +13,19 @@ public class CreateEdge extends Create {
 		return type;
 	}
 
-	public void setSourceID(String sourceID) {
+	public void setSourceID(int sourceID) {
 		this.sourceID = sourceID;
 	}
 	
-	public String getSourceID() {
+	public int getSourceID() {
 		return sourceID;
 	}
 	
-	public void setTargetID(String targetID) {
+	public void setTargetID(int targetID) {
 		this.targetID = targetID;
 	}
 	
-	public String getTargetID() {
+	public int getTargetID() {
 		return targetID;
 	}
 }

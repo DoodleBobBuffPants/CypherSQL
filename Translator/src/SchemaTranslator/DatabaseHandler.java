@@ -79,14 +79,14 @@ public class DatabaseHandler {
 	
 	private String makeNodeTable() {
 		return "CREATE TABLE Nodes("
-				+ "NodeID text PRIMARY KEY,"
+				+ "NodeID integer PRIMARY KEY,"
 				+ "Labels text[])";
 	}
 	
 	private String makeEdgeTable() {
 		return "CREATE TABLE Edges("
-				+ "NodeSrcID text,"
-				+ "NodeTrgtID text,"
+				+ "NodeSrcID integer,"
+				+ "NodeTrgtID integer,"
 				+ "Type text,"
 				+ "PRIMARY KEY (NodeSrcID, NodeTrgtID, Type))";
 	}
@@ -96,7 +96,7 @@ public class DatabaseHandler {
 		for (String tableName: labelTables.keySet()) {
 			Map<String, Object> columns = labelTables.get(tableName);
 			String query = "CREATE TABLE " + (tableName.equals("Order") ? "\"" + tableName + "\"": tableName) + "("
-					+ "NodeID text PRIMARY KEY";
+					+ "NodeID integer PRIMARY KEY";
 			query = addTableColumns(columns, query);
 			query = query + ")";
 			labelQueries.add(query);
@@ -109,8 +109,8 @@ public class DatabaseHandler {
 		for (String tableName: typeTables.keySet()) {
 			Map<String, Object> columns = typeTables.get(tableName);
 			String query = "CREATE TABLE " + (tableName.equals("Order") ? "\"" + tableName + "\"": tableName) + "("
-					+ "NodeSrcID text,"
-					+ "NodeTrgtID text";
+					+ "NodeSrcID integer,"
+					+ "NodeTrgtID integer";
 			query = addTableColumns(columns, query);
 			query = query + ",PRIMARY KEY (NodeSrcID, NodeTrgtID))";
 			typeQueries.add(query);
@@ -159,12 +159,12 @@ public class DatabaseHandler {
 	private List<String> fillNodeQueries(CreateNode createNode) {
 		List<String> queries = new ArrayList<String>();
 		queries.add("INSERT INTO Nodes(NodeID, Labels)"
-				+ "VALUES ('" + createNode.getId() + "', '" + formatQueryStringList(createNode.getLabelList()) + "')");
+				+ "VALUES (" + createNode.getId() + ", '" + formatQueryStringList(createNode.getLabelList()) + "')");
 		
 		if (createNode.getColumnValueMap().size() == 0) {
 			for (String labelTable: createNode.getLabelList()) {
 				String insert = "INSERT INTO " + (labelTable.equals("Order") ? "\"" + labelTable + "\"": labelTable) + "(NodeID";
-				String values = "VALUES ('" + createNode.getId() + "'";
+				String values = "VALUES (" + createNode.getId();
 				
 				for (String column: labelTables.get(labelTable).keySet()) {
 					insert = insert + "," + column;
@@ -178,7 +178,7 @@ public class DatabaseHandler {
 		} else {
 			String labelTable = createNode.getLabelList().get(0);
 			String insert = "INSERT INTO " + (labelTable.equals("Order") ? "\"" + labelTable + "\"": labelTable) + "(NodeID";
-			String values = "VALUES ('" + createNode.getId() + "'";
+			String values = "VALUES (" + createNode.getId();
 			fillInsertQuery(createNode, queries, insert, values);
 		}
 		return queries;
@@ -187,12 +187,12 @@ public class DatabaseHandler {
 	private List<String> fillEdgeQueries(CreateEdge createEdge) {
 		List<String> queries = new ArrayList<String>();
 		queries.add("INSERT INTO Edges(NodeSrcID, NodeTrgtID, Type)"
-				+ "VALUES ('" + createEdge.getSourceID() + "', '" + createEdge.getTargetID() + "', '" + createEdge.getType() + "')");
+				+ "VALUES (" + createEdge.getSourceID() + ", '" + createEdge.getTargetID() + "', '" + createEdge.getType() + "')");
 		
 		if (createEdge.getColumnValueMap().size() == 0) {
 			String typeTable = createEdge.getType();
 			String insert = "INSERT INTO " + (typeTable.equals("Order") ? "\"" + typeTable + "\"": typeTable) + "(NodeSrcID,NodeTrgtID";
-			String values = "VALUES ('" + createEdge.getSourceID() + "','" + createEdge.getTargetID() + "'";
+			String values = "VALUES (" + createEdge.getSourceID() + "," + createEdge.getTargetID();
 			
 			for (String column: typeTables.get(typeTable).keySet()) {
 				insert = insert + "," + column;
@@ -205,7 +205,7 @@ public class DatabaseHandler {
 		} else {
 			String typeTable = createEdge.getType();
 			String insert = "INSERT INTO " + (typeTable.equals("Order") ? "\"" + typeTable + "\"": typeTable) + "(NodeSrcID,NodeTrgtID";
-			String values = "VALUES ('" + createEdge.getSourceID() + "','" + createEdge.getTargetID() + "'";
+			String values = "VALUES (" + createEdge.getSourceID() + "," + createEdge.getTargetID();
 			fillInsertQuery(createEdge, queries, insert, values);
 		}
 		return queries;

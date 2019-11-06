@@ -95,11 +95,11 @@ public class CreateListener extends antlr4.CypherBaseListener {
 	public void exitOC_PatternElement(CypherParser.OC_PatternElementContext ctx) {
 		if (hasEdge) {
 			if (leftRight) {
-				createEdge.setTargetID(new String(((CreateNode) createStack.pop()).getId()));
-				createEdge.setSourceID(new String(((CreateNode) createStack.pop()).getId()));
+				createEdge.setTargetID(((CreateNode) createStack.pop()).getId());
+				createEdge.setSourceID(((CreateNode) createStack.pop()).getId());
 			} else {
-				createEdge.setSourceID(new String(((CreateNode) createStack.pop()).getId()));
-				createEdge.setTargetID(new String(((CreateNode) createStack.pop()).getId()));
+				createEdge.setSourceID(((CreateNode) createStack.pop()).getId());
+				createEdge.setTargetID(((CreateNode) createStack.pop()).getId());
 			}
 			createStack.push(createEdge);
 			hasEdge = false;
@@ -158,7 +158,7 @@ public class CreateListener extends antlr4.CypherBaseListener {
 			}
 			terminalStack.pop();
 		}
-		createNode.setId(new String(terminalStack.pop().toString()));
+		createNode.setId(Integer.parseInt(terminalStack.pop().toString().substring(1)));
 		createStack.push(createNode);
 		
 		Map<String, Object> newColumns = createNode.getColumnValueMap();

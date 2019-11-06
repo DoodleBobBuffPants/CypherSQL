@@ -73,7 +73,7 @@ public class TestTranslator {
 		ResultSet result = statement.executeQuery("SELECT * FROM NODES");
 		result.next();
 		
-		assertTrue(result.getObject(1).toString().equals("_0"));
+		assertTrue(result.getObject(1).toString().equals("0"));
 		assertTrue(result.getObject(2).toString().equals("{Movie}"));
 	}
 	
@@ -89,8 +89,8 @@ public class TestTranslator {
 		ResultSet result = statement.executeQuery("SELECT * FROM EDGES");
 		result.next();
 		
-		assertTrue(result.getObject(1).toString().equals("_170"));
-		assertTrue(result.getObject(2).toString().equals("_111"));
+		assertTrue(result.getObject(1).toString().equals("170"));
+		assertTrue(result.getObject(2).toString().equals("111"));
 		assertTrue(result.getObject(3).toString().equals("REVIEWED"));
 	}
 	
@@ -106,7 +106,7 @@ public class TestTranslator {
 		ResultSet result = statement.executeQuery("SELECT * FROM MOVIE");
 		result.next();
 		
-		assertTrue(result.getObject(1).toString().equals("_0"));
+		assertTrue(result.getObject(1).toString().equals("0"));
 		assertTrue(result.getObject(2).toString().equals("Welcome to the Real World"));
 		assertTrue(result.getObject(3).toString().equals("The Matrix"));
 		assertTrue(result.getObject(4).toString().equals("1999"));
@@ -124,8 +124,8 @@ public class TestTranslator {
 		ResultSet result = statement.executeQuery("SELECT * FROM REVIEWED");
 		result.next();
 		
-		assertTrue(result.getObject(1).toString().equals("_170"));
-		assertTrue(result.getObject(2).toString().equals("_111"));
+		assertTrue(result.getObject(1).toString().equals("170"));
+		assertTrue(result.getObject(2).toString().equals("111"));
 		assertTrue(result.getObject(3).toString().equals("Fun, but a little far fetched"));
 		assertTrue(result.getObject(4).toString().equals("65"));
 	}
