@@ -18,8 +18,9 @@ import antlr4.CypherParser;
 public class Translator {
 	private String cypherQuery;
 	private Query parsedQuery;
-	private String select;
-	private String from;
+	private String select = "SELECT ";
+	private String from = "FROM ";
+	private String groupBy = "GROUP BY ";
 	
 	public static void main(String[] args) {
 		Translator queryTranslator = new Translator("MATCH (n) RETURN labels(n) AS labels, count(*) AS count");
@@ -59,14 +60,14 @@ public class Translator {
 	private String generatePostgresQuery() {
 		generateSelect();
 		generateFrom();
-		return select + " " + from;
+		return select + " " + from + " " + groupBy;
 	}
 	
 	private void generateSelect() {
-		select = "SELECT ";
+		
 	}
 	
 	private void generateFrom() {
-		from = "FROM ";
+		
 	}
 }
