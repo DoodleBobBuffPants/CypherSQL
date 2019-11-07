@@ -16,20 +16,23 @@ import antlr4.CypherLexer;
 import antlr4.CypherParser;
 
 public class Translator {
-	private String query;
+	private String cypherQuery;
+	private Query parsedQuery;
+	private String select;
+	private String from;
 	
 	public static void main(String[] args) {
 		Translator queryTranslator = new Translator("MATCH (n) RETURN labels(n) AS labels, count(*) AS count");
 		queryTranslator.translate();
 	}
 	
-	public Translator(String query) {
-		this.query = query;
+	public Translator(String cypherQuery) {
+		this.cypherQuery = cypherQuery;
 	}
 	
 	public Translator(Path queryPath) {
 		try {
-			this.query = new String(Files.readAllBytes(queryPath));
+			this.cypherQuery = new String(Files.readAllBytes(queryPath));
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
@@ -40,7 +43,7 @@ public class Translator {
 		ParseTreeWalker treeWalker = new ParseTreeWalker();
 		QueryListener queryListener = new QueryListener();
 		
-		CharStream queryStream = CharStreams.fromString(query);
+		CharStream queryStream = CharStreams.fromString(cypherQuery);
 		CypherLexer inputLexer = new CypherLexer(queryStream);
 		CommonTokenStream tokens = new CommonTokenStream(inputLexer);
 		CypherParser inputParser = new CypherParser(tokens);
@@ -49,11 +52,21 @@ public class Translator {
 		Trees.inspect(parseTree, inputParser);
 		treeWalker.walk(queryListener, parseTree);
 		
-		Query parsedQuery = queryListener.getQuery();
-		generatePostgresQuery(parsedQuery);
+		parsedQuery = queryListener.getQuery();
+		System.out.println(generatePostgresQuery());
 	}
 	
-	private String generatePostgresQuery(Query parsedQuery) {
-		return "";
+	private String generatePostgresQuery() {
+		generateSelect();
+		generateFrom();
+		return select + " " + from;
+	}
+	
+	private void generateSelect() {
+		select = "SELECT ";
+	}
+	
+	private void generateFrom() {
+		from = "FROM ";
 	}
 }
