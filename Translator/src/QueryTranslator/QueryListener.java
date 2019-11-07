@@ -4,6 +4,7 @@ import QueryAST.Match;
 import QueryAST.NodePattern;
 import QueryAST.Query;
 import QueryAST.Return;
+import QueryAST.ReturnItem;
 import antlr4.CypherParser;
 
 public class QueryListener extends antlr4.CypherBaseListener {
@@ -11,6 +12,7 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	private Match matchClause;
 	private Return returnClause;
 	private NodePattern nodePattern;
+	private ReturnItem returnItem;
 	
 	public Query getQuery() {
 		return query;
@@ -55,7 +57,22 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	}
 	
 	@Override
-	public void exitOC_Return(CypherParser.OC_ReturnContext ctx) {
-		
+	public void enterOC_ReturnItem(CypherParser.OC_ReturnItemContext ctx) {
+		returnItem = new ReturnItem();
+	}
+	
+	@Override
+	public void exitOC_FunctionInvocation(CypherParser.OC_FunctionInvocationContext ctx) {
+		returnItem.setFunctionName(ctx.oC_FunctionName().getText());
+		returnItem.setFunctionArgument(ctx.oC_Expression(0).getText());
+	}
+	
+	@Override
+	public void exitOC_ReturnItem(CypherParser.OC_ReturnItemContext ctx) {
+		returnItem.setToReturn(ctx.oC_Expression().getText());
+		if (ctx.getChild(2).getText().equals("AS")) {
+			returnItem.setAlias(ctx.getChild(4).getText());
+		}
+		returnClause.addReturnItem(returnItem);
 	}
 }
