@@ -17,14 +17,16 @@ import antlr4.CypherParser;
 
 public class Translator {
 	private String cypherQuery;
+	private String translatedQuery;
 	private Query parsedQuery;
-	private String select = "SELECT ";
-	private String from = "FROM ";
-	private String groupBy = "GROUP BY ";
+	private String select = "";
+	private String from = "";
+	private String where = "";
+	private String groupBy = "";
 	
 	public static void main(String[] args) {
 		Translator queryTranslator = new Translator("MATCH (n) RETURN labels(n) AS labels, count(*) AS count");
-		queryTranslator.translate();
+		System.out.println(queryTranslator.translate());
 	}
 	
 	public Translator(String cypherQuery) {
@@ -40,7 +42,7 @@ public class Translator {
 		}
 	}
 	
-	public void translate() {
+	public String translate() {
 		ParseTreeWalker treeWalker = new ParseTreeWalker();
 		QueryListener queryListener = new QueryListener();
 		
@@ -54,20 +56,27 @@ public class Translator {
 		treeWalker.walk(queryListener, parseTree);
 		
 		parsedQuery = queryListener.getQuery();
-		System.out.println(generatePostgresQuery());
+		return generatePostgresQuery();
 	}
 	
 	private String generatePostgresQuery() {
-		generateSelect();
-		generateFrom();
-		return select + " " + from + " " + groupBy;
+		handleQueryMatch();
+		handleQueryReturn();
+		translatedQuery = "SELECT " + select + " FROM " + from;
+		if (!where.equals("")) {
+			translatedQuery += " WHERE " + where;
+		}
+		if (!groupBy.equals("")) {
+			translatedQuery += " GROUP BY " + groupBy;
+		}
+		return translatedQuery;
 	}
 	
-	private void generateSelect() {
+	private void handleQueryMatch() {
 		
 	}
 	
-	private void generateFrom() {
+	private void handleQueryReturn() {
 		
 	}
 }
