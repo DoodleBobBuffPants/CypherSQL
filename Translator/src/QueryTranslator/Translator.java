@@ -53,7 +53,7 @@ public class Translator {
 		//Trees.inspect(parseTree, inputParser);
 		treeWalker.walk(queryListener, parseTree);
 		
-		GeneratePostgresQuery postgresQueryGen = new GeneratePostgresQuery();
-		return postgresQueryGen.generatePostgresQuery(queryListener.getQuery());
+		GeneratePostgresQuery genPostgresQuery = new GeneratePostgresQuery();
+		return genPostgresQuery.generatePostgresQuery(queryListener.getQuery());
 	}
 }
