@@ -14,7 +14,9 @@ public class TestTranslator {
 		
 		resultFormatter.initialiseResultSets();
 		resultFormatter.getNeo4JResult("D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db", queryTranslator.getCypherQuery());
+		long startTime = System.currentTimeMillis();
 		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
 		
 		assertTrue(resultFormatter.compare());
 	}
@@ -26,7 +28,9 @@ public class TestTranslator {
 		
 		resultFormatter.initialiseResultSets();
 		resultFormatter.getNeo4JResult("D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db", queryTranslator.getCypherQuery());
+		long startTime = System.currentTimeMillis();
 		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
 		
 		assertTrue(resultFormatter.compare());
 	}

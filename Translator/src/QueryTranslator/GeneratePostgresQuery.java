@@ -1,11 +1,12 @@
 package QueryTranslator;
 
+import QueryAST.Match;
 import QueryAST.NodePattern;
 import QueryAST.Query;
+import QueryAST.Return;
 import QueryAST.ReturnItem;
 
 public class GeneratePostgresQuery {
-	private Query parsedQuery;
 	private String translatedQuery;
 	private String select = " ";
 	private String from = ",";
@@ -18,10 +19,11 @@ public class GeneratePostgresQuery {
 	}
 
 	public String generatePostgresQuery(Query parsedQuery) {
-		this.parsedQuery = parsedQuery;
-		handleQueryMatch();
-		handleQueryReturn();
+		handleQueryMatch(parsedQuery);
+		handleQueryReturn(parsedQuery);
+		
 		translatedQuery = "SELECT" + select.substring(0, select.length() - 1) + " FROM " + from.substring(1, from.length() - 1);
+		
 		if (!innerJoin.equals("")) {
 			translatedQuery += " INNER JOIN " + innerJoin;
 		}
@@ -31,6 +33,7 @@ public class GeneratePostgresQuery {
 		if (!groupBy.equals("")) {
 			translatedQuery += " GROUP BY " + groupBy.substring(0, groupBy.length() - 1);
 		}
+		
 		return translatedQuery;
 	}
 
@@ -39,50 +42,69 @@ public class GeneratePostgresQuery {
 		return target + concat + ",";
 	}
 	
-	private void handleQueryMatch() {
-		if (parsedQuery.getMatchClause().getPattern() instanceof NodePattern) {
-			NodePattern node = (NodePattern) parsedQuery.getMatchClause().getPattern();
-			if (node.getLabel() == null) {
+	private void handleQueryMatch(Query parsedQuery) {
+		Match matchClause = parsedQuery.getMatchClause();
+		
+		if (matchClause.getPattern() instanceof NodePattern) {
+			NodePattern node = (NodePattern) matchClause.getPattern();
+			String nodeLabel = node.getLabel();
+			
+			if (nodeLabel == null) {
 				from = from + "nodes,";
 			} else {
-				from = from + node.getLabel().toLowerCase() + ",";
+				from = from + nodeLabel.toLowerCase() + ",";
 			}
 		}
 	}
 	
-	private void handleQueryReturn() {
-		for (ReturnItem returnItem: parsedQuery.getReturnClause().getReturnItems()) {
-			if (returnItem.getFunctionName() != null) {
-				if (returnItem.getFunctionName().toLowerCase().equals("labels")) {
+	private void handleQueryReturn(Query parsedQuery) {
+		Return returnClause = parsedQuery.getReturnClause();
+		
+		for (ReturnItem returnItem: returnClause.getReturnItems()) {
+			String functionName = returnItem.getFunctionName();
+			String toReturn = returnItem.getToReturn();
+			
+			if (functionName != null) {
+				if (functionName.toLowerCase().equals("labels")) {
 					select = select + "labels";
 					from = uniqueStringConcat(from, "nodes");
 					
-					if (parsedQuery.getMatchClause().getPattern() instanceof NodePattern) {
-						NodePattern node = (NodePattern) parsedQuery.getMatchClause().getPattern();
-						if (node.getVariable().equals(returnItem.getFunctionArgument()) && node.getLabel() != null) {
-							where = where + "nodes.nodeid = " + node.getLabel().toLowerCase() + ".nodeid AND ";
-							where = where + "'" + node.getLabel() + "' = ANY(labels) AND ";
+					Match matchClause = parsedQuery.getMatchClause();
+					
+					if (matchClause.getPattern() instanceof NodePattern) {
+						NodePattern node = (NodePattern) matchClause.getPattern();
+						String nodeLabel = node.getLabel();
+						
+						if (node.getVariable().equals(returnItem.getFunctionArgument()) && nodeLabel != null) {
+							where = where + "nodes.nodeid = " + nodeLabel.toLowerCase() + ".nodeid AND ";
+							where = where + "'" + nodeLabel + "' = ANY(labels) AND ";
 						}
 					}
 				}
-			} else if (returnItem.getToReturn().toLowerCase().startsWith("count(")) {
-				String countField = returnItem.getToReturn().substring(returnItem.getToReturn().indexOf("(") + 1, returnItem.getToReturn().indexOf(")"));
+			} else if (toReturn.toLowerCase().startsWith("count(")) {
+				String countField = toReturn.substring(toReturn.indexOf("(") + 1, toReturn.indexOf(")"));
+				
 				for (String field: select.split(",")) {
 					String fieldWithoutAlias = field.split("AS")[0].trim();
+					
 					if (!fieldWithoutAlias.equals(countField)) {
 						groupBy = groupBy + fieldWithoutAlias + ",";
 					}
 				}
-				select = select + returnItem.getToReturn();
+				
+				select = select + toReturn;
 			} else {
-				select = select + returnItem.getToReturn();
+				select = select + toReturn;
 			}
 			
-			if (returnItem.getAlias() != null) {
-				if (!select.endsWith(" " + returnItem.getAlias())) {
-					select = select + " AS " + returnItem.getAlias();
+			String alias = returnItem.getAlias();
+			
+			if (alias != null) {
+				if (!select.endsWith(" " + alias)) {
+					select = select + " AS " + alias;
 				}
 			}
+			
 			select = select + ",";
 		}
 	}
