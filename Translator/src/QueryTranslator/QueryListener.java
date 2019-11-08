@@ -49,6 +49,9 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	@Override
 	public void exitOC_NodePattern(CypherParser.OC_NodePatternContext ctx) {
 		nodePattern.setVariable(ctx.oC_Variable().getText());
+		if (ctx.oC_NodeLabels() != null) {
+			nodePattern.setLabel(ctx.oC_NodeLabels().oC_NodeLabel(0).getText());
+		}
 	}
 	
 	@Override
