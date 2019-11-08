@@ -73,7 +73,7 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	@Override
 	public void exitOC_ReturnItem(CypherParser.OC_ReturnItemContext ctx) {
 		returnItem.setToReturn(ctx.oC_Expression().getText());
-		if (ctx.getChild(2).getText().equals("AS")) {
+		if (ctx.getChild(2).getText().toLowerCase().equals("as")) {
 			returnItem.setAlias(ctx.getChild(4).getText());
 		}
 		returnClause.addReturnItem(returnItem);
