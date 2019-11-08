@@ -26,7 +26,9 @@ public class Formatter {
 	
 	public void getNeo4JResult(String neo4jDBPath, String query) {
 		GraphDatabaseService neo4jConnection = new GraphDatabaseFactory().newEmbeddedDatabase(new File(neo4jDBPath));
+		long startTime = System.currentTimeMillis();
 		Result result = neo4jConnection.execute(query);
+		System.out.println("Neo4J execution time: " + (System.currentTimeMillis() - startTime));
 		while (result.hasNext()) {
 			Map<String, Object> row = result.next();
 			Map<String, String> newElement = new HashMap<String, String>();
@@ -40,7 +42,9 @@ public class Formatter {
 		try {
 			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + dbName, "postgres", "admin");
 			Statement statement = connection.createStatement();
+			long startTime = System.currentTimeMillis();
 			ResultSet result = statement.executeQuery(query);
+			System.out.println("Postgres execution time: " + (System.currentTimeMillis() - startTime));
 			while(result.next()) {
 				Map<String, String> newElement = new HashMap<String, String>();
 				for (int i = 1; i <= result.getMetaData().getColumnCount(); i++) {
