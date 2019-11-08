@@ -21,11 +21,12 @@ public class Translator {
 	private Query parsedQuery;
 	private String select = "";
 	private String from = "";
+	private String innerJoin = "";
 	private String where = "";
 	private String groupBy = "";
 	
 	public static void main(String[] args) {
-		Translator queryTranslator = new Translator("MATCH (n) RETURN labels(n) AS labels, count(*) AS count");
+		Translator queryTranslator = new Translator("MATCH (n:Movie) RETURN labels(n) AS labels, count(*) AS count");
 		System.out.println(queryTranslator.translate());
 	}
 	
@@ -63,6 +64,9 @@ public class Translator {
 		handleQueryMatch();
 		handleQueryReturn();
 		translatedQuery = "SELECT " + select + " FROM " + from;
+		if (!innerJoin.equals("")) {
+			translatedQuery += " INNER JOIN " + innerJoin;
+		}
 		if (!where.equals("")) {
 			translatedQuery += " WHERE " + where;
 		}
