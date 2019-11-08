@@ -55,7 +55,7 @@ public class API {
 			queryTranslator = new QueryTranslator.Translator(query);
 		}
 		System.out.println("Query translation starting...");
-		queryTranslator.translate();
+		System.out.println(queryTranslator.translate());
 		System.out.println("Query translation completed");
 	}
 }
