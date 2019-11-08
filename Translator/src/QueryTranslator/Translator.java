@@ -11,24 +11,30 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
+import ResultFormatter.Formatter;
 import antlr4.CypherLexer;
 import antlr4.CypherParser;
 
 public class Translator {
 	private String cypherQuery;
-	
+	GeneratePostgresQuery genPostgresQuery;
 	
 	public static void main(String[] args) {
 		Translator queryTranslator = new Translator("MATCH (n:Movie) RETURN labels(n) AS labels, count(*) AS count");
-		System.out.println(queryTranslator.translate());
+		Formatter resultFormatter = new Formatter();
+		resultFormatter.initialiseResultSets();
+		resultFormatter.getNeo4JResult("D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		System.out.println(queryTranslator.getCypherQuery());
+		System.out.println(queryTranslator.getTranslatedQuery());
+		resultFormatter.printNeo4JResult();
+		System.out.println();
+		resultFormatter.printPostgresResult();
 	}
 	
-	public String getCypherQuery() {
-		return cypherQuery;
-	}
-
 	public Translator(String cypherQuery) {
 		this.cypherQuery = cypherQuery;
+		genPostgresQuery = new GeneratePostgresQuery();
 	}
 	
 	public Translator(Path queryPath) {
@@ -38,6 +44,15 @@ public class Translator {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
+		genPostgresQuery = new GeneratePostgresQuery();
+	}
+	
+	public String getCypherQuery() {
+		return cypherQuery;
+	}
+
+	public String getTranslatedQuery() {
+		return genPostgresQuery.getTranslatedQuery();
 	}
 	
 	public String translate() {
@@ -53,7 +68,6 @@ public class Translator {
 		//Trees.inspect(parseTree, inputParser);
 		treeWalker.walk(queryListener, parseTree);
 		
-		GeneratePostgresQuery genPostgresQuery = new GeneratePostgresQuery();
 		return genPostgresQuery.generatePostgresQuery(queryListener.getQuery());
 	}
 }

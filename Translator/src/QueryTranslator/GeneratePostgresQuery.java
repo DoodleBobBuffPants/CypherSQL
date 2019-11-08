@@ -13,6 +13,10 @@ public class GeneratePostgresQuery {
 	private String where = "";
 	private String groupBy = "";
 	
+	public String getTranslatedQuery() {
+		return translatedQuery;
+	}
+
 	public String generatePostgresQuery(Query parsedQuery) {
 		this.parsedQuery = parsedQuery;
 		handleQueryMatch();
@@ -22,7 +26,7 @@ public class GeneratePostgresQuery {
 			translatedQuery += " INNER JOIN " + innerJoin;
 		}
 		if (!where.equals("")) {
-			translatedQuery += " WHERE " + where.substring(0, where.length() - 1);
+			translatedQuery += " WHERE " + where.substring(0, where.length() - 5);
 		}
 		if (!groupBy.equals("")) {
 			translatedQuery += " GROUP BY " + groupBy.substring(0, groupBy.length() - 1);
@@ -56,7 +60,8 @@ public class GeneratePostgresQuery {
 					if (parsedQuery.getMatchClause().getPattern() instanceof NodePattern) {
 						NodePattern node = (NodePattern) parsedQuery.getMatchClause().getPattern();
 						if (node.getVariable().equals(returnItem.getFunctionArgument()) && node.getLabel() != null) {
-							where = where + node.getLabel().toLowerCase() + " IN labels,";
+							where = where + "nodes.nodeid = " + node.getLabel().toLowerCase() + ".nodeid AND ";
+							where = where + "'" + node.getLabel() + "' = ANY(labels) AND ";
 						}
 					}
 				}
