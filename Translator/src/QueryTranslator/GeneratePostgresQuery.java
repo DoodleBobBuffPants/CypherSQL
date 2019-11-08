@@ -22,7 +22,7 @@ public class GeneratePostgresQuery {
 			translatedQuery += " INNER JOIN " + innerJoin;
 		}
 		if (!where.equals("")) {
-			translatedQuery += " WHERE " + where;
+			translatedQuery += " WHERE " + where.substring(0, where.length() - 1);
 		}
 		if (!groupBy.equals("")) {
 			translatedQuery += " GROUP BY " + groupBy.substring(0, groupBy.length() - 1);
@@ -52,7 +52,13 @@ public class GeneratePostgresQuery {
 				if (returnItem.getFunctionName().toLowerCase().equals("labels")) {
 					select = select + "labels";
 					from = uniqueStringConcat(from, "nodes");
-					//TODO: Possible joining required for function argument
+					
+					if (parsedQuery.getMatchClause().getPattern() instanceof NodePattern) {
+						NodePattern node = (NodePattern) parsedQuery.getMatchClause().getPattern();
+						if (node.getVariable().equals(returnItem.getFunctionArgument()) && node.getLabel() != null) {
+							where = where + node.getLabel().toLowerCase() + " IN labels,";
+						}
+					}
 				}
 			} else if (returnItem.getToReturn().toLowerCase().startsWith("count(")) {
 				String countField = returnItem.getToReturn().substring(returnItem.getToReturn().indexOf("(") + 1, returnItem.getToReturn().indexOf(")"));

@@ -19,7 +19,7 @@ public class Translator {
 	
 	
 	public static void main(String[] args) {
-		Translator queryTranslator = new Translator("MATCH (n) RETURN labels(n) AS labels, count(*) AS count");
+		Translator queryTranslator = new Translator("MATCH (n:Movie) RETURN labels(n) AS labels, count(*) AS count");
 		System.out.println(queryTranslator.translate());
 	}
 	
