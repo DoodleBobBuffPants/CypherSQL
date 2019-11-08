@@ -14,6 +14,7 @@ public class TestFormatter {
 		formatter.initialiseResultSets();
 		formatter.getNeo4JResult("D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db", neo4jQuery);
 		formatter.getPostgresResult("graph", postgresQuery);
+		formatter.printNeo4JResult();
 		formatter.printPostgresResult();
 		
 		assertTrue(formatter.compare());
@@ -28,6 +29,7 @@ public class TestFormatter {
 		formatter.initialiseResultSets();
 		formatter.getNeo4JResult("D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db", neo4jQuery);
 		formatter.getPostgresResult("graph", postgresQuery);
+		formatter.printNeo4JResult();
 		formatter.printPostgresResult();
 		
 		assertTrue(formatter.compare());
@@ -42,6 +44,7 @@ public class TestFormatter {
 		formatter.initialiseResultSets();
 		formatter.getNeo4JResult("D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db", neo4jQuery);
 		formatter.getPostgresResult("graph", postgresQuery);
+		formatter.printNeo4JResult();
 		formatter.printPostgresResult();
 		
 		assertTrue(formatter.compare());
@@ -56,6 +59,7 @@ public class TestFormatter {
 		formatter.initialiseResultSets();
 		formatter.getNeo4JResult("D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\northwind.db", neo4jQuery);
 		formatter.getPostgresResult("northwind", postgresQuery);
+		formatter.printNeo4JResult();
 		formatter.printPostgresResult();
 		
 		assertTrue(formatter.compare());
@@ -70,6 +74,7 @@ public class TestFormatter {
 		formatter.initialiseResultSets();
 		formatter.getNeo4JResult("D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\northwind.db", neo4jQuery);
 		formatter.getPostgresResult("northwind", postgresQuery);
+		formatter.printNeo4JResult();
 		formatter.printPostgresResult();
 		
 		assertTrue(formatter.compare());
@@ -84,6 +89,7 @@ public class TestFormatter {
 		formatter.initialiseResultSets();
 		formatter.getNeo4JResult("D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\northwind.db", neo4jQuery);
 		formatter.getPostgresResult("northwind", postgresQuery);
+		formatter.printNeo4JResult();
 		formatter.printPostgresResult();
 		
 		assertTrue(formatter.compare());

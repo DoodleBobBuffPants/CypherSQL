@@ -80,6 +80,13 @@ public class Formatter {
 		return true;
 	}
 	
+	public void printNeo4JResult() {
+		for (Map<String, String> row: neo4jResult) {
+			row.forEach((k, v) -> System.out.print(k + " - " + v + " ; "));
+			System.out.println();
+		}
+	}
+	
 	public void printPostgresResult() {
 		for (Map<String, String> row: postgresResult) {
 			row.forEach((k, v) -> System.out.print(k + " - " + v + " ; "));
