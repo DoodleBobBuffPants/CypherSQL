@@ -4,12 +4,15 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Result;
@@ -30,10 +33,7 @@ public class Formatter {
 		Result result = neo4jConnection.execute(query);
 		System.out.println("Neo4J execution time: " + (System.currentTimeMillis() - startTime));
 		while (result.hasNext()) {
-			Map<String, Object> row = result.next();
-			Map<String, String> newElement = new HashMap<String, String>();
-			row.forEach((k, v) -> newElement.put(k, formatNeo4JValue(v)));
-			neo4jResult.add(newElement);
+			neo4jResult.add(result.next().entrySet().stream().collect(Collectors.toMap(Entry::getKey, e -> formatNeo4JValue(e.getValue()))));
 		}
 		neo4jConnection.shutdown();
 	}
@@ -47,8 +47,9 @@ public class Formatter {
 			System.out.println("Postgres execution time: " + (System.currentTimeMillis() - startTime));
 			while(result.next()) {
 				Map<String, String> newElement = new HashMap<String, String>();
-				for (int i = 1; i <= result.getMetaData().getColumnCount(); i++) {
-					newElement.put(result.getMetaData().getColumnName(i), formatPostgresValue(result.getObject(i)));
+				ResultSetMetaData resultMetaData = result.getMetaData();
+				for (int i = 1; i <= resultMetaData.getColumnCount(); i++) {
+					newElement.put(resultMetaData.getColumnName(i), formatPostgresValue(result.getObject(i)));
 				}
 				postgresResult.add(newElement);
 			}
