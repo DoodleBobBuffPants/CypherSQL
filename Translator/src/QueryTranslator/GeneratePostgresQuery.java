@@ -6,6 +6,7 @@ import QueryAST.NodePattern;
 import QueryAST.Query;
 import QueryAST.Return;
 import QueryAST.ReturnItem;
+import QueryAST.Where;
 
 public class GeneratePostgresQuery {
 	private String translatedQuery;
@@ -21,6 +22,7 @@ public class GeneratePostgresQuery {
 
 	public String generatePostgresQuery(Query parsedQuery) {
 		handleQueryMatch(parsedQuery);
+		handleQueryWhere(parsedQuery);
 		handleQueryReturn(parsedQuery);
 		
 		translatedQuery = "SELECT" + select.substring(0, select.length() - 1) + " FROM " + from.substring(1, from.length() - 1);
@@ -73,6 +75,13 @@ public class GeneratePostgresQuery {
 			if (nodeTrgtLabel != null) {
 				from = from + nodeTrgtLabel.toLowerCase() + ",";
 			}
+		}
+	}
+	
+	private void handleQueryWhere(Query parsedQuery) {
+		Where whereClause = parsedQuery.getWhereClause();
+		if (whereClause != null) {
+			
 		}
 	}
 	
