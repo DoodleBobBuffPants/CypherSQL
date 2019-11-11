@@ -18,6 +18,8 @@ public class TestTranslator {
 		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
 		
+		System.out.println(queryTranslator.getCypherQuery());
+		System.out.println(queryTranslator.getTranslatedQuery());
 		assertTrue(resultFormatter.compare());
 	}
 	
@@ -32,6 +34,8 @@ public class TestTranslator {
 		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
 		
+		System.out.println(queryTranslator.getCypherQuery());
+		System.out.println(queryTranslator.getTranslatedQuery());
 		assertTrue(resultFormatter.compare());
 	}
 }
