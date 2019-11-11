@@ -148,6 +148,18 @@ public class GeneratePostgresQuery {
 							}
 						}
 					}
+				} else if (functionName.toLowerCase().equals("type")) {
+					EdgePattern edge = (EdgePattern) parsedQuery.getMatchClause().getPattern();
+					String edgeType = edge.getType();
+					
+					select = select + "type";
+					from = uniqueStringConcat(from, "edges");
+					
+					if (edge.getVariable().equals(returnItem.getFunctionArgument()) && edgeType != null) {
+						where = where + "edges.nodesrcid = " + edgeType.toLowerCase() + ".nodesrcid AND ";
+						where = where + "edges.nodetrgtid = " + edgeType.toLowerCase() + ".nodetrgtid AND ";
+						where = where + "type = " + "'" + edgeType + "' AND ";
+					}
 				}
 			} else if (toReturn.toLowerCase().startsWith("count(")) {
 				String countField = toReturn.substring(toReturn.indexOf("(") + 1, toReturn.indexOf(")"));

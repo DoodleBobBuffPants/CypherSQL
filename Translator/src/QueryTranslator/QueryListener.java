@@ -9,7 +9,10 @@ import QueryAST.ReturnItem;
 import QueryAST.Where;
 import QueryAST.WhereExpression;
 import antlr4.CypherParser;
+import antlr4.CypherParser.OC_NodeLabelsContext;
 import antlr4.CypherParser.OC_RelationshipDetailContext;
+import antlr4.CypherParser.OC_RelationshipTypesContext;
+import antlr4.CypherParser.OC_VariableContext;
 
 public class QueryListener extends antlr4.CypherBaseListener {
 	private Query query;
@@ -75,9 +78,15 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	
 	@Override
 	public void exitOC_NodePattern(CypherParser.OC_NodePatternContext ctx) {
-		nodePattern.setVariable(ctx.oC_Variable().getText());
-		if (ctx.oC_NodeLabels() != null) {
-			nodePattern.setLabel(ctx.oC_NodeLabels().oC_NodeLabel(0).getText().substring(1));
+		OC_VariableContext variable = ctx.oC_Variable();
+		if (variable != null) {
+			nodePattern.setVariable(variable.getText());
+		} else {
+			nodePattern.setVariable("");
+		}
+		OC_NodeLabelsContext nodeLabels = ctx.oC_NodeLabels();
+		if (nodeLabels != null) {
+			nodePattern.setLabel(nodeLabels.oC_NodeLabel(0).getText().substring(1));
 		}
 	}
 	
@@ -90,8 +99,16 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	@Override
 	public void exitOC_RelationshipPattern(CypherParser.OC_RelationshipPatternContext ctx) {
 		OC_RelationshipDetailContext relationshipDetail = ctx.oC_RelationshipDetail();
-		edgePattern.setVariable(relationshipDetail.oC_Variable().getText());
-		edgePattern.setType(relationshipDetail.oC_RelationshipTypes().getText().substring(1));
+		OC_VariableContext variable = relationshipDetail.oC_Variable();
+		if (variable != null) {
+			edgePattern.setVariable(variable.getText());
+		} else {
+			edgePattern.setVariable("");
+		}
+		OC_RelationshipTypesContext edgeType = relationshipDetail.oC_RelationshipTypes();
+		if (edgeType != null) {
+			edgePattern.setType(edgeType.getText().substring(1));
+		}
 		if (ctx.oC_RightArrowHead() != null) {
 			leftRight = true;
 			edgePattern.setNodeSrc(nodePattern);
