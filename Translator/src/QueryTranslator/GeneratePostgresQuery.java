@@ -104,35 +104,38 @@ public class GeneratePostgresQuery {
 						NodePattern nodeTrgt = edge.getNodeTrgt();
 						
 						String edgeType = edge.getType();
-						String nodeSrcVar = nodeSrc.getVariable();
-						String nodeSrcLabel = nodeSrc.getLabel();
-						String nodeTrgtVar = nodeTrgt.getVariable();
-						String nodeTrgtLabel = nodeTrgt.getLabel();
 						String functionArgument = returnItem.getFunctionArgument();
+						String nodeSrcVar = nodeSrc.getVariable();
+						String nodeTrgtVar = nodeTrgt.getVariable();
 						
+						String nodeVar = "";
+						String nodeLabel = null;
+						boolean matchSrc = false;
 						if (nodeSrcVar.equals(functionArgument)) {
-							select = select + nodeSrcVar + "_node" + ".labels";
-							from = from + "nodes AS " + nodeSrcVar + "_node,";
-							if (nodeSrcLabel != null) {
-								where = where + nodeSrcVar + "_node.nodeid = " + nodeSrcLabel.toLowerCase() + ".nodeid AND ";
-								where = where + "'" + nodeSrcLabel + "' = ANY(" + nodeSrcVar + "_node.labels) AND ";
+							nodeVar = nodeSrcVar;
+							nodeLabel = nodeSrc.getLabel();
+							matchSrc = true;
+						} else if (nodeTrgtVar.equals(functionArgument)){
+							nodeVar = nodeTrgtVar;
+							nodeLabel = nodeTrgt.getLabel();
+							matchSrc = false;
+						}
+						
+						if (!nodeVar.equals("")) {
+							select = select + nodeVar + "_node" + ".labels";
+							from = from + "nodes AS " + nodeVar + "_node,";
+							if (nodeLabel != null) {
+								where = where + nodeVar + "_node.nodeid = " + nodeLabel.toLowerCase() + ".nodeid AND ";
+								where = where + "'" + nodeLabel + "' = ANY(" + nodeVar + "_node.labels) AND ";
 							}
-							if (edgeType == null) {
-								where = where + "edges.nodesrcid = " + nodeSrcVar + "_node.nodeid AND ";
+							if (edgeType == null && matchSrc) {
+								where = where + "edges.nodesrcid = " + nodeVar + "_node.nodeid AND ";
+							} else if (edgeType == null) {
+								where = where + "edges.nodetrgtid = " + nodeVar + "_node.nodeid AND ";
+							} else if (matchSrc){
+								where = where + edgeType.toLowerCase() + ".nodesrcid = " + nodeVar + "_node.nodeid AND ";
 							} else {
-								where = where + edgeType + ".nodesrcid = " + nodeSrcVar + "_node.nodeid AND ";
-							}
-						} else if (nodeTrgtVar.equals(functionArgument)) {
-							select = select + nodeTrgtVar + "_node" + ".labels";
-							from = from + "nodes AS " + nodeTrgtVar + "_node,";
-							if (nodeTrgtLabel != null) {
-								where = where + nodeTrgtVar + "_node.nodeid = " + nodeTrgtLabel.toLowerCase() + ".nodeid AND ";
-								where = where + "'" + nodeTrgtLabel + "' = ANY(" + nodeTrgtVar + "_node.labels) AND ";
-							}
-							if (edgeType == null) {
-								where = where + "edges.nodetrgtid = " + nodeTrgtVar + "_node.nodeid AND ";
-							} else {
-								where = where + edgeType + ".nodetrgtid = " + nodeTrgtVar + "_node.nodeid AND ";
+								where = where + edgeType.toLowerCase() + ".nodetrgtid = " + nodeVar + "_node.nodeid AND ";	
 							}
 						}
 					}
