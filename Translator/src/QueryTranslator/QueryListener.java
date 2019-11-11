@@ -1,18 +1,23 @@
 package QueryTranslator;
 
+import QueryAST.EdgePattern;
 import QueryAST.Match;
 import QueryAST.NodePattern;
 import QueryAST.Query;
 import QueryAST.Return;
 import QueryAST.ReturnItem;
 import antlr4.CypherParser;
+import antlr4.CypherParser.OC_RelationshipDetailContext;
 
 public class QueryListener extends antlr4.CypherBaseListener {
 	private Query query;
 	private Match matchClause;
 	private Return returnClause;
 	private NodePattern nodePattern;
+	private EdgePattern edgePattern;
 	private ReturnItem returnItem;
+	private boolean hasEdge;
+	private boolean leftRight;
 	
 	public Query getQuery() {
 		return query;
@@ -36,8 +41,24 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	
 	@Override
 	public void exitOC_Match(CypherParser.OC_MatchContext ctx) {
-		if (nodePattern != null) {
+		if (edgePattern != null) {
+			matchClause.setPattern(edgePattern);
+		} else if (nodePattern != null) {
 			matchClause.setPattern(nodePattern);
+		}
+	}
+	
+	@Override
+	public void enterOC_PatternElement(CypherParser.OC_PatternElementContext ctx) {
+		hasEdge = false;
+	}
+	
+	@Override
+	public void exitOC_PatternElement(CypherParser.OC_PatternElementContext ctx) {
+		if (hasEdge && leftRight) {
+			edgePattern.setNodeTrgt(nodePattern);
+		} else if (hasEdge) {
+			edgePattern.setNodeSrc(nodePattern);
 		}
 	}
 	
@@ -55,6 +76,25 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	}
 	
 	@Override
+	public void enterOC_RelationshipPattern(CypherParser.OC_RelationshipPatternContext ctx) {
+		edgePattern = new EdgePattern();
+	}
+	
+	@Override
+	public void exitOC_RelationshipPattern(CypherParser.OC_RelationshipPatternContext ctx) {
+		OC_RelationshipDetailContext relationshipDetail = ctx.oC_RelationshipDetail();
+		edgePattern.setVariable(relationshipDetail.oC_Variable().getText());
+		edgePattern.setType(relationshipDetail.oC_RelationshipTypes().getText().substring(1));
+		if (ctx.oC_RelationshipDetail() != null) {
+			leftRight = true;
+			edgePattern.setNodeSrc(nodePattern);
+		} else {
+			leftRight = false;
+			edgePattern.setNodeTrgt(nodePattern);
+		}
+	}
+	
+	@Override
 	public void enterOC_Return(CypherParser.OC_ReturnContext ctx) {
 		returnClause = new Return();
 	}
@@ -66,8 +106,12 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	
 	@Override
 	public void exitOC_FunctionInvocation(CypherParser.OC_FunctionInvocationContext ctx) {
-		returnItem.setFunctionName(ctx.oC_FunctionName().getText());
-		returnItem.setFunctionArgument(ctx.oC_Expression(0).getText());
+		if (returnClause == null) {
+			
+		} else {
+			returnItem.setFunctionName(ctx.oC_FunctionName().getText());
+			returnItem.setFunctionArgument(ctx.oC_Expression(0).getText());
+		}
 	}
 	
 	@Override

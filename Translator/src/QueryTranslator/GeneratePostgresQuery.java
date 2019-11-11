@@ -1,5 +1,6 @@
 package QueryTranslator;
 
+import QueryAST.EdgePattern;
 import QueryAST.Match;
 import QueryAST.NodePattern;
 import QueryAST.Query;
@@ -22,7 +23,7 @@ public class GeneratePostgresQuery {
 		handleQueryMatch(parsedQuery);
 		handleQueryReturn(parsedQuery);
 		
-		translatedQuery = "SELECT" + select.substring(0, select.length() - 1) + " FROM " + from.substring(1, from.length() - 1);
+		translatedQuery = "SELECT" + select.substring(0, select.length() - 1) + " FROM " + from.substring(1, (from.length() > 1 ? from.length() - 1 : 1));
 		
 		if (!innerJoin.equals("")) {
 			translatedQuery += " INNER JOIN " + innerJoin;
@@ -54,6 +55,8 @@ public class GeneratePostgresQuery {
 			} else {
 				from = from + nodeLabel.toLowerCase() + ",";
 			}
+		} else {
+			EdgePattern edge = (EdgePattern) matchClause.getPattern();
 		}
 	}
 	
@@ -79,6 +82,8 @@ public class GeneratePostgresQuery {
 							where = where + "nodes.nodeid = " + nodeLabel.toLowerCase() + ".nodeid AND ";
 							where = where + "'" + nodeLabel + "' = ANY(labels) AND ";
 						}
+					} else {
+						EdgePattern edge = (EdgePattern) matchClause.getPattern();
 					}
 				}
 			} else if (toReturn.toLowerCase().startsWith("count(")) {

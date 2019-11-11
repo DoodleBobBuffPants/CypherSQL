@@ -102,7 +102,6 @@ public class CreateListener extends antlr4.CypherBaseListener {
 				createEdge.setTargetID(((CreateNode) createStack.pop()).getId());
 			}
 			createStack.push(createEdge);
-			hasEdge = false;
 		}
 	}
 	
