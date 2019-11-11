@@ -107,29 +107,37 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	
 	@Override
 	public void enterOC_NotExpression(CypherParser.OC_NotExpressionContext ctx) {
-		whereExpression = new WhereExpression();
-		leftExpression = true;
+		if (returnClause == null) {
+			whereExpression = new WhereExpression();
+			leftExpression = true;
+		}
 	}
 	
 	@Override
 	public void exitOC_NotExpression(CypherParser.OC_NotExpressionContext ctx) {
-		if (ctx.parent instanceof CypherParser.OC_AndExpressionContext) {
-			whereClause.addAndExpressions(whereExpression);
+		if (returnClause == null) { 
+			if (ctx.parent instanceof CypherParser.OC_AndExpressionContext) {
+				whereClause.addAndExpressions(whereExpression);
+			}
 		}
 	}
 	
 	@Override
 	public void enterOC_PartialComparisonExpression(CypherParser.OC_PartialComparisonExpressionContext ctx) {
-		whereExpression.setComparisonOperator(ctx.getChild(0).getText());
-		leftExpression = false;
+		if (returnClause == null) {
+			whereExpression.setComparisonOperator(ctx.getChild(0).getText());
+			leftExpression = false;
+		}
 	}
 	
 	@Override
 	public void exitOC_AddOrSubtractExpression(CypherParser.OC_AddOrSubtractExpressionContext ctx) {
-		if (leftExpression) {
-			whereExpression.setLeftLiteral(ctx.getText());
-		} else {
-			whereExpression.setRightLiteral(ctx.getText());
+		if (returnClause == null) {
+			if (leftExpression) {
+				whereExpression.setLeftLiteral(ctx.getText());
+			} else {
+				whereExpression.setRightLiteral(ctx.getText());
+			}
 		}
 	}
 	
