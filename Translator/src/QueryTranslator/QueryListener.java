@@ -84,6 +84,7 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	@Override
 	public void enterOC_RelationshipPattern(CypherParser.OC_RelationshipPatternContext ctx) {
 		edgePattern = new EdgePattern();
+		hasEdge = true;
 	}
 	
 	@Override
@@ -91,7 +92,7 @@ public class QueryListener extends antlr4.CypherBaseListener {
 		OC_RelationshipDetailContext relationshipDetail = ctx.oC_RelationshipDetail();
 		edgePattern.setVariable(relationshipDetail.oC_Variable().getText());
 		edgePattern.setType(relationshipDetail.oC_RelationshipTypes().getText().substring(1));
-		if (ctx.oC_RelationshipDetail() != null) {
+		if (ctx.oC_RightArrowHead() != null) {
 			leftRight = true;
 			edgePattern.setNodeSrc(nodePattern);
 		} else {

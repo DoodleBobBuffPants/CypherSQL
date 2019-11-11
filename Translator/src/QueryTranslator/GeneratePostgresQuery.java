@@ -23,7 +23,7 @@ public class GeneratePostgresQuery {
 		handleQueryMatch(parsedQuery);
 		handleQueryReturn(parsedQuery);
 		
-		translatedQuery = "SELECT" + select.substring(0, select.length() - 1) + " FROM " + from.substring(1, (from.length() > 1 ? from.length() - 1 : 1));
+		translatedQuery = "SELECT" + select.substring(0, select.length() - 1) + " FROM " + from.substring(1, from.length() - 1);
 		
 		if (!innerJoin.equals("")) {
 			translatedQuery += " INNER JOIN " + innerJoin;
@@ -57,6 +57,22 @@ public class GeneratePostgresQuery {
 			}
 		} else {
 			EdgePattern edge = (EdgePattern) matchClause.getPattern();
+			String nodeSrcLabel = edge.getNodeSrc().getLabel();
+			String nodeTrgtLabel = edge.getNodeTrgt().getLabel();
+			String edgeType = edge.getType();
+			
+			if (edgeType == null) {
+				from = from + "edges,";
+			} else {
+				from = from + edgeType.toLowerCase() + ",";
+			}
+			
+			if (nodeSrcLabel != null) {
+				from = from + nodeSrcLabel.toLowerCase() + ",";
+			}
+			if (nodeTrgtLabel != null) {
+				from = from + nodeTrgtLabel.toLowerCase() + ",";
+			}
 		}
 	}
 	
@@ -69,14 +85,14 @@ public class GeneratePostgresQuery {
 			
 			if (functionName != null) {
 				if (functionName.toLowerCase().equals("labels")) {
-					select = select + "labels";
-					from = uniqueStringConcat(from, "nodes");
-					
 					Match matchClause = parsedQuery.getMatchClause();
 					
 					if (matchClause.getPattern() instanceof NodePattern) {
 						NodePattern node = (NodePattern) matchClause.getPattern();
 						String nodeLabel = node.getLabel();
+						
+						select = select + "labels";
+						from = uniqueStringConcat(from, "nodes");
 						
 						if (node.getVariable().equals(returnItem.getFunctionArgument()) && nodeLabel != null) {
 							where = where + "nodes.nodeid = " + nodeLabel.toLowerCase() + ".nodeid AND ";
@@ -84,6 +100,41 @@ public class GeneratePostgresQuery {
 						}
 					} else {
 						EdgePattern edge = (EdgePattern) matchClause.getPattern();
+						NodePattern nodeSrc = edge.getNodeSrc();
+						NodePattern nodeTrgt = edge.getNodeTrgt();
+						
+						String edgeType = edge.getType();
+						String nodeSrcVar = nodeSrc.getVariable();
+						String nodeSrcLabel = nodeSrc.getLabel();
+						String nodeTrgtVar = nodeTrgt.getVariable();
+						String nodeTrgtLabel = nodeTrgt.getLabel();
+						String functionArgument = returnItem.getFunctionArgument();
+						
+						if (nodeSrcVar.equals(functionArgument)) {
+							select = select + nodeSrcVar + "_node" + ".labels";
+							from = from + "nodes AS " + nodeSrcVar + "_node,";
+							if (nodeSrcLabel != null) {
+								where = where + nodeSrcVar + "_node.nodeid = " + nodeSrcLabel.toLowerCase() + ".nodeid AND ";
+								where = where + "'" + nodeSrcLabel + "' = ANY(" + nodeSrcVar + "_node.labels) AND ";
+							}
+							if (edgeType == null) {
+								where = where + "edges.nodesrcid = " + nodeSrcVar + "_node.nodeid AND ";
+							} else {
+								where = where + edgeType + ".nodesrcid = " + nodeSrcVar + "_node.nodeid AND ";
+							}
+						} else if (nodeTrgtVar.equals(functionArgument)) {
+							select = select + nodeTrgtVar + "_node" + ".labels";
+							from = from + "nodes AS " + nodeTrgtVar + "_node,";
+							if (nodeTrgtLabel != null) {
+								where = where + nodeTrgtVar + "_node.nodeid = " + nodeTrgtLabel.toLowerCase() + ".nodeid AND ";
+								where = where + "'" + nodeTrgtLabel + "' = ANY(" + nodeTrgtVar + "_node.labels) AND ";
+							}
+							if (edgeType == null) {
+								where = where + "edges.nodetrgtid = " + nodeTrgtVar + "_node.nodeid AND ";
+							} else {
+								where = where + edgeType + ".nodetrgtid = " + nodeTrgtVar + "_node.nodeid AND ";
+							}
+						}
 					}
 				}
 			} else if (toReturn.toLowerCase().startsWith("count(")) {
@@ -99,7 +150,7 @@ public class GeneratePostgresQuery {
 				
 				select = select + toReturn;
 			} else {
-				select = select + toReturn;
+				select = select + toReturn.split("\\.")[1];
 			}
 			
 			String alias = returnItem.getAlias();
