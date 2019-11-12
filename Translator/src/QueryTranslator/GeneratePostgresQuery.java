@@ -40,35 +40,52 @@ public class GeneratePostgresQuery {
 		return target + concat + delim;
 	}
 	
+	private void matchEdgeHandler(String nodeVar, String nodeLabel, String edgeType, String srctrgt) {
+		if (nodeVar != null && nodeLabel == null) {
+			from = uniqueStringConcat(from, "nodes AS " + nodeVar + "_node", ",");
+			where = uniqueStringConcat(where, edgeType + ".node" + srctrgt + "id = " + nodeVar + "_node.nodeid", " AND ");
+		} else if (nodeVar != null && nodeLabel != null) {
+			from = uniqueStringConcat(from, nodeLabel.toLowerCase() + " AS " + nodeVar + "_" + nodeLabel.toLowerCase() , ",");
+			where = uniqueStringConcat(where, edgeType + ".node" + srctrgt + "id = " + nodeVar + "_" + nodeLabel.toLowerCase() + ".nodeid", " AND ");
+		} else if (nodeLabel != null) {
+			from = uniqueStringConcat(from, nodeLabel.toLowerCase(), ",");
+			where = uniqueStringConcat(where, edgeType + ".node" + srctrgt + "id = " + nodeLabel.toLowerCase() + ".nodeid", " AND ");
+		}
+	}
+	
 	private void handleQueryMatch(Query parsedQuery) {
 		Pattern pattern = parsedQuery.getMatchClause().getPattern();
 		
 		if (pattern instanceof NodePattern) {
 			NodePattern node = (NodePattern) pattern;
+			String nodeVar = node.getVariable();
 			String nodeLabel = node.getLabel();
 			
-			if (nodeLabel == null) {
+			if (nodeVar != null && nodeLabel == null) {
 				from = from + "nodes,";
-			} else {
+			} else if (nodeLabel != null){
 				from = from + nodeLabel.toLowerCase() + ",";
 			}
 		} else {
 			EdgePattern edge = (EdgePattern) pattern;
-			String nodeSrcLabel = edge.getNodeSrc().getLabel();
-			String nodeTrgtLabel = edge.getNodeTrgt().getLabel();
+			NodePattern nodeSrc = edge.getNodeSrc();
+			NodePattern nodeTrgt = edge.getNodeTrgt();
+			
+			String nodeSrcVar = nodeSrc.getVariable();
+			String nodeSrcLabel = nodeSrc.getLabel();
+			String nodeTrgtVar = nodeTrgt.getVariable();
+			String nodeTrgtLabel = nodeTrgt.getLabel();
+			String edgeVar = edge.getVariable();
 			String edgeType = edge.getType();
 			
-			if (edgeType == null) {
+			if (edgeVar != null && edgeType == null) {
 				from = from + "edges,";
-			} else {
+				matchEdgeHandler(nodeSrcVar, nodeSrcLabel, "edges", "src");
+				matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, "edges", "trgt");
+			} else if (edgeType != null){
 				from = from + edgeType.toLowerCase() + ",";
-			}
-			
-			if (nodeSrcLabel != null) {
-				from = from + nodeSrcLabel.toLowerCase() + ",";
-			}
-			if (nodeTrgtLabel != null) {
-				from = from + nodeTrgtLabel.toLowerCase() + ",";
+				matchEdgeHandler(nodeSrcVar, nodeSrcLabel, edgeType.toLowerCase(), "src");
+				matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, edgeType.toLowerCase(), "trgt");
 			}
 		}
 	}
