@@ -1,5 +1,7 @@
 package QueryTranslator;
 
+import org.antlr.v4.runtime.tree.ParseTree;
+
 import QueryAST.EdgePattern;
 import QueryAST.Limit;
 import QueryAST.Match;
@@ -193,8 +195,11 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	@Override
 	public void exitOC_ReturnItem(CypherParser.OC_ReturnItemContext ctx) {
 		returnItem.setToReturn(ctx.oC_Expression().getText());
-		if (ctx.getChild(2).getText().toLowerCase().equals("as")) {
-			returnItem.setAlias(ctx.getChild(4).getText());
+		ParseTree aliasTree = ctx.getChild(2);
+		if (aliasTree != null) {
+			if (aliasTree.getText().toLowerCase().equals("as")) {
+				returnItem.setAlias(ctx.getChild(4).getText());
+			}
 		}
 		returnClause.addReturnItem(returnItem);
 	}
