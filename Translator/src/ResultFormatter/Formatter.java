@@ -7,11 +7,11 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -19,12 +19,12 @@ import org.neo4j.graphdb.Result;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 
 public class Formatter {
-	private Set<Map<String, String>> neo4jResult;
-	private Set<Map<String, String>> postgresResult;
+	private List<Map<String, String>> neo4jResult;
+	private List<Map<String, String>> postgresResult;
 	
 	public void initialiseResultSets() {
-		neo4jResult =  new HashSet<Map<String, String>>();
-		postgresResult =  new HashSet<Map<String, String>>();
+		neo4jResult =  new ArrayList<Map<String, String>>();
+		postgresResult =  new ArrayList<Map<String, String>>();
 	}
 	
 	public void getNeo4JResult(String neo4jDBPath, String query) {
