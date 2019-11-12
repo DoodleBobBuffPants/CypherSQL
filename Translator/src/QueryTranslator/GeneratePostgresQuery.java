@@ -9,7 +9,7 @@ import QueryAST.Where;
 
 public class GeneratePostgresQuery {
 	private String translatedQuery;
-	private String select = " ";
+	private String select = ",";
 	private String from = ",";
 	private String where = " AND ";
 	private String groupBy = "";
@@ -23,7 +23,7 @@ public class GeneratePostgresQuery {
 		handleQueryWhere(parsedQuery);
 		handleQueryReturn(parsedQuery);
 		
-		translatedQuery = "SELECT" + select.substring(0, select.length() - 1) + " FROM " + from.substring(1, from.length() - 1);
+		translatedQuery = "SELECT " + select.substring(1, select.length() - 1) + " FROM " + from.substring(1, from.length() - 1);
 		
 		if (!where.equals(" AND ")) {
 			translatedQuery += " WHERE " + where.substring(5, where.length() - 5);
@@ -161,7 +161,7 @@ public class GeneratePostgresQuery {
 			} else if (toReturn.toLowerCase().startsWith("count(")) {
 				String countField = toReturn.substring(toReturn.indexOf("(") + 1, toReturn.indexOf(")"));
 				
-				for (String field: select.split(",")) {
+				for (String field: select.substring(1).split(",")) {
 					String fieldWithoutAlias = field.split("AS")[0].trim();
 					
 					if (!fieldWithoutAlias.equals(countField)) {
@@ -171,17 +171,50 @@ public class GeneratePostgresQuery {
 				
 				select = select + toReturn;
 			} else {
-				select = select + toReturn.split("\\.")[1];
-			}
-			
-			String alias = returnItem.getAlias();
-			
-			if (alias != null) {
-				if (!select.endsWith(" " + alias)) {
-					select = select + " AS " + alias;
+				String[] returnElems = toReturn.split("\\.");
+				String returnVar = returnElems[0];
+				String returnField = returnElems[1];
+				Pattern pattern = parsedQuery.getMatchClause().getPattern();
+				
+				if (pattern instanceof NodePattern) {
+					if (returnVar.equals(((NodePattern) pattern).getVariable())) {
+						select = select + returnField;
+					}
+				} else if (pattern instanceof EdgePattern) {
+					EdgePattern edge = (EdgePattern) pattern;
+					NodePattern nodeSrc = edge.getNodeSrc();
+					NodePattern nodeTrgt = edge.getNodeTrgt();
+					
+					String edgeVar = edge.getVariable();
+					String nodeSrcVar = nodeSrc.getVariable();
+					String nodeSrcLabel = nodeSrc.getLabel();
+					String nodeTrgtVar = nodeTrgt.getVariable();
+					String nodeTrgtLabel = nodeTrgt.getLabel();
+					
+					if (returnVar.equals(edgeVar)) {
+						select = select + returnField;
+					} else if (returnVar.equals(nodeSrcVar)) {
+						if (nodeSrcLabel == null) {
+							select = select + nodeSrcVar + "_node." + returnField;
+						} else {
+							select = select + nodeSrcVar + "_" + nodeSrcLabel + "." + returnField;
+						}
+					} else if (returnVar.equals(nodeTrgtVar)) {
+						if (nodeTrgtLabel == null) {
+							select = select + nodeTrgtVar + "_node." + returnField;
+						} else {
+							select = select + nodeTrgtVar + "_" + nodeTrgtLabel + "." + returnField;
+						}
+					}
 				}
 			}
 			
+			String alias = returnItem.getAlias();
+			if (alias != null) {
+				if (!select.endsWith("," + alias)) {
+					select = select + " AS " + alias;
+				}
+			}
 			select = select + ",";
 		}
 	}
