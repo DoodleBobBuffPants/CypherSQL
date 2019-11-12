@@ -9,7 +9,7 @@ import org.junit.Test;
 public class TestGraphDumper {
 	@Test
 	public void testDumpGraphDatabase() {
-		String neo4jDBPath = "D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db";
+		String neo4jDBPath = "tests\\graph.db";
 		GraphDumper graphDumper = new GraphDumper(neo4jDBPath);
 		
 		graphDumper.dumpGraphDatabase();

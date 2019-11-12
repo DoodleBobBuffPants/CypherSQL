@@ -16,7 +16,7 @@ public class TestAPI {
 	
 	@Test
 	public void testGraphDB() {
-		String neo4jDBPath = "D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.db";
+		String neo4jDBPath = "tests\\graph.db";
 		String[] args = {"--graphdb", neo4jDBPath};
 		
 		API.main(args);
@@ -27,7 +27,7 @@ public class TestAPI {
 
 	@Test
 	public void testSchema() {
-		String neo4jDumpFilePath = "D:\\Program Files\\Neo4j\\Neo4j CE 3.2.6\\databases\\graph.dbdump.txt";
+		String neo4jDumpFilePath = "tests\\graph.dbdump.txt";
 		String[] args = {"--schema", neo4jDumpFilePath};
 		
 		API.main(args);
@@ -36,8 +36,17 @@ public class TestAPI {
 	}
 	
 	@Test
-	public void testQuery() {
+	public void testQueryString() {
 		String[] args = {"--query", "MATCH (n) RETURN labels(n) AS labels, count(*) AS count"};
+		
+		API.main(args);
+		
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testQueryPath() {
+		String[] args = {"--query", "tests\\query.txt"};
 		
 		API.main(args);
 		

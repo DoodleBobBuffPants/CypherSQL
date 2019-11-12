@@ -19,7 +19,7 @@ import SchemaAST.CreateNode;
 public class TestTranslator {
 	@Test
 	public void testCreateASTStack() {
-		String createFile = "test\\creates.txt";
+		String createFile = "tests\\creates.txt";
 		Translator schemaTranslator = new Translator(createFile);
 		
 		schemaTranslator.createAST();
@@ -31,7 +31,7 @@ public class TestTranslator {
 	
 	@Test
 	public void testCreateASTLabels() {
-		String createFile = "test\\creates.txt";
+		String createFile = "tests\\creates.txt";
 		Translator schemaTranslator = new Translator(createFile);
 		
 		schemaTranslator.createAST();
@@ -42,7 +42,7 @@ public class TestTranslator {
 	
 	@Test
 	public void testCreateASTTypes() {
-		String createFile = "test\\creates.txt";
+		String createFile = "tests\\creates.txt";
 		Translator schemaTranslator = new Translator(createFile);
 		
 		schemaTranslator.createAST();
@@ -53,7 +53,7 @@ public class TestTranslator {
 	
 	@Test
 	public void testCreatePostgresDB() {
-		String createFile = "test\\creates.txt";
+		String createFile = "tests\\creates.txt";
 		Translator schemaTranslator = new Translator(createFile);
 		
 		schemaTranslator.translate();
