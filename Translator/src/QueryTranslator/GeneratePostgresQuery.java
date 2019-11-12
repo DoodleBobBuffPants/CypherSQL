@@ -4,7 +4,6 @@ import QueryAST.EdgePattern;
 import QueryAST.NodePattern;
 import QueryAST.Pattern;
 import QueryAST.Query;
-import QueryAST.Return;
 import QueryAST.ReturnItem;
 import QueryAST.Where;
 
@@ -82,9 +81,7 @@ public class GeneratePostgresQuery {
 	}
 	
 	private void handleQueryReturn(Query parsedQuery) {
-		Return returnClause = parsedQuery.getReturnClause();
-		
-		for (ReturnItem returnItem: returnClause.getReturnItems()) {
+		for (ReturnItem returnItem: parsedQuery.getReturnClause().getReturnItems()) {
 			String functionName = returnItem.getFunctionName();
 			String toReturn = returnItem.getToReturn();
 			
@@ -123,7 +120,6 @@ public class GeneratePostgresQuery {
 						} else if (nodeTrgtVar.equals(functionArgument)){
 							nodeVar = nodeTrgtVar;
 							nodeLabel = nodeTrgt.getLabel();
-							matchSrc = false;
 						}
 						
 						if (!nodeVar.equals("")) {
