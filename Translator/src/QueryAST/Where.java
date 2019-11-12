@@ -10,7 +10,7 @@ public class Where {
 		return new ArrayList<WhereExpression>(andExpressions);
 	}
 
-	public void addAndExpressions(WhereExpression whereExpression) {
+	public void addAndExpression(WhereExpression whereExpression) {
 		this.andExpressions.add(whereExpression);
 	}
 }

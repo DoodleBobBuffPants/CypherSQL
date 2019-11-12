@@ -69,7 +69,7 @@ public class Translator {
 		ParseTree parseTree = inputParser.oC_Cypher();
 		//Trees.inspect(parseTree, inputParser);
 		treeWalker.walk(queryListener, parseTree);
-		
+
 		return genPostgresQuery.generatePostgresQuery(queryListener.getQuery());
 	}
 }

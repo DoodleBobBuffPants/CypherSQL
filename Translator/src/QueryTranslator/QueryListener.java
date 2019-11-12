@@ -9,7 +9,9 @@ import QueryAST.ReturnItem;
 import QueryAST.Where;
 import QueryAST.WhereExpression;
 import antlr4.CypherParser;
+import antlr4.CypherParser.OC_ComparisonExpressionContext;
 import antlr4.CypherParser.OC_NodeLabelsContext;
+import antlr4.CypherParser.OC_PartialComparisonExpressionContext;
 import antlr4.CypherParser.OC_RelationshipDetailContext;
 import antlr4.CypherParser.OC_RelationshipTypesContext;
 import antlr4.CypherParser.OC_VariableContext;
@@ -122,16 +124,20 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	@Override
 	public void enterOC_NotExpression(CypherParser.OC_NotExpressionContext ctx) {
 		if (returnClause == null) {
-			whereExpression = new WhereExpression();
-			leftExpression = true;
+			OC_ComparisonExpressionContext comparisonExp = ctx.oC_ComparisonExpression();
+			if (comparisonExp.getChild(comparisonExp.getChildCount() - 1) instanceof OC_PartialComparisonExpressionContext) {
+				whereExpression = new WhereExpression();
+				leftExpression = true;
+			}
 		}
 	}
 	
 	@Override
 	public void exitOC_NotExpression(CypherParser.OC_NotExpressionContext ctx) {
 		if (returnClause == null) { 
-			if (ctx.parent instanceof CypherParser.OC_AndExpressionContext) {
-				whereClause.addAndExpressions(whereExpression);
+			OC_ComparisonExpressionContext comparisonExp = ctx.oC_ComparisonExpression();
+			if (comparisonExp.getChild(comparisonExp.getChildCount() - 1) instanceof OC_PartialComparisonExpressionContext) {
+				whereClause.addAndExpression(whereExpression);
 			}
 		}
 	}
