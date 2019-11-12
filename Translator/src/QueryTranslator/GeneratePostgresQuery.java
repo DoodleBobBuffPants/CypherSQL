@@ -92,7 +92,82 @@ public class GeneratePostgresQuery {
 		}
 	}
 	
+	private void returnFunctionHandler(String functionName, String functionArgument, Pattern pattern) {
+		if (functionName.toLowerCase().equals("labels")) {
+			if (pattern instanceof NodePattern) {
+				NodePattern node = (NodePattern) pattern;
+				String nodeLabel = node.getLabel();
+				
+				select = select + "labels";
+				from = uniqueStringConcat(from, "nodes", ",");
+				
+				if (node.getVariable().equals(functionArgument) && nodeLabel != null) {
+					where = where + "nodes.nodeid = " + nodeLabel.toLowerCase() + ".nodeid AND ";
+					where = where + "'" + nodeLabel + "' = ANY(labels) AND ";
+				}
+			} else {
+				EdgePattern edge = (EdgePattern) pattern;
+				NodePattern nodeSrc = edge.getNodeSrc();
+				NodePattern nodeTrgt = edge.getNodeTrgt();
+				
+				String nodeSrcVar = nodeSrc.getVariable();
+				String nodeTrgtVar = nodeTrgt.getVariable();
+				
+				String nodeVar = "";
+				String nodeLabel = null;
+				if (nodeSrcVar.equals(functionArgument)) {
+					nodeVar = nodeSrcVar;
+					nodeLabel = nodeSrc.getLabel();
+				} else if (nodeTrgtVar.equals(functionArgument)){
+					nodeVar = nodeTrgtVar;
+					nodeLabel = nodeTrgt.getLabel();
+				}
+				
+				if (!nodeVar.equals("")) {
+					select = select + nodeVar + "_node.labels";
+					from = uniqueStringConcat(from, "nodes AS " + nodeVar + "_node", ",");
+					if (nodeLabel != null) {
+						where = where + nodeVar + "_node.nodeid = " + nodeLabel.toLowerCase() + ".nodeid AND ";
+						where = where + "'" + nodeLabel + "' = ANY(" + nodeVar + "_node.labels) AND ";
+					}
+				}
+			}
+		} else if (functionName.toLowerCase().equals("type")) {
+			EdgePattern edge = (EdgePattern) pattern;
+			String edgeType = edge.getType();
+			
+			select = select + "type";
+			from = uniqueStringConcat(from, "edges", ",");
+			
+			if (edge.getVariable().equals(functionArgument) && edgeType != null) {
+				where = where + "edges.nodesrcid = " + edgeType.toLowerCase() + ".nodesrcid AND ";
+				where = where + "edges.nodetrgtid = " + edgeType.toLowerCase() + ".nodetrgtid AND ";
+				where = where + "type = " + "'" + edgeType + "' AND ";
+			}
+		} else if (functionName.toLowerCase().equals("count")) {
+			if (functionArgument.split("\\(").length > 1) {
+				String nestedFunctionName = functionArgument.substring(0, functionArgument.indexOf("("));
+				String nestedFunctionArgument = functionArgument.substring(functionArgument.indexOf("(") + 1, functionArgument.length() - 1);
+				
+				select = select + "count(";
+				returnFunctionHandler(nestedFunctionName, nestedFunctionArgument, pattern);
+				select = select + ")";
+			} else {
+				String translatedArgument = returnItemHandler(functionArgument, pattern);
+				for (String fieldWithAlias: select.substring(1).split(",")) {
+					String field = fieldWithAlias.split("AS")[0].trim();
+					if (!field.equals(translatedArgument) && !field.equals("")) {
+						groupBy = groupBy + field + ",";
+					}
+				}
+				select = select + "count(" + translatedArgument + ")";
+			}
+		}
+	}
+	
 	private String returnItemHandler(String toReturn, Pattern pattern) {
+		if (!toReturn.contains(".")) return toReturn;
+		
 		String[] returnElems = toReturn.split("\\.");
 		String returnVar = returnElems[0];
 		String returnField = returnElems[1];
@@ -190,77 +265,12 @@ public class GeneratePostgresQuery {
 			String toReturn = returnItem.getToReturn();
 			
 			if (functionName != null) {
-				if (functionName.toLowerCase().equals("labels")) {
-					Pattern pattern = parsedQuery.getMatchClause().getPattern();
-					
-					if (pattern instanceof NodePattern) {
-						NodePattern node = (NodePattern) pattern;
-						String nodeLabel = node.getLabel();
-						
-						select = select + "labels";
-						from = uniqueStringConcat(from, "nodes", ",");
-						
-						if (node.getVariable().equals(returnItem.getFunctionArgument()) && nodeLabel != null) {
-							where = where + "nodes.nodeid = " + nodeLabel.toLowerCase() + ".nodeid AND ";
-							where = where + "'" + nodeLabel + "' = ANY(labels) AND ";
-						}
-					} else {
-						EdgePattern edge = (EdgePattern) pattern;
-						NodePattern nodeSrc = edge.getNodeSrc();
-						NodePattern nodeTrgt = edge.getNodeTrgt();
-						
-						String functionArgument = returnItem.getFunctionArgument();
-						String nodeSrcVar = nodeSrc.getVariable();
-						String nodeTrgtVar = nodeTrgt.getVariable();
-						
-						String nodeVar = "";
-						String nodeLabel = null;
-						if (nodeSrcVar.equals(functionArgument)) {
-							nodeVar = nodeSrcVar;
-							nodeLabel = nodeSrc.getLabel();
-						} else if (nodeTrgtVar.equals(functionArgument)){
-							nodeVar = nodeTrgtVar;
-							nodeLabel = nodeTrgt.getLabel();
-						}
-						
-						if (!nodeVar.equals("")) {
-							select = select + nodeVar + "_node.labels";
-							from = uniqueStringConcat(from, "nodes AS " + nodeVar + "_node", ",");
-							if (nodeLabel != null) {
-								where = where + nodeVar + "_node.nodeid = " + nodeLabel.toLowerCase() + ".nodeid AND ";
-								where = where + "'" + nodeLabel + "' = ANY(" + nodeVar + "_node.labels) AND ";
-							}
-						}
-					}
-				} else if (functionName.toLowerCase().equals("type")) {
-					EdgePattern edge = (EdgePattern) parsedQuery.getMatchClause().getPattern();
-					String edgeType = edge.getType();
-					
-					select = select + "type";
-					from = uniqueStringConcat(from, "edges", ",");
-					
-					if (edge.getVariable().equals(returnItem.getFunctionArgument()) && edgeType != null) {
-						where = where + "edges.nodesrcid = " + edgeType.toLowerCase() + ".nodesrcid AND ";
-						where = where + "edges.nodetrgtid = " + edgeType.toLowerCase() + ".nodetrgtid AND ";
-						where = where + "type = " + "'" + edgeType + "' AND ";
-					}
-				}
-			} else if (toReturn.toLowerCase().startsWith("count(")) {
-				String countField = toReturn.substring(toReturn.indexOf("(") + 1, toReturn.indexOf(")"));
-				
+				returnFunctionHandler(functionName, returnItem.getFunctionArgument(), parsedQuery.getMatchClause().getPattern());
+			} else if (toReturn.toLowerCase().equals("count(*)")) {
 				for (String field: select.substring(1).split(",")) {
-					String fieldWithoutAlias = field.split("AS")[0].trim();
-					
-					if (!fieldWithoutAlias.equals(countField)) {
-						groupBy = groupBy + fieldWithoutAlias + ",";
-					}
+					groupBy = groupBy + field.split("AS")[0].trim() + ",";
 				}
-				
-				if (countField.equals("*")) {
-					select = select + toReturn;
-				} else {
-					select = select + returnItemHandler(countField, parsedQuery.getMatchClause().getPattern());
-				}
+				select = select + toReturn;
 			} else {
 				select = select + returnItemHandler(toReturn, parsedQuery.getMatchClause().getPattern());
 			}
