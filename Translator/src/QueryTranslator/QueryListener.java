@@ -81,8 +81,6 @@ public class QueryListener extends antlr4.CypherBaseListener {
 		OC_VariableContext variable = ctx.oC_Variable();
 		if (variable != null) {
 			nodePattern.setVariable(variable.getText());
-		} else {
-			nodePattern.setVariable("");
 		}
 		OC_NodeLabelsContext nodeLabels = ctx.oC_NodeLabels();
 		if (nodeLabels != null) {
@@ -102,8 +100,6 @@ public class QueryListener extends antlr4.CypherBaseListener {
 		OC_VariableContext variable = relationshipDetail.oC_Variable();
 		if (variable != null) {
 			edgePattern.setVariable(variable.getText());
-		} else {
-			edgePattern.setVariable("");
 		}
 		OC_RelationshipTypesContext edgeType = relationshipDetail.oC_RelationshipTypes();
 		if (edgeType != null) {

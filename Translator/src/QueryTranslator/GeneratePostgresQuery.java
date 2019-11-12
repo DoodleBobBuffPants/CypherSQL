@@ -122,38 +122,26 @@ public class GeneratePostgresQuery {
 						NodePattern nodeSrc = edge.getNodeSrc();
 						NodePattern nodeTrgt = edge.getNodeTrgt();
 						
-						String edgeType = edge.getType();
 						String functionArgument = returnItem.getFunctionArgument();
 						String nodeSrcVar = nodeSrc.getVariable();
 						String nodeTrgtVar = nodeTrgt.getVariable();
 						
 						String nodeVar = "";
 						String nodeLabel = null;
-						boolean matchSrc = false;
 						if (nodeSrcVar.equals(functionArgument)) {
 							nodeVar = nodeSrcVar;
 							nodeLabel = nodeSrc.getLabel();
-							matchSrc = true;
 						} else if (nodeTrgtVar.equals(functionArgument)){
 							nodeVar = nodeTrgtVar;
 							nodeLabel = nodeTrgt.getLabel();
 						}
 						
 						if (!nodeVar.equals("")) {
-							select = select + nodeVar + "_node" + ".labels";
-							from = from + "nodes AS " + nodeVar + "_node,";
+							select = select + nodeVar + "_node.labels";
+							from = uniqueStringConcat(from, "nodes AS " + nodeVar + "_node", ",");
 							if (nodeLabel != null) {
 								where = where + nodeVar + "_node.nodeid = " + nodeLabel.toLowerCase() + ".nodeid AND ";
 								where = where + "'" + nodeLabel + "' = ANY(" + nodeVar + "_node.labels) AND ";
-							}
-							if (edgeType == null && matchSrc) {
-								where = where + "edges.nodesrcid = " + nodeVar + "_node.nodeid AND ";
-							} else if (edgeType == null) {
-								where = where + "edges.nodetrgtid = " + nodeVar + "_node.nodeid AND ";
-							} else if (matchSrc){
-								where = where + edgeType.toLowerCase() + ".nodesrcid = " + nodeVar + "_node.nodeid AND ";
-							} else {
-								where = where + edgeType.toLowerCase() + ".nodetrgtid = " + nodeVar + "_node.nodeid AND ";	
 							}
 						}
 					}
