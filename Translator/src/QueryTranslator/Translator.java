@@ -20,7 +20,7 @@ public class Translator {
 	private GeneratePostgresQuery genPostgresQuery;
 	
 	public static void main(String[] args) {
-		Translator queryTranslator = new Translator("MATCH (m)-[r:ACTED_IN]->(n) WHERE ID(m) = 34 AND ID(n) = 78 RETURN r.roles AS roles");
+		Translator queryTranslator = new Translator("MATCH (n:Movie) RETURN n.title AS title ORDER BY n.title LIMIT 1");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
@@ -67,7 +67,7 @@ public class Translator {
 		CypherParser inputParser = new CypherParser(tokens);
 		
 		ParseTree parseTree = inputParser.oC_Cypher();
-		//Trees.inspect(parseTree, inputParser);
+		Trees.inspect(parseTree, inputParser);
 		treeWalker.walk(queryListener, parseTree);
 
 		return genPostgresQuery.generatePostgresQuery(queryListener.getQuery());

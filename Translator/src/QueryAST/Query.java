@@ -4,6 +4,7 @@ public class Query {
 	private Match matchClause;
 	private Where whereClause;
 	private Return returnClause;
+	private Limit limitClause;
 	
 	public Match getMatchClause() {
 		return matchClause;
@@ -27,5 +28,13 @@ public class Query {
 	
 	public void setReturnClause(Return returnClause) {
 		this.returnClause = returnClause;
+	}
+
+	public Limit getLimitClause() {
+		return limitClause;
+	}
+
+	public void setLimitClause(Limit limitClause) {
+		this.limitClause = limitClause;
 	}
 }

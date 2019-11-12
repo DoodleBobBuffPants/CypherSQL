@@ -1,6 +1,7 @@
 package QueryTranslator;
 
 import QueryAST.EdgePattern;
+import QueryAST.Limit;
 import QueryAST.Match;
 import QueryAST.NodePattern;
 import QueryAST.Query;
@@ -21,6 +22,7 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	private Match matchClause;
 	private Where whereClause;
 	private Return returnClause;
+	private Limit limitClause;
 	private NodePattern nodePattern;
 	private EdgePattern edgePattern;
 	private WhereExpression whereExpression;
@@ -43,6 +45,7 @@ public class QueryListener extends antlr4.CypherBaseListener {
 		query.setMatchClause(matchClause);
 		query.setWhereClause(whereClause);
 		query.setReturnClause(returnClause);
+		query.setLimitClause(limitClause);
 	}
 	
 	@Override
@@ -194,5 +197,11 @@ public class QueryListener extends antlr4.CypherBaseListener {
 			returnItem.setAlias(ctx.getChild(4).getText());
 		}
 		returnClause.addReturnItem(returnItem);
+	}
+	
+	@Override
+	public void enterOC_Limit(CypherParser.OC_LimitContext ctx) {
+		limitClause = new Limit();
+		limitClause.setLimit(Integer.parseInt(ctx.oC_Expression().getText()));
 	}
 }

@@ -3,6 +3,7 @@ package QueryTranslator;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import QueryAST.EdgePattern;
+import QueryAST.Limit;
 import QueryAST.NodePattern;
 import QueryAST.Pattern;
 import QueryAST.Query;
@@ -16,6 +17,7 @@ public class GeneratePostgresQuery {
 	private String from = ",";
 	private String where = " AND ";
 	private String groupBy = "";
+	private String limit = "";
 	
 	public String getTranslatedQuery() {
 		return translatedQuery;
@@ -25,6 +27,7 @@ public class GeneratePostgresQuery {
 		handleQueryMatch(parsedQuery);
 		handleQueryWhere(parsedQuery);
 		handleQueryReturn(parsedQuery);
+		handleQueryLimit(parsedQuery);
 		
 		translatedQuery = "SELECT " + select.substring(1, select.length() - 1) + " FROM " + from.substring(1, from.length() - 1);
 		
@@ -33,6 +36,9 @@ public class GeneratePostgresQuery {
 		}
 		if (!groupBy.equals("")) {
 			translatedQuery += " GROUP BY " + groupBy.substring(0, groupBy.length() - 1);
+		}
+		if (!limit.equals("")) {
+			translatedQuery += " LIMIT " + limit;
 		}
 		
 		return translatedQuery;
@@ -266,6 +272,13 @@ public class GeneratePostgresQuery {
 				}
 			}
 			select = select + ",";
+		}
+	}
+	
+	private void handleQueryLimit(Query parsedQuery) {
+		Limit limitClause = parsedQuery.getLimitClause();
+		if (limitClause != null) {
+			limit += limitClause.getLimit();
 		}
 	}
 }
