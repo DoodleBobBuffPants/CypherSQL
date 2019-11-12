@@ -53,6 +53,48 @@ public class GeneratePostgresQuery {
 		}
 	}
 	
+	private void returnItemHandler(String toReturn, Query parsedQuery) {
+		String[] returnElems = toReturn.split("\\.");
+		String returnVar = returnElems[0];
+		String returnField = returnElems[1];
+		Pattern pattern = parsedQuery.getMatchClause().getPattern();
+		
+		if (pattern instanceof NodePattern) {
+			if (returnVar.equals(((NodePattern) pattern).getVariable())) {
+				select = select + returnField;
+			}
+		} else if (pattern instanceof EdgePattern) {
+			EdgePattern edge = (EdgePattern) pattern;
+			String edgeVar = edge.getVariable();
+			
+			if (returnVar.equals(edgeVar)) {
+				select = select + returnField;
+			} else { 
+				NodePattern nodeSrc = edge.getNodeSrc();
+				String nodeSrcVar = nodeSrc.getVariable();
+				String nodeSrcLabel = nodeSrc.getLabel();
+				if (returnVar.equals(nodeSrcVar)) {
+					if (nodeSrcLabel == null) {
+						select = select + nodeSrcVar + "_node." + returnField;
+					} else {
+						select = select + nodeSrcVar + "_" + nodeSrcLabel + "." + returnField;
+					}
+				} else { 
+					NodePattern nodeTrgt = edge.getNodeTrgt();
+					String nodeTrgtVar = nodeTrgt.getVariable();
+					String nodeTrgtLabel = nodeTrgt.getLabel();
+					if (returnVar.equals(nodeTrgtVar)) {
+						if (nodeTrgtLabel == null) {
+							select = select + nodeTrgtVar + "_node." + returnField;
+						} else {
+							select = select + nodeTrgtVar + "_" + nodeTrgtLabel + "." + returnField;
+						}
+					}
+				}
+			} 
+		}
+	}
+	
 	private void handleQueryMatch(Query parsedQuery) {
 		Pattern pattern = parsedQuery.getMatchClause().getPattern();
 		
@@ -169,44 +211,13 @@ public class GeneratePostgresQuery {
 					}
 				}
 				
-				select = select + toReturn;
-			} else {
-				String[] returnElems = toReturn.split("\\.");
-				String returnVar = returnElems[0];
-				String returnField = returnElems[1];
-				Pattern pattern = parsedQuery.getMatchClause().getPattern();
-				
-				if (pattern instanceof NodePattern) {
-					if (returnVar.equals(((NodePattern) pattern).getVariable())) {
-						select = select + returnField;
-					}
-				} else if (pattern instanceof EdgePattern) {
-					EdgePattern edge = (EdgePattern) pattern;
-					NodePattern nodeSrc = edge.getNodeSrc();
-					NodePattern nodeTrgt = edge.getNodeTrgt();
-					
-					String edgeVar = edge.getVariable();
-					String nodeSrcVar = nodeSrc.getVariable();
-					String nodeSrcLabel = nodeSrc.getLabel();
-					String nodeTrgtVar = nodeTrgt.getVariable();
-					String nodeTrgtLabel = nodeTrgt.getLabel();
-					
-					if (returnVar.equals(edgeVar)) {
-						select = select + returnField;
-					} else if (returnVar.equals(nodeSrcVar)) {
-						if (nodeSrcLabel == null) {
-							select = select + nodeSrcVar + "_node." + returnField;
-						} else {
-							select = select + nodeSrcVar + "_" + nodeSrcLabel + "." + returnField;
-						}
-					} else if (returnVar.equals(nodeTrgtVar)) {
-						if (nodeTrgtLabel == null) {
-							select = select + nodeTrgtVar + "_node." + returnField;
-						} else {
-							select = select + nodeTrgtVar + "_" + nodeTrgtLabel + "." + returnField;
-						}
-					}
+				if (countField.equals("*")) {
+					select = select + toReturn;
+				} else {
+					returnItemHandler(countField, parsedQuery);
 				}
+			} else {
+				returnItemHandler(toReturn, parsedQuery);
 			}
 			
 			String alias = returnItem.getAlias();
