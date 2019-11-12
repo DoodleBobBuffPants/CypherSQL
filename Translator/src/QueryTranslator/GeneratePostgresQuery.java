@@ -1,8 +1,8 @@
 package QueryTranslator;
 
 import QueryAST.EdgePattern;
-import QueryAST.Match;
 import QueryAST.NodePattern;
+import QueryAST.Pattern;
 import QueryAST.Query;
 import QueryAST.Return;
 import QueryAST.ReturnItem;
@@ -42,10 +42,10 @@ public class GeneratePostgresQuery {
 	}
 	
 	private void handleQueryMatch(Query parsedQuery) {
-		Match matchClause = parsedQuery.getMatchClause();
+		Pattern pattern = parsedQuery.getMatchClause().getPattern();
 		
-		if (matchClause.getPattern() instanceof NodePattern) {
-			NodePattern node = (NodePattern) matchClause.getPattern();
+		if (pattern instanceof NodePattern) {
+			NodePattern node = (NodePattern) pattern;
 			String nodeLabel = node.getLabel();
 			
 			if (nodeLabel == null) {
@@ -54,7 +54,7 @@ public class GeneratePostgresQuery {
 				from = from + nodeLabel.toLowerCase() + ",";
 			}
 		} else {
-			EdgePattern edge = (EdgePattern) matchClause.getPattern();
+			EdgePattern edge = (EdgePattern) pattern;
 			String nodeSrcLabel = edge.getNodeSrc().getLabel();
 			String nodeTrgtLabel = edge.getNodeTrgt().getLabel();
 			String edgeType = edge.getType();
@@ -90,10 +90,10 @@ public class GeneratePostgresQuery {
 			
 			if (functionName != null) {
 				if (functionName.toLowerCase().equals("labels")) {
-					Match matchClause = parsedQuery.getMatchClause();
+					Pattern pattern = parsedQuery.getMatchClause().getPattern();
 					
-					if (matchClause.getPattern() instanceof NodePattern) {
-						NodePattern node = (NodePattern) matchClause.getPattern();
+					if (pattern instanceof NodePattern) {
+						NodePattern node = (NodePattern) pattern;
 						String nodeLabel = node.getLabel();
 						
 						select = select + "labels";
@@ -104,7 +104,7 @@ public class GeneratePostgresQuery {
 							where = where + "'" + nodeLabel + "' = ANY(labels) AND ";
 						}
 					} else {
-						EdgePattern edge = (EdgePattern) matchClause.getPattern();
+						EdgePattern edge = (EdgePattern) pattern;
 						NodePattern nodeSrc = edge.getNodeSrc();
 						NodePattern nodeTrgt = edge.getNodeTrgt();
 						
