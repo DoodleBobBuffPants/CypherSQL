@@ -12,8 +12,7 @@ public class GeneratePostgresQuery {
 	private String translatedQuery;
 	private String select = " ";
 	private String from = ",";
-	private String innerJoin = "";
-	private String where = "";
+	private String where = " AND ";
 	private String groupBy = "";
 	
 	public String getTranslatedQuery() {
@@ -27,11 +26,8 @@ public class GeneratePostgresQuery {
 		
 		translatedQuery = "SELECT" + select.substring(0, select.length() - 1) + " FROM " + from.substring(1, from.length() - 1);
 		
-		if (!innerJoin.equals("")) {
-			translatedQuery += " INNER JOIN " + innerJoin;
-		}
-		if (!where.equals("")) {
-			translatedQuery += " WHERE " + where.substring(0, where.length() - 5);
+		if (!where.equals(" AND ")) {
+			translatedQuery += " WHERE " + where.substring(5, where.length() - 5);
 		}
 		if (!groupBy.equals("")) {
 			translatedQuery += " GROUP BY " + groupBy.substring(0, groupBy.length() - 1);
@@ -40,9 +36,9 @@ public class GeneratePostgresQuery {
 		return translatedQuery;
 	}
 
-	private String uniqueStringConcat(String target, String concat) {
-		if (target.contains("," + concat + ",")) return target;
-		return target + concat + ",";
+	private String uniqueStringConcat(String target, String concat, String delim) {
+		if (target.contains(delim + concat + delim)) return target;
+		return target + concat + delim;
 	}
 	
 	private void handleQueryMatch(Query parsedQuery) {
@@ -101,7 +97,7 @@ public class GeneratePostgresQuery {
 						String nodeLabel = node.getLabel();
 						
 						select = select + "labels";
-						from = uniqueStringConcat(from, "nodes");
+						from = uniqueStringConcat(from, "nodes", ",");
 						
 						if (node.getVariable().equals(returnItem.getFunctionArgument()) && nodeLabel != null) {
 							where = where + "nodes.nodeid = " + nodeLabel.toLowerCase() + ".nodeid AND ";
@@ -153,7 +149,7 @@ public class GeneratePostgresQuery {
 					String edgeType = edge.getType();
 					
 					select = select + "type";
-					from = uniqueStringConcat(from, "edges");
+					from = uniqueStringConcat(from, "edges", ",");
 					
 					if (edge.getVariable().equals(returnItem.getFunctionArgument()) && edgeType != null) {
 						where = where + "edges.nodesrcid = " + edgeType.toLowerCase() + ".nodesrcid AND ";
