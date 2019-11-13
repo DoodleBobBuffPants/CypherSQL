@@ -86,10 +86,6 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	@Override
 	public void enterOC_NodePattern(CypherParser.OC_NodePatternContext ctx) {
 		nodePattern = new NodePattern();
-	}
-	
-	@Override
-	public void exitOC_NodePattern(CypherParser.OC_NodePatternContext ctx) {
 		OC_VariableContext variable = ctx.oC_Variable();
 		if (variable != null) {
 			nodePattern.setVariable(variable.getText());
@@ -104,10 +100,7 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	public void enterOC_RelationshipPattern(CypherParser.OC_RelationshipPatternContext ctx) {
 		edgePattern = new EdgePattern();
 		hasEdge = true;
-	}
-	
-	@Override
-	public void exitOC_RelationshipPattern(CypherParser.OC_RelationshipPatternContext ctx) {
+		
 		OC_RelationshipDetailContext relationshipDetail = ctx.oC_RelationshipDetail();
 		OC_VariableContext variable = relationshipDetail.oC_Variable();
 		if (variable != null) {
@@ -133,7 +126,7 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	
 	@Override
 	public void enterOC_NotExpression(CypherParser.OC_NotExpressionContext ctx) {
-		if (returnClause == null) {
+		if (returnClause == null && orderByClause == null) {
 			OC_ComparisonExpressionContext comparisonExp = ctx.oC_ComparisonExpression();
 			if (comparisonExp.getChild(comparisonExp.getChildCount() - 1) instanceof OC_PartialComparisonExpressionContext) {
 				whereExpression = new WhereExpression();
@@ -144,7 +137,7 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	
 	@Override
 	public void exitOC_NotExpression(CypherParser.OC_NotExpressionContext ctx) {
-		if (returnClause == null) { 
+		if (returnClause == null && orderByClause == null) { 
 			OC_ComparisonExpressionContext comparisonExp = ctx.oC_ComparisonExpression();
 			if (comparisonExp.getChild(comparisonExp.getChildCount() - 1) instanceof OC_PartialComparisonExpressionContext) {
 				whereClause.addAndExpression(whereExpression);
@@ -154,15 +147,13 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	
 	@Override
 	public void enterOC_PartialComparisonExpression(CypherParser.OC_PartialComparisonExpressionContext ctx) {
-		if (returnClause == null) {
-			whereExpression.setComparisonOperator(ctx.getChild(0).getText());
-			leftExpression = false;
-		}
+		whereExpression.setComparisonOperator(ctx.getChild(0).getText());
+		leftExpression = false;
 	}
 	
 	@Override
 	public void exitOC_AddOrSubtractExpression(CypherParser.OC_AddOrSubtractExpressionContext ctx) {
-		if (returnClause == null) {
+		if (returnClause == null && orderByClause == null) {
 			if (leftExpression) {
 				whereExpression.setLeftLiteral(ctx.getText());
 			} else {
