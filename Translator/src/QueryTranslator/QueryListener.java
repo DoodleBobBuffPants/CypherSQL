@@ -213,9 +213,9 @@ public class QueryListener extends antlr4.CypherBaseListener {
 		sortItem = new SortItem();
 		ParseTree order = ctx.getChild(2);
 		if (order != null) {
-			sortItem.setAscdesc(order.getText().toLowerCase());
+			sortItem.setAscdesc(order.getText().toUpperCase());
 		} else {
-			sortItem.setAscdesc("asc");
+			sortItem.setAscdesc("ASC");
 		}
 		sortItem.setField(ctx.oC_Expression().getText());
 	}

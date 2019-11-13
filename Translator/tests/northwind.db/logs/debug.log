@@ -5005,3 +5005,981 @@ Storage files: (filename : modification date - size)
 2019-11-09 16:51:33.697+0000 INFO [o.n.k.i.t.l.p.LogPruningImpl] Log Rotation [0]:  Log pruning complete.
 2019-11-09 16:51:34.728+0000 INFO [o.n.k.i.DiagnosticsManager] --- STOPPING diagnostics START ---
 2019-11-09 16:51:34.728+0000 INFO [o.n.k.i.DiagnosticsManager] --- STOPPING diagnostics END ---
+2019-11-13 14:10:55.216+0000 WARN [o.n.k.i.JvmChecker] You are using an unsupported version of the Java runtime. Please use Oracle(R) Java(TM) Runtime Environment 8, OpenJDK(TM) 8 or IBM J9.
+2019-11-13 14:10:55.225+0000 WARN [o.n.i.p.PageCache] The dbms.memory.pagecache.size setting has not been configured. It is recommended that this setting is always explicitly configured, to ensure the system has a balanced configuration. Until then, a computed heuristic value of 6389112832 bytes will be used instead. 
+2019-11-13 14:10:55.290+0000 INFO [o.n.k.i.f.CommunityEditionModule] No locking implementation specified, defaulting to 'community'
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.AvailabilityGuard] Requirement makes database unavailable: Database available
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] --- INITIALIZED diagnostics START ---
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Neo4j Kernel properties:
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] unsupported.dbms.edition=community
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] unsupported.dbms.directories.neo4j_home=D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator\tests\northwind.db
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] unsupported.dbms.ephemeral=false
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Diagnostics providers:
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] org.neo4j.kernel.configuration.Config
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] org.neo4j.kernel.info.DiagnosticsManager
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] SYSTEM_MEMORY
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] JAVA_MEMORY
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] OPERATING_SYSTEM
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] JAVA_VIRTUAL_MACHINE
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] CLASSPATH
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] LIBRARY_PATH
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] SYSTEM_PROPERTIES
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] NETWORK
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] System memory information:
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Total Physical memory: 15.87 GB
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Free Physical memory: 9.43 GB
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Committed virtual memory: 534.24 MB
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Total swap space: 47.87 GB
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Free swap space: 38.90 GB
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] JVM memory information:
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Free  memory: 199.00 MB
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Total memory: 368.00 MB
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Max   memory: 3.97 GB
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Garbage Collector: G1 Young Generation: [G1 Eden Space, G1 Survivor Space]
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Garbage Collector: G1 Old Generation: [G1 Eden Space, G1 Survivor Space, G1 Old Gen]
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: CodeHeap 'non-nmethods' (Non-heap memory): committed=2.44 MB, used=1.20 MB, max=5.63 MB, threshold=0.00 B
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: Metaspace (Non-heap memory): committed=49.17 MB, used=47.91 MB, max=-1.00 B, threshold=0.00 B
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: CodeHeap 'profiled nmethods' (Non-heap memory): committed=6.94 MB, used=6.93 MB, max=117.19 MB, threshold=0.00 B
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: Compressed Class Space (Non-heap memory): committed=7.67 MB, used=7.31 MB, max=1.00 GB, threshold=0.00 B
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: G1 Eden Space (Heap memory): committed=90.00 MB, used=49.00 MB, max=-1.00 B, threshold=?
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: G1 Old Gen (Heap memory): committed=274.00 MB, used=115.00 MB, max=3.97 GB, threshold=0.00 B
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: G1 Survivor Space (Heap memory): committed=4.00 MB, used=4.00 MB, max=-1.00 B, threshold=?
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: CodeHeap 'non-profiled nmethods' (Non-heap memory): committed=2.44 MB, used=1.97 MB, max=117.19 MB, threshold=0.00 B
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Operating system information:
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Operating System: Windows 10; version: 10.0; arch: amd64; cpus: 8
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Process id: 13700@SALTBAE
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Byte order: LITTLE_ENDIAN
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Local timezone: Europe/London
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] JVM information:
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] VM Name: Java HotSpot(TM) 64-Bit Server VM
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] VM Vendor: "Oracle Corporation"
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] VM Version: 10+46
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] JIT compiler: HotSpot 64-Bit Tiered Compilers
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] VM Arguments: [-ea, -Dfile.encoding=UTF-8]
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Java classpath:
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] C:\Users\AJayS\.p2\pool\plugins\org.hamcrest.core_1.3.0.v201303031735.jar
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] D:\Program Files\eclipse\java-oxygen\eclipse\configuration\org.eclipse.osgi\229\0\.cp
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator\bin
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] C:\Users\AJayS\AppData\Local\Temp\antlr-4.7.2-complete.jar
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator\Dependencies\neo4j-desktop-3.2.6.jar
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator\Dependencies\postgresql-42.2.8.jar
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] D:\Program Files\eclipse\java-oxygen\eclipse\configuration\org.eclipse.osgi\230\0\.cp
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] C:\Users\AJayS\.p2\pool\plugins\org.junit_4.12.0.v201504281640\junit.jar
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Library path:
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jdk-10\bin
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows\Sun\Java\bin
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows\System32
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jdk-10\bin\server
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jdk-10\bin
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows\System32
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows\System32\wbem
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows\System32\OpenSSH
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows\System32\WindowsPowerShell\v1.0
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Poly ML
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jdk-10\bin
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jdk1.8.0_172\bin
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jre-10\bin
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jre1.8.0_172\bin
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Users\AJayS\Documents\Android SDK\tools\bin
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\mingw-w64\x86_64-8.1.0-win32-seh-rt_v6-rev0\mingw64\bin
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\swipl\bin
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Git\bin
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Git\cmd
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\MATLAB\R2018a\bin
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Python\Python36
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Python\Python36\Scripts
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\FFmpeg\bin
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Users\AJayS\AppData\Local\Microsoft\WindowsApps
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\MiKTeX 2.9\miktex\bin\x64
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\eclipse\java-oxygen\eclipse
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] System.properties:
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] sun.desktop = windows
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] awt.toolkit = sun.awt.windows.WToolkit
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] file.encoding.pkg = sun.io
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] sun.cpu.isalist = amd64
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] sun.jnu.encoding = Cp1252
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] sun.arch.data.model = 64
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] user.variant = 
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] user.timezone = Europe/London
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] sun.java.launcher = SUN_STANDARD
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] user.country = GB
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] sun.boot.library.path = D:\Program Files\Java\jdk-10\bin
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] sun.java.command = org.eclipse.jdt.internal.junit.runner.RemoteTestRunner -version 3 -port 64862 -testLoaderClass org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader -loaderpluginname org.eclipse.jdt.junit4.runtime -classNames ResultFormatter.TestFormatter
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] jdk.debug = release
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] sun.cpu.endian = little
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] user.home = C:\Users\AJayS
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] user.language = en
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] file.separator = \
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] user.script = 
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] sun.management.compiler = HotSpot 64-Bit Tiered Compilers
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] user.name = AJayS
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] path.separator = ;
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] file.encoding = UTF-8
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] user.dir = D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] sun.os.patch.level = 
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] sun.io.unicode.encoding = UnicodeLittle
+2019-11-13 14:10:55.306+0000 INFO [o.n.k.i.DiagnosticsManager] Network information:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Software Loopback Interface 1:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager]     address: 127.0.0.1
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager]     address: 0:0:0:0:0:0:0:1
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Realtek PCIe GBE Family Controller:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager]     address: 128.232.242.239
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager]     address: fe80:0:0:0:a998:787f:433b:4530%eth0
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft 6to4 Adapter:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (SSTP):
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (PPTP):
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager]     address: fe80:0:0:0:d579:6618:72e0:8df7%wlan0
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IPv6):
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft IP-HTTPS Platform Adapter:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (Network Monitor):
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IP):
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager]     address: fe80:0:0:0:25a2:5027:3b2e:2214%wlan1
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Kernel Debug Network Adapter:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Teredo Tunneling Adapter:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IKEv2):
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (L2TP):
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Check Point Virtual Network Adapter For Endpoint VPN Client:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager]     address: fe80:0:0:0:a899:990a:7da1:db89%eth5
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface VirtualBox Host-Only Ethernet Adapter:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (PPPOE):
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Bluetooth Device (Personal Area Network):
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager]     address: fe80:0:0:0:a5a8:682f:cda9:caff%eth7
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager]     address: fe80:0:0:0:f942:4295:e402:a78e%wlan2
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-Virtual WiFi Filter Driver-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-Native WiFi Filter Driver-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-VirtualBox NDIS Light-Weight Filter-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Realtek PCIe GBE Family Controller-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Realtek PCIe GBE Family Controller-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Realtek PCIe GBE Family Controller-VirtualBox NDIS Light-Weight Filter-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Realtek PCIe GBE Family Controller-QoS Packet Scheduler-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Realtek PCIe GBE Family Controller-WFP 802.3 MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Bluetooth Device (Personal Area Network)-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-QoS Packet Scheduler-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-WFP 802.3 MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Check Point Virtual Network Adapter For Endpoint VPN Client-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Check Point Virtual Network Adapter For Endpoint VPN Client-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Check Point Virtual Network Adapter For Endpoint VPN Client-VirtualBox NDIS Light-Weight Filter-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Check Point Virtual Network Adapter For Endpoint VPN Client-QoS Packet Scheduler-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Check Point Virtual Network Adapter For Endpoint VPN Client-WFP 802.3 MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IP)-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IP)-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IP)-QoS Packet Scheduler-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IPv6)-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IPv6)-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IPv6)-QoS Packet Scheduler-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (Network Monitor)-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (Network Monitor)-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (Network Monitor)-QoS Packet Scheduler-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter-Native WiFi Filter Driver-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter-VirtualBox NDIS Light-Weight Filter-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter-QoS Packet Scheduler-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter-WFP 802.3 MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2-Native WiFi Filter Driver-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2-VirtualBox NDIS Light-Weight Filter-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2-QoS Packet Scheduler-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2-WFP 802.3 MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:55.573+0000 INFO [o.n.k.i.DiagnosticsManager] --- INITIALIZED diagnostics END ---
+2019-11-13 14:10:55.658+0000 INFO [o.n.k.i.s.f.RecordFormatSelector] Selected RecordFormat:StandardV3_2[v0.A.8] record format from store D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator\tests\northwind.db
+2019-11-13 14:10:55.673+0000 INFO [o.n.k.i.s.f.RecordFormatSelector] Selected RecordFormat:StandardV3_2[v0.A.8] record format from store D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator\tests\northwind.db
+2019-11-13 14:10:55.673+0000 INFO [o.n.k.i.s.f.RecordFormatSelector] Format not configured. Selected format from the store: RecordFormat:StandardV3_2[v0.A.8]
+2019-11-13 14:10:57.011+0000 INFO [o.n.k.i.a.i.IndexingService] IndexingService.init: indexes not specifically mentioned above are null
+2019-11-13 14:10:57.171+0000 INFO [o.n.k.NeoStoreDataSource] No commits found after last check point (which is at LogPosition{logVersion=0, byteOffset=1775593})
+2019-11-13 14:10:57.171+0000 INFO [o.n.k.i.a.i.IndexingService] IndexingService.start: indexes not specifically mentioned above are null
+2019-11-13 14:10:57.171+0000 INFO [o.n.k.i.DatabaseHealth] Database health set to OK
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.AvailabilityGuard] Fulfilling of requirement makes database available: Database available
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.f.GraphDatabaseFacadeFactory] Database is now ready
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for KernelDiagnostics:Versions START ---
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] Graph Database: community single StoreId{creationTime=1572721182782, randomId=-1732652773633622577, storeVersion=15813456178476550, upgradeTime=1572721182782, upgradeId=1}
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] Kernel version: 3.2.6
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for KernelDiagnostics:Versions END ---
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_VERSIONS START ---
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] Store versions:
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] Store versions:
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   ArrayPropertyStore v0.A.8
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   NodeStore v0.A.8
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore v0.A.8
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   PropertyIndexStore v0.A.8
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore v0.A.8
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   ArrayPropertyStore v0.A.8
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   PropertyStore v0.A.8
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipStore v0.A.8
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore v0.A.8
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipTypeStore v0.A.8
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore v0.A.8
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   LabelTokenStore v0.A.8
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   SchemaStore v0.A.8
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipGroupStore v0.A.8
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   NeoStore v0.A.8
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_VERSIONS END ---
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_ID_USAGE START ---
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] Id usage:
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] Id usage:
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   ArrayPropertyStore: used=1 high=0
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   NodeStore: used=1035 high=1034
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore: used=41 high=40
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   PropertyIndexStore: used=40 high=39
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore: used=74 high=73
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   ArrayPropertyStore: used=1 high=0
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   PropertyStore: used=11037 high=11036
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipStore: used=3139 high=3138
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore: used=5 high=4
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipTypeStore: used=4 high=3
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore: used=6 high=5
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   LabelTokenStore: used=5 high=4
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   SchemaStore: used=1 high=0
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipGroupStore: used=16 high=15
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   NeoStore: used=15 high=14
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_ID_USAGE END ---
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_RECORDS START ---
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] Neostore records:
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] TIME (Creation time): 1572721182782
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] RANDOM_NUMBER (Random number for store id): -1732652773633622577
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] LOG_VERSION (Current log version): 0
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_TRANSACTION_ID (Last committed transaction): 59
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] STORE_VERSION (Store format version): 15813456178476550
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] FIRST_GRAPH_PROPERTY (First property record containing graph properties): -1
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_CONSTRAINT_TRANSACTION (Last committed transaction containing constraint changes): 0
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] UPGRADE_TRANSACTION_ID (Transaction id most recent upgrade was performed at): 1
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] UPGRADE_TIME (Time of last upgrade): 1572721182782
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_TRANSACTION_CHECKSUM (Checksum of last committed transaction): -161770796424
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] UPGRADE_TRANSACTION_CHECKSUM (Checksum of transaction id the most recent upgrade was performed at): 0
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_CLOSED_TRANSACTION_LOG_VERSION (Log version where the last transaction commit entry has been written into): 0
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_CLOSED_TRANSACTION_LOG_BYTE_OFFSET (Byte offset in the log file where the last transaction commit entry has been written into): 1775593
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_TRANSACTION_COMMIT_TIMESTAMP (Commit time timestamp for last committed transaction): 1572721319359
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] UPGRADE_TRANSACTION_COMMIT_TIMESTAMP (Commit timestamp of transaction the most recent upgrade was performed at): 0
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_RECORDS END ---
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for TRANSACTION_RANGE START ---
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] Transaction log:
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] Oldest transaction 2 found in log with version 0
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for TRANSACTION_RANGE END ---
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for KernelDiagnostics:StoreFiles START ---
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager] Disk space on partition (Total / Free / Free %): 895211270144 / 451457748992 / 50
+Storage files: (filename : modification date - size)
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   certificates:
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]     neo4j.cert: 2019-11-02T18:59:40+0000 - 1002.00 B
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]     neo4j.key: 2019-11-02T18:59:40+0000 - 1.70 kB
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   - Total: 2019-11-02T18:59:40+0000 - 2.67 kB
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   data:
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]     dbms:
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]       auth: 2019-11-02T18:59:57+0000 - 113.00 B
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]     - Total: 2019-11-02T18:59:57+0000 - 113.00 B
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   - Total: 2019-11-02T18:59:43+0000 - 113.00 B
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   index:
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   - Total: 2019-11-02T18:59:42+0000 - 0.00 B
+2019-11-13 14:10:57.186+0000 INFO [o.n.k.i.DiagnosticsManager]   logs:
+2019-11-13 14:10:57.202+0000 INFO [o.n.k.i.DiagnosticsManager]     debug.log: 2019-11-13T14:10:57+0000 - 605.40 kB
+2019-11-13 14:10:57.202+0000 INFO [o.n.k.i.DiagnosticsManager]   - Total: 2019-11-02T18:59:40+0000 - 605.40 kB
+2019-11-13 14:10:57.202+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:10:57.202+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.counts.db.a: 2019-11-02T18:59:43+0000 - 96.00 B
+2019-11-13 14:10:57.202+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.counts.db.b: 2019-11-02T19:02:24+0000 - 928.00 B
+2019-11-13 14:10:57.202+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.id: 2019-11-13T14:10:56+0000 - 9.00 B
+2019-11-13 14:10:57.202+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labelscanstore.db: 2019-11-13T14:10:57+0000 - 48.00 kB
+2019-11-13 14:10:57.202+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labeltokenstore.db: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:10:57.202+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labeltokenstore.db.id: 2019-11-13T14:10:56+0000 - 9.00 B
+2019-11-13 14:10:57.202+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labeltokenstore.db.names: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:10:57.217+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labeltokenstore.db.names.id: 2019-11-13T14:10:56+0000 - 9.00 B
+2019-11-13 14:10:57.217+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.nodestore.db: 2019-11-02T19:02:24+0000 - 16.00 kB
+2019-11-13 14:10:57.217+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.nodestore.db.id: 2019-11-13T14:10:55+0000 - 9.00 B
+2019-11-13 14:10:57.217+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.nodestore.db.labels: 2019-11-02T18:59:40+0000 - 8.00 kB
+2019-11-13 14:10:57.217+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.nodestore.db.labels.id: 2019-11-13T14:10:55+0000 - 9.00 B
+2019-11-13 14:10:57.217+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db: 2019-11-02T19:02:24+0000 - 446.20 kB
+2019-11-13 14:10:57.217+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.arrays: 2019-11-02T18:59:41+0000 - 8.00 kB
+2019-11-13 14:10:57.217+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.arrays.id: 2019-11-13T14:10:56+0000 - 9.00 B
+2019-11-13 14:10:57.217+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.id: 2019-11-13T14:10:56+0000 - 9.00 B
+2019-11-13 14:10:57.217+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.index: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:10:57.217+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.index.id: 2019-11-13T14:10:55+0000 - 9.00 B
+2019-11-13 14:10:57.217+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.index.keys: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:10:57.217+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.index.keys.id: 2019-11-13T14:10:55+0000 - 9.00 B
+2019-11-13 14:10:57.217+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.strings: 2019-11-02T19:02:24+0000 - 16.00 kB
+2019-11-13 14:10:57.217+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.strings.id: 2019-11-13T14:10:56+0000 - 9.00 B
+2019-11-13 14:10:57.217+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshipgroupstore.db: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:10:57.233+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshipgroupstore.db.id: 2019-11-13T14:10:56+0000 - 9.00 B
+2019-11-13 14:10:57.233+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshipstore.db: 2019-11-02T19:02:24+0000 - 111.56 kB
+2019-11-13 14:10:57.233+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshipstore.db.id: 2019-11-13T14:10:56+0000 - 9.00 B
+2019-11-13 14:10:57.233+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshiptypestore.db: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:10:57.233+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshiptypestore.db.id: 2019-11-13T14:10:56+0000 - 9.00 B
+2019-11-13 14:10:57.233+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshiptypestore.db.names: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:10:57.233+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshiptypestore.db.names.id: 2019-11-13T14:10:56+0000 - 9.00 B
+2019-11-13 14:10:57.233+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.schemastore.db: 2019-11-02T18:59:42+0000 - 8.00 kB
+2019-11-13 14:10:57.233+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.schemastore.db.id: 2019-11-13T14:10:56+0000 - 9.00 B
+2019-11-13 14:10:57.233+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.transaction.db.0: 2019-11-09T16:51:33+0000 - 1.69 MB
+2019-11-13 14:10:57.233+0000 INFO [o.n.k.i.DiagnosticsManager]   store_lock: 2019-11-02T18:59:40+0000 - 0.00 B
+2019-11-13 14:10:57.233+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for KernelDiagnostics:StoreFiles END ---
+2019-11-13 14:10:57.276+0000 INFO [o.n.k.i.f.GraphDatabaseFacadeFactory] Shutdown started
+2019-11-13 14:10:57.276+0000 INFO [o.n.k.i.f.GraphDatabaseFacadeFactory] Database is now unavailable
+2019-11-13 14:10:57.277+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Check Pointing triggered by database shutdown [59]:  Starting check pointing...
+2019-11-13 14:10:57.277+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Check Pointing triggered by database shutdown [59]:  Starting store flush...
+2019-11-13 14:10:57.294+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Check Pointing triggered by database shutdown [59]:  Store flush completed
+2019-11-13 14:10:57.294+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Check Pointing triggered by database shutdown [59]:  Starting appending check point entry into the tx log...
+2019-11-13 14:10:57.328+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Check Pointing triggered by database shutdown [59]:  Appending check point entry into the tx log completed
+2019-11-13 14:10:57.328+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Check Pointing triggered by database shutdown [59]:  Check pointing completed
+2019-11-13 14:10:57.328+0000 INFO [o.n.k.i.t.l.p.LogPruningImpl] Log Rotation [0]:  Starting log pruning.
+2019-11-13 14:10:57.328+0000 INFO [o.n.k.i.t.l.p.LogPruningImpl] Log Rotation [0]:  Log pruning complete.
+2019-11-13 14:10:58.502+0000 INFO [o.n.k.i.DiagnosticsManager] --- STOPPING diagnostics START ---
+2019-11-13 14:10:58.502+0000 INFO [o.n.k.i.DiagnosticsManager] --- STOPPING diagnostics END ---
+2019-11-13 14:10:58.809+0000 WARN [o.n.k.i.JvmChecker] You are using an unsupported version of the Java runtime. Please use Oracle(R) Java(TM) Runtime Environment 8, OpenJDK(TM) 8 or IBM J9.
+2019-11-13 14:10:58.809+0000 WARN [o.n.i.p.PageCache] The dbms.memory.pagecache.size setting has not been configured. It is recommended that this setting is always explicitly configured, to ensure the system has a balanced configuration. Until then, a computed heuristic value of 6389112832 bytes will be used instead. 
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.f.CommunityEditionModule] No locking implementation specified, defaulting to 'community'
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.AvailabilityGuard] Requirement makes database unavailable: Database available
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] --- INITIALIZED diagnostics START ---
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Neo4j Kernel properties:
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] unsupported.dbms.edition=community
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] unsupported.dbms.directories.neo4j_home=D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator\tests\northwind.db
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] unsupported.dbms.ephemeral=false
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Diagnostics providers:
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] org.neo4j.kernel.configuration.Config
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] org.neo4j.kernel.info.DiagnosticsManager
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] SYSTEM_MEMORY
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] JAVA_MEMORY
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] OPERATING_SYSTEM
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] JAVA_VIRTUAL_MACHINE
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] CLASSPATH
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] LIBRARY_PATH
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] SYSTEM_PROPERTIES
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] NETWORK
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] System memory information:
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Total Physical memory: 15.87 GB
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Free Physical memory: 9.34 GB
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Committed virtual memory: 570.40 MB
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Total swap space: 47.87 GB
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Free swap space: 38.86 GB
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] JVM memory information:
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Free  memory: 157.00 MB
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Total memory: 368.00 MB
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Max   memory: 3.97 GB
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Garbage Collector: G1 Young Generation: [G1 Eden Space, G1 Survivor Space]
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Garbage Collector: G1 Old Generation: [G1 Eden Space, G1 Survivor Space, G1 Old Gen]
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: CodeHeap 'non-nmethods' (Non-heap memory): committed=2.44 MB, used=1.20 MB, max=5.63 MB, threshold=0.00 B
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: Metaspace (Non-heap memory): committed=49.42 MB, used=48.19 MB, max=-1.00 B, threshold=0.00 B
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: CodeHeap 'profiled nmethods' (Non-heap memory): committed=7.75 MB, used=7.72 MB, max=117.19 MB, threshold=0.00 B
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: Compressed Class Space (Non-heap memory): committed=7.67 MB, used=7.32 MB, max=1.00 GB, threshold=0.00 B
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: G1 Eden Space (Heap memory): committed=57.00 MB, used=26.00 MB, max=-1.00 B, threshold=?
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: G1 Old Gen (Heap memory): committed=299.00 MB, used=173.00 MB, max=3.97 GB, threshold=0.00 B
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: G1 Survivor Space (Heap memory): committed=12.00 MB, used=12.00 MB, max=-1.00 B, threshold=?
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: CodeHeap 'non-profiled nmethods' (Non-heap memory): committed=2.44 MB, used=2.28 MB, max=117.19 MB, threshold=0.00 B
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Operating system information:
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Operating System: Windows 10; version: 10.0; arch: amd64; cpus: 8
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Process id: 13700@SALTBAE
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Byte order: LITTLE_ENDIAN
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Local timezone: Europe/London
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] JVM information:
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] VM Name: Java HotSpot(TM) 64-Bit Server VM
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] VM Vendor: "Oracle Corporation"
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] VM Version: 10+46
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] JIT compiler: HotSpot 64-Bit Tiered Compilers
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] VM Arguments: [-ea, -Dfile.encoding=UTF-8]
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Java classpath:
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] C:\Users\AJayS\.p2\pool\plugins\org.hamcrest.core_1.3.0.v201303031735.jar
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] D:\Program Files\eclipse\java-oxygen\eclipse\configuration\org.eclipse.osgi\229\0\.cp
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator\bin
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] C:\Users\AJayS\AppData\Local\Temp\antlr-4.7.2-complete.jar
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator\Dependencies\neo4j-desktop-3.2.6.jar
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator\Dependencies\postgresql-42.2.8.jar
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] D:\Program Files\eclipse\java-oxygen\eclipse\configuration\org.eclipse.osgi\230\0\.cp
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] C:\Users\AJayS\.p2\pool\plugins\org.junit_4.12.0.v201504281640\junit.jar
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Library path:
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jdk-10\bin
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows\Sun\Java\bin
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows\System32
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jdk-10\bin\server
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jdk-10\bin
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows\System32
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows\System32\wbem
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows\System32\OpenSSH
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows\System32\WindowsPowerShell\v1.0
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Poly ML
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jdk-10\bin
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jdk1.8.0_172\bin
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jre-10\bin
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jre1.8.0_172\bin
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Users\AJayS\Documents\Android SDK\tools\bin
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\mingw-w64\x86_64-8.1.0-win32-seh-rt_v6-rev0\mingw64\bin
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\swipl\bin
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Git\bin
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Git\cmd
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\MATLAB\R2018a\bin
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Python\Python36
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Python\Python36\Scripts
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\FFmpeg\bin
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Users\AJayS\AppData\Local\Microsoft\WindowsApps
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\MiKTeX 2.9\miktex\bin\x64
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\eclipse\java-oxygen\eclipse
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] System.properties:
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] sun.desktop = windows
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] awt.toolkit = sun.awt.windows.WToolkit
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] file.encoding.pkg = sun.io
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] sun.cpu.isalist = amd64
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] sun.jnu.encoding = Cp1252
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] sun.arch.data.model = 64
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] user.variant = 
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] user.timezone = Europe/London
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] sun.java.launcher = SUN_STANDARD
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] user.country = GB
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] sun.boot.library.path = D:\Program Files\Java\jdk-10\bin
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] sun.java.command = org.eclipse.jdt.internal.junit.runner.RemoteTestRunner -version 3 -port 64862 -testLoaderClass org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader -loaderpluginname org.eclipse.jdt.junit4.runtime -classNames ResultFormatter.TestFormatter
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] jdk.debug = release
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] sun.cpu.endian = little
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] user.home = C:\Users\AJayS
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] user.language = en
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] file.separator = \
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] user.script = 
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] sun.management.compiler = HotSpot 64-Bit Tiered Compilers
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] user.name = AJayS
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] path.separator = ;
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] file.encoding = UTF-8
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] user.dir = D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] sun.os.patch.level = 
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] sun.io.unicode.encoding = UnicodeLittle
+2019-11-13 14:10:59.082+0000 INFO [o.n.k.i.DiagnosticsManager] Network information:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Software Loopback Interface 1:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager]     address: 127.0.0.1
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager]     address: 0:0:0:0:0:0:0:1
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Realtek PCIe GBE Family Controller:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager]     address: 128.232.242.239
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager]     address: fe80:0:0:0:a998:787f:433b:4530%eth0
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft 6to4 Adapter:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (SSTP):
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (PPTP):
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager]     address: fe80:0:0:0:d579:6618:72e0:8df7%wlan0
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IPv6):
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft IP-HTTPS Platform Adapter:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (Network Monitor):
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IP):
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager]     address: fe80:0:0:0:25a2:5027:3b2e:2214%wlan1
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Kernel Debug Network Adapter:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Teredo Tunneling Adapter:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IKEv2):
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (L2TP):
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Check Point Virtual Network Adapter For Endpoint VPN Client:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager]     address: fe80:0:0:0:a899:990a:7da1:db89%eth5
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface VirtualBox Host-Only Ethernet Adapter:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (PPPOE):
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Bluetooth Device (Personal Area Network):
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager]     address: fe80:0:0:0:a5a8:682f:cda9:caff%eth7
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager]     address: fe80:0:0:0:f942:4295:e402:a78e%wlan2
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-Virtual WiFi Filter Driver-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-Native WiFi Filter Driver-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-VirtualBox NDIS Light-Weight Filter-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Realtek PCIe GBE Family Controller-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Realtek PCIe GBE Family Controller-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Realtek PCIe GBE Family Controller-VirtualBox NDIS Light-Weight Filter-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Realtek PCIe GBE Family Controller-QoS Packet Scheduler-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Realtek PCIe GBE Family Controller-WFP 802.3 MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Bluetooth Device (Personal Area Network)-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-QoS Packet Scheduler-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-WFP 802.3 MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Check Point Virtual Network Adapter For Endpoint VPN Client-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Check Point Virtual Network Adapter For Endpoint VPN Client-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Check Point Virtual Network Adapter For Endpoint VPN Client-VirtualBox NDIS Light-Weight Filter-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Check Point Virtual Network Adapter For Endpoint VPN Client-QoS Packet Scheduler-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Check Point Virtual Network Adapter For Endpoint VPN Client-WFP 802.3 MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IP)-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IP)-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IP)-QoS Packet Scheduler-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IPv6)-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IPv6)-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IPv6)-QoS Packet Scheduler-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (Network Monitor)-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (Network Monitor)-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (Network Monitor)-QoS Packet Scheduler-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter-Native WiFi Filter Driver-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter-VirtualBox NDIS Light-Weight Filter-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter-QoS Packet Scheduler-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter-WFP 802.3 MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2-Native WiFi Filter Driver-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2-VirtualBox NDIS Light-Weight Filter-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2-QoS Packet Scheduler-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2-WFP 802.3 MAC Layer LightWeight Filter-0000:
+2019-11-13 14:10:59.351+0000 INFO [o.n.k.i.DiagnosticsManager] --- INITIALIZED diagnostics END ---
+2019-11-13 14:10:59.445+0000 INFO [o.n.k.i.s.f.RecordFormatSelector] Selected RecordFormat:StandardV3_2[v0.A.8] record format from store D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator\tests\northwind.db
+2019-11-13 14:10:59.451+0000 INFO [o.n.k.i.s.f.RecordFormatSelector] Selected RecordFormat:StandardV3_2[v0.A.8] record format from store D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator\tests\northwind.db
+2019-11-13 14:10:59.451+0000 INFO [o.n.k.i.s.f.RecordFormatSelector] Format not configured. Selected format from the store: RecordFormat:StandardV3_2[v0.A.8]
+2019-11-13 14:11:00.353+0000 INFO [o.n.k.i.a.i.IndexingService] IndexingService.init: indexes not specifically mentioned above are null
+2019-11-13 14:11:00.406+0000 INFO [o.n.k.NeoStoreDataSource] No commits found after last check point (which is at LogPosition{logVersion=0, byteOffset=1775593})
+2019-11-13 14:11:00.406+0000 INFO [o.n.k.i.a.i.IndexingService] IndexingService.start: indexes not specifically mentioned above are null
+2019-11-13 14:11:00.406+0000 INFO [o.n.k.i.DatabaseHealth] Database health set to OK
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.AvailabilityGuard] Fulfilling of requirement makes database available: Database available
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.f.GraphDatabaseFacadeFactory] Database is now ready
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for KernelDiagnostics:Versions START ---
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] Graph Database: community single StoreId{creationTime=1572721182782, randomId=-1732652773633622577, storeVersion=15813456178476550, upgradeTime=1572721182782, upgradeId=1}
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] Kernel version: 3.2.6
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for KernelDiagnostics:Versions END ---
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_VERSIONS START ---
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] Store versions:
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] Store versions:
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   ArrayPropertyStore v0.A.8
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   NodeStore v0.A.8
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore v0.A.8
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   PropertyIndexStore v0.A.8
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore v0.A.8
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   ArrayPropertyStore v0.A.8
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   PropertyStore v0.A.8
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipStore v0.A.8
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore v0.A.8
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipTypeStore v0.A.8
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore v0.A.8
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   LabelTokenStore v0.A.8
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   SchemaStore v0.A.8
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipGroupStore v0.A.8
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   NeoStore v0.A.8
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_VERSIONS END ---
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_ID_USAGE START ---
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] Id usage:
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] Id usage:
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   ArrayPropertyStore: used=1 high=0
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   NodeStore: used=1035 high=1034
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore: used=41 high=40
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   PropertyIndexStore: used=40 high=39
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore: used=74 high=73
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   ArrayPropertyStore: used=1 high=0
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   PropertyStore: used=11037 high=11036
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipStore: used=3139 high=3138
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore: used=5 high=4
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipTypeStore: used=4 high=3
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore: used=6 high=5
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   LabelTokenStore: used=5 high=4
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   SchemaStore: used=1 high=0
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipGroupStore: used=16 high=15
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   NeoStore: used=15 high=14
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_ID_USAGE END ---
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_RECORDS START ---
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] Neostore records:
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] TIME (Creation time): 1572721182782
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] RANDOM_NUMBER (Random number for store id): -1732652773633622577
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] LOG_VERSION (Current log version): 0
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_TRANSACTION_ID (Last committed transaction): 59
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] STORE_VERSION (Store format version): 15813456178476550
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] FIRST_GRAPH_PROPERTY (First property record containing graph properties): -1
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_CONSTRAINT_TRANSACTION (Last committed transaction containing constraint changes): 0
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] UPGRADE_TRANSACTION_ID (Transaction id most recent upgrade was performed at): 1
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] UPGRADE_TIME (Time of last upgrade): 1572721182782
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_TRANSACTION_CHECKSUM (Checksum of last committed transaction): -161770796424
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] UPGRADE_TRANSACTION_CHECKSUM (Checksum of transaction id the most recent upgrade was performed at): 0
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_CLOSED_TRANSACTION_LOG_VERSION (Log version where the last transaction commit entry has been written into): 0
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_CLOSED_TRANSACTION_LOG_BYTE_OFFSET (Byte offset in the log file where the last transaction commit entry has been written into): 1775593
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_TRANSACTION_COMMIT_TIMESTAMP (Commit time timestamp for last committed transaction): 1572721319359
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] UPGRADE_TRANSACTION_COMMIT_TIMESTAMP (Commit timestamp of transaction the most recent upgrade was performed at): 0
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_RECORDS END ---
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for TRANSACTION_RANGE START ---
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] Transaction log:
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] Oldest transaction 2 found in log with version 0
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for TRANSACTION_RANGE END ---
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for KernelDiagnostics:StoreFiles START ---
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager] Disk space on partition (Total / Free / Free %): 895211270144 / 451457699840 / 50
+Storage files: (filename : modification date - size)
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   certificates:
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]     neo4j.cert: 2019-11-02T18:59:40+0000 - 1002.00 B
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]     neo4j.key: 2019-11-02T18:59:40+0000 - 1.70 kB
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   - Total: 2019-11-02T18:59:40+0000 - 2.67 kB
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   data:
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]     dbms:
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]       auth: 2019-11-02T18:59:57+0000 - 113.00 B
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]     - Total: 2019-11-02T18:59:57+0000 - 113.00 B
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   - Total: 2019-11-02T18:59:43+0000 - 113.00 B
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   index:
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   - Total: 2019-11-02T18:59:42+0000 - 0.00 B
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   logs:
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]     debug.log: 2019-11-13T14:11:00+0000 - 643.21 kB
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   - Total: 2019-11-02T18:59:40+0000 - 643.21 kB
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.counts.db.a: 2019-11-02T18:59:43+0000 - 96.00 B
+2019-11-13 14:11:00.422+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.counts.db.b: 2019-11-02T19:02:24+0000 - 928.00 B
+2019-11-13 14:11:00.437+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.id: 2019-11-13T14:11:00+0000 - 9.00 B
+2019-11-13 14:11:00.437+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labelscanstore.db: 2019-11-13T14:11:00+0000 - 48.00 kB
+2019-11-13 14:11:00.437+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labeltokenstore.db: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:11:00.437+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labeltokenstore.db.id: 2019-11-13T14:11:00+0000 - 9.00 B
+2019-11-13 14:11:00.437+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labeltokenstore.db.names: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:11:00.437+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labeltokenstore.db.names.id: 2019-11-13T14:11:00+0000 - 9.00 B
+2019-11-13 14:11:00.437+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.nodestore.db: 2019-11-02T19:02:24+0000 - 16.00 kB
+2019-11-13 14:11:00.437+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.nodestore.db.id: 2019-11-13T14:10:59+0000 - 9.00 B
+2019-11-13 14:11:00.437+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.nodestore.db.labels: 2019-11-02T18:59:40+0000 - 8.00 kB
+2019-11-13 14:11:00.437+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.nodestore.db.labels.id: 2019-11-13T14:10:59+0000 - 9.00 B
+2019-11-13 14:11:00.437+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db: 2019-11-02T19:02:24+0000 - 446.20 kB
+2019-11-13 14:11:00.437+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.arrays: 2019-11-02T18:59:41+0000 - 8.00 kB
+2019-11-13 14:11:00.437+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.arrays.id: 2019-11-13T14:10:59+0000 - 9.00 B
+2019-11-13 14:11:00.437+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.id: 2019-11-13T14:10:59+0000 - 9.00 B
+2019-11-13 14:11:00.453+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.index: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:11:00.453+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.index.id: 2019-11-13T14:10:59+0000 - 9.00 B
+2019-11-13 14:11:00.453+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.index.keys: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:11:00.453+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.index.keys.id: 2019-11-13T14:10:59+0000 - 9.00 B
+2019-11-13 14:11:00.453+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.strings: 2019-11-02T19:02:24+0000 - 16.00 kB
+2019-11-13 14:11:00.453+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.strings.id: 2019-11-13T14:10:59+0000 - 9.00 B
+2019-11-13 14:11:00.453+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshipgroupstore.db: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:11:00.453+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshipgroupstore.db.id: 2019-11-13T14:11:00+0000 - 9.00 B
+2019-11-13 14:11:00.453+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshipstore.db: 2019-11-02T19:02:24+0000 - 111.56 kB
+2019-11-13 14:11:00.453+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshipstore.db.id: 2019-11-13T14:10:59+0000 - 9.00 B
+2019-11-13 14:11:00.453+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshiptypestore.db: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:11:00.453+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshiptypestore.db.id: 2019-11-13T14:10:59+0000 - 9.00 B
+2019-11-13 14:11:00.453+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshiptypestore.db.names: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:11:00.453+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshiptypestore.db.names.id: 2019-11-13T14:10:59+0000 - 9.00 B
+2019-11-13 14:11:00.453+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.schemastore.db: 2019-11-02T18:59:42+0000 - 8.00 kB
+2019-11-13 14:11:00.453+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.schemastore.db.id: 2019-11-13T14:11:00+0000 - 9.00 B
+2019-11-13 14:11:00.453+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.transaction.db.0: 2019-11-13T14:10:57+0000 - 1.69 MB
+2019-11-13 14:11:00.453+0000 INFO [o.n.k.i.DiagnosticsManager]   store_lock: 2019-11-02T18:59:40+0000 - 0.00 B
+2019-11-13 14:11:00.453+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for KernelDiagnostics:StoreFiles END ---
+2019-11-13 14:11:00.532+0000 INFO [o.n.k.i.f.GraphDatabaseFacadeFactory] Shutdown started
+2019-11-13 14:11:00.532+0000 INFO [o.n.k.i.f.GraphDatabaseFacadeFactory] Database is now unavailable
+2019-11-13 14:11:00.532+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Check Pointing triggered by database shutdown [59]:  Starting check pointing...
+2019-11-13 14:11:00.532+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Check Pointing triggered by database shutdown [59]:  Starting store flush...
+2019-11-13 14:11:00.561+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Check Pointing triggered by database shutdown [59]:  Store flush completed
+2019-11-13 14:11:00.561+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Check Pointing triggered by database shutdown [59]:  Starting appending check point entry into the tx log...
+2019-11-13 14:11:00.591+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Check Pointing triggered by database shutdown [59]:  Appending check point entry into the tx log completed
+2019-11-13 14:11:00.591+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Check Pointing triggered by database shutdown [59]:  Check pointing completed
+2019-11-13 14:11:00.591+0000 INFO [o.n.k.i.t.l.p.LogPruningImpl] Log Rotation [0]:  Starting log pruning.
+2019-11-13 14:11:00.591+0000 INFO [o.n.k.i.t.l.p.LogPruningImpl] Log Rotation [0]:  Log pruning complete.
+2019-11-13 14:11:01.816+0000 INFO [o.n.k.i.DiagnosticsManager] --- STOPPING diagnostics START ---
+2019-11-13 14:11:01.816+0000 INFO [o.n.k.i.DiagnosticsManager] --- STOPPING diagnostics END ---
+2019-11-13 14:11:01.943+0000 WARN [o.n.k.i.JvmChecker] You are using an unsupported version of the Java runtime. Please use Oracle(R) Java(TM) Runtime Environment 8, OpenJDK(TM) 8 or IBM J9.
+2019-11-13 14:11:01.943+0000 WARN [o.n.i.p.PageCache] The dbms.memory.pagecache.size setting has not been configured. It is recommended that this setting is always explicitly configured, to ensure the system has a balanced configuration. Until then, a computed heuristic value of 6389112832 bytes will be used instead. 
+2019-11-13 14:11:02.023+0000 INFO [o.n.k.i.f.CommunityEditionModule] No locking implementation specified, defaulting to 'community'
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.AvailabilityGuard] Requirement makes database unavailable: Database available
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] --- INITIALIZED diagnostics START ---
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Neo4j Kernel properties:
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] unsupported.dbms.edition=community
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] unsupported.dbms.directories.neo4j_home=D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator\tests\northwind.db
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] unsupported.dbms.ephemeral=false
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Diagnostics providers:
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] org.neo4j.kernel.configuration.Config
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] org.neo4j.kernel.info.DiagnosticsManager
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] SYSTEM_MEMORY
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] JAVA_MEMORY
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] OPERATING_SYSTEM
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] JAVA_VIRTUAL_MACHINE
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] CLASSPATH
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] LIBRARY_PATH
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] SYSTEM_PROPERTIES
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] NETWORK
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] System memory information:
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Total Physical memory: 15.87 GB
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Free Physical memory: 9.23 GB
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Committed virtual memory: 839.25 MB
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Total swap space: 47.87 GB
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Free swap space: 38.60 GB
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] JVM memory information:
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Free  memory: 346.50 MB
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Total memory: 624.00 MB
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Max   memory: 3.97 GB
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Garbage Collector: G1 Young Generation: [G1 Eden Space, G1 Survivor Space]
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Garbage Collector: G1 Old Generation: [G1 Eden Space, G1 Survivor Space, G1 Old Gen]
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: CodeHeap 'non-nmethods' (Non-heap memory): committed=2.44 MB, used=1.20 MB, max=5.63 MB, threshold=0.00 B
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: Metaspace (Non-heap memory): committed=49.42 MB, used=48.35 MB, max=-1.00 B, threshold=0.00 B
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: CodeHeap 'profiled nmethods' (Non-heap memory): committed=8.31 MB, used=8.30 MB, max=117.19 MB, threshold=0.00 B
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: Compressed Class Space (Non-heap memory): committed=7.67 MB, used=7.32 MB, max=1.00 GB, threshold=0.00 B
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: G1 Eden Space (Heap memory): committed=103.00 MB, used=62.00 MB, max=-1.00 B, threshold=?
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: G1 Old Gen (Heap memory): committed=516.00 MB, used=209.00 MB, max=3.97 GB, threshold=0.00 B
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: G1 Survivor Space (Heap memory): committed=5.00 MB, used=5.00 MB, max=-1.00 B, threshold=?
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: CodeHeap 'non-profiled nmethods' (Non-heap memory): committed=2.69 MB, used=2.66 MB, max=117.19 MB, threshold=0.00 B
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Operating system information:
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Operating System: Windows 10; version: 10.0; arch: amd64; cpus: 8
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Process id: 13700@SALTBAE
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Byte order: LITTLE_ENDIAN
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Local timezone: Europe/London
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] JVM information:
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] VM Name: Java HotSpot(TM) 64-Bit Server VM
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] VM Vendor: "Oracle Corporation"
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] VM Version: 10+46
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] JIT compiler: HotSpot 64-Bit Tiered Compilers
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] VM Arguments: [-ea, -Dfile.encoding=UTF-8]
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Java classpath:
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] C:\Users\AJayS\.p2\pool\plugins\org.hamcrest.core_1.3.0.v201303031735.jar
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] D:\Program Files\eclipse\java-oxygen\eclipse\configuration\org.eclipse.osgi\229\0\.cp
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator\bin
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] C:\Users\AJayS\AppData\Local\Temp\antlr-4.7.2-complete.jar
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator\Dependencies\neo4j-desktop-3.2.6.jar
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator\Dependencies\postgresql-42.2.8.jar
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] D:\Program Files\eclipse\java-oxygen\eclipse\configuration\org.eclipse.osgi\230\0\.cp
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] C:\Users\AJayS\.p2\pool\plugins\org.junit_4.12.0.v201504281640\junit.jar
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Library path:
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jdk-10\bin
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows\Sun\Java\bin
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows\System32
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jdk-10\bin\server
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jdk-10\bin
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows\System32
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows\System32\wbem
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows\System32\OpenSSH
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Windows\System32\WindowsPowerShell\v1.0
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Poly ML
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jdk-10\bin
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jdk1.8.0_172\bin
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jre-10\bin
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Java\jre1.8.0_172\bin
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Users\AJayS\Documents\Android SDK\tools\bin
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\mingw-w64\x86_64-8.1.0-win32-seh-rt_v6-rev0\mingw64\bin
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\swipl\bin
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Git\bin
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Git\cmd
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\MATLAB\R2018a\bin
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Python\Python36
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\Python\Python36\Scripts
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\FFmpeg\bin
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] C:\Users\AJayS\AppData\Local\Microsoft\WindowsApps
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\MiKTeX 2.9\miktex\bin\x64
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Program Files\eclipse\java-oxygen\eclipse
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] System.properties:
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] sun.desktop = windows
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] awt.toolkit = sun.awt.windows.WToolkit
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] file.encoding.pkg = sun.io
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] sun.cpu.isalist = amd64
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] sun.jnu.encoding = Cp1252
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] sun.arch.data.model = 64
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] user.variant = 
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] user.timezone = Europe/London
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] sun.java.launcher = SUN_STANDARD
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] user.country = GB
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] sun.boot.library.path = D:\Program Files\Java\jdk-10\bin
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] sun.java.command = org.eclipse.jdt.internal.junit.runner.RemoteTestRunner -version 3 -port 64862 -testLoaderClass org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader -loaderpluginname org.eclipse.jdt.junit4.runtime -classNames ResultFormatter.TestFormatter
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] jdk.debug = release
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] sun.cpu.endian = little
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] user.home = C:\Users\AJayS
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] user.language = en
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] file.separator = \
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] user.script = 
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] sun.management.compiler = HotSpot 64-Bit Tiered Compilers
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] user.name = AJayS
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] path.separator = ;
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] file.encoding = UTF-8
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] user.dir = D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] sun.os.patch.level = 
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] sun.io.unicode.encoding = UnicodeLittle
+2019-11-13 14:11:02.039+0000 INFO [o.n.k.i.DiagnosticsManager] Network information:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Software Loopback Interface 1:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager]     address: 127.0.0.1
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager]     address: 0:0:0:0:0:0:0:1
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Realtek PCIe GBE Family Controller:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager]     address: 128.232.242.239
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager]     address: fe80:0:0:0:a998:787f:433b:4530%eth0
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft 6to4 Adapter:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (SSTP):
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (PPTP):
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager]     address: fe80:0:0:0:d579:6618:72e0:8df7%wlan0
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IPv6):
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft IP-HTTPS Platform Adapter:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (Network Monitor):
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IP):
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager]     address: fe80:0:0:0:25a2:5027:3b2e:2214%wlan1
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Kernel Debug Network Adapter:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Teredo Tunneling Adapter:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IKEv2):
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (L2TP):
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Check Point Virtual Network Adapter For Endpoint VPN Client:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager]     address: fe80:0:0:0:a899:990a:7da1:db89%eth5
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface VirtualBox Host-Only Ethernet Adapter:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (PPPOE):
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Bluetooth Device (Personal Area Network):
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager]     address: fe80:0:0:0:a5a8:682f:cda9:caff%eth7
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager]     address: fe80:0:0:0:f942:4295:e402:a78e%wlan2
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-Virtual WiFi Filter Driver-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-Native WiFi Filter Driver-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-VirtualBox NDIS Light-Weight Filter-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Realtek PCIe GBE Family Controller-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Realtek PCIe GBE Family Controller-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Realtek PCIe GBE Family Controller-VirtualBox NDIS Light-Weight Filter-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Realtek PCIe GBE Family Controller-QoS Packet Scheduler-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Realtek PCIe GBE Family Controller-WFP 802.3 MAC Layer LightWeight Filter-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Bluetooth Device (Personal Area Network)-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-QoS Packet Scheduler-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Intel(R) Dual Band Wireless-AC 3165-WFP 802.3 MAC Layer LightWeight Filter-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Check Point Virtual Network Adapter For Endpoint VPN Client-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Check Point Virtual Network Adapter For Endpoint VPN Client-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Check Point Virtual Network Adapter For Endpoint VPN Client-VirtualBox NDIS Light-Weight Filter-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Check Point Virtual Network Adapter For Endpoint VPN Client-QoS Packet Scheduler-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Check Point Virtual Network Adapter For Endpoint VPN Client-WFP 802.3 MAC Layer LightWeight Filter-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IP)-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IP)-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IP)-QoS Packet Scheduler-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IPv6)-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IPv6)-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (IPv6)-QoS Packet Scheduler-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (Network Monitor)-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (Network Monitor)-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface WAN Miniport (Network Monitor)-QoS Packet Scheduler-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter-Native WiFi Filter Driver-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter-VirtualBox NDIS Light-Weight Filter-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter-QoS Packet Scheduler-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter-WFP 802.3 MAC Layer LightWeight Filter-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2-WFP Native MAC Layer LightWeight Filter-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2-Native WiFi Filter Driver-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2-Zone Alarm Firewall Driver-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2-VirtualBox NDIS Light-Weight Filter-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2-QoS Packet Scheduler-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] Interface Microsoft Wi-Fi Direct Virtual Adapter #2-WFP 802.3 MAC Layer LightWeight Filter-0000:
+2019-11-13 14:11:02.301+0000 INFO [o.n.k.i.DiagnosticsManager] --- INITIALIZED diagnostics END ---
+2019-11-13 14:11:02.449+0000 INFO [o.n.k.i.s.f.RecordFormatSelector] Selected RecordFormat:StandardV3_2[v0.A.8] record format from store D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator\tests\northwind.db
+2019-11-13 14:11:02.464+0000 INFO [o.n.k.i.s.f.RecordFormatSelector] Selected RecordFormat:StandardV3_2[v0.A.8] record format from store D:\Users\AJayS\Documents\Work\Part II\Dissertation\Project\Translator\tests\northwind.db
+2019-11-13 14:11:02.464+0000 INFO [o.n.k.i.s.f.RecordFormatSelector] Format not configured. Selected format from the store: RecordFormat:StandardV3_2[v0.A.8]
+2019-11-13 14:11:03.206+0000 INFO [o.n.k.i.a.i.IndexingService] IndexingService.init: indexes not specifically mentioned above are null
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.NeoStoreDataSource] No commits found after last check point (which is at LogPosition{logVersion=0, byteOffset=1775593})
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.a.i.IndexingService] IndexingService.start: indexes not specifically mentioned above are null
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DatabaseHealth] Database health set to OK
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.AvailabilityGuard] Fulfilling of requirement makes database available: Database available
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.f.GraphDatabaseFacadeFactory] Database is now ready
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for KernelDiagnostics:Versions START ---
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager] Graph Database: community single StoreId{creationTime=1572721182782, randomId=-1732652773633622577, storeVersion=15813456178476550, upgradeTime=1572721182782, upgradeId=1}
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager] Kernel version: 3.2.6
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for KernelDiagnostics:Versions END ---
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_VERSIONS START ---
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager] Store versions:
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager] Store versions:
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   ArrayPropertyStore v0.A.8
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   NodeStore v0.A.8
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore v0.A.8
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   PropertyIndexStore v0.A.8
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore v0.A.8
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   ArrayPropertyStore v0.A.8
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   PropertyStore v0.A.8
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipStore v0.A.8
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore v0.A.8
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipTypeStore v0.A.8
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore v0.A.8
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   LabelTokenStore v0.A.8
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   SchemaStore v0.A.8
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipGroupStore v0.A.8
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   NeoStore v0.A.8
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_VERSIONS END ---
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_ID_USAGE START ---
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager] Id usage:
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager] Id usage:
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   ArrayPropertyStore: used=1 high=0
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   NodeStore: used=1035 high=1034
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore: used=41 high=40
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   PropertyIndexStore: used=40 high=39
+2019-11-13 14:11:03.284+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore: used=74 high=73
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager]   ArrayPropertyStore: used=1 high=0
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager]   PropertyStore: used=11037 high=11036
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipStore: used=3139 high=3138
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore: used=5 high=4
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipTypeStore: used=4 high=3
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore: used=6 high=5
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager]   LabelTokenStore: used=5 high=4
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager]   SchemaStore: used=1 high=0
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipGroupStore: used=16 high=15
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager]   NeoStore: used=15 high=14
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_ID_USAGE END ---
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_RECORDS START ---
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] Neostore records:
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] TIME (Creation time): 1572721182782
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] RANDOM_NUMBER (Random number for store id): -1732652773633622577
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] LOG_VERSION (Current log version): 0
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_TRANSACTION_ID (Last committed transaction): 59
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] STORE_VERSION (Store format version): 15813456178476550
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] FIRST_GRAPH_PROPERTY (First property record containing graph properties): -1
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_CONSTRAINT_TRANSACTION (Last committed transaction containing constraint changes): 0
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] UPGRADE_TRANSACTION_ID (Transaction id most recent upgrade was performed at): 1
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] UPGRADE_TIME (Time of last upgrade): 1572721182782
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_TRANSACTION_CHECKSUM (Checksum of last committed transaction): -161770796424
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] UPGRADE_TRANSACTION_CHECKSUM (Checksum of transaction id the most recent upgrade was performed at): 0
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_CLOSED_TRANSACTION_LOG_VERSION (Log version where the last transaction commit entry has been written into): 0
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_CLOSED_TRANSACTION_LOG_BYTE_OFFSET (Byte offset in the log file where the last transaction commit entry has been written into): 1775593
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_TRANSACTION_COMMIT_TIMESTAMP (Commit time timestamp for last committed transaction): 1572721319359
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] UPGRADE_TRANSACTION_COMMIT_TIMESTAMP (Commit timestamp of transaction the most recent upgrade was performed at): 0
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_RECORDS END ---
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for TRANSACTION_RANGE START ---
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] Transaction log:
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] Oldest transaction 2 found in log with version 0
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for TRANSACTION_RANGE END ---
+2019-11-13 14:11:03.299+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for KernelDiagnostics:StoreFiles START ---
+2019-11-13 14:11:03.306+0000 INFO [o.n.k.i.DiagnosticsManager] Disk space on partition (Total / Free / Free %): 895211270144 / 451457667072 / 50
+Storage files: (filename : modification date - size)
+2019-11-13 14:11:03.306+0000 INFO [o.n.k.i.DiagnosticsManager]   certificates:
+2019-11-13 14:11:03.306+0000 INFO [o.n.k.i.DiagnosticsManager]     neo4j.cert: 2019-11-02T18:59:40+0000 - 1002.00 B
+2019-11-13 14:11:03.306+0000 INFO [o.n.k.i.DiagnosticsManager]     neo4j.key: 2019-11-02T18:59:40+0000 - 1.70 kB
+2019-11-13 14:11:03.306+0000 INFO [o.n.k.i.DiagnosticsManager]   - Total: 2019-11-02T18:59:40+0000 - 2.67 kB
+2019-11-13 14:11:03.306+0000 INFO [o.n.k.i.DiagnosticsManager]   data:
+2019-11-13 14:11:03.306+0000 INFO [o.n.k.i.DiagnosticsManager]     dbms:
+2019-11-13 14:11:03.306+0000 INFO [o.n.k.i.DiagnosticsManager]       auth: 2019-11-02T18:59:57+0000 - 113.00 B
+2019-11-13 14:11:03.306+0000 INFO [o.n.k.i.DiagnosticsManager]     - Total: 2019-11-02T18:59:57+0000 - 113.00 B
+2019-11-13 14:11:03.306+0000 INFO [o.n.k.i.DiagnosticsManager]   - Total: 2019-11-02T18:59:43+0000 - 113.00 B
+2019-11-13 14:11:03.306+0000 INFO [o.n.k.i.DiagnosticsManager]   index:
+2019-11-13 14:11:03.306+0000 INFO [o.n.k.i.DiagnosticsManager]   - Total: 2019-11-02T18:59:42+0000 - 0.00 B
+2019-11-13 14:11:03.306+0000 INFO [o.n.k.i.DiagnosticsManager]   logs:
+2019-11-13 14:11:03.306+0000 INFO [o.n.k.i.DiagnosticsManager]     debug.log: 2019-11-13T14:11:03+0000 - 681.02 kB
+2019-11-13 14:11:03.306+0000 INFO [o.n.k.i.DiagnosticsManager]   - Total: 2019-11-02T18:59:40+0000 - 681.02 kB
+2019-11-13 14:11:03.306+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:11:03.306+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.counts.db.a: 2019-11-02T18:59:43+0000 - 96.00 B
+2019-11-13 14:11:03.306+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.counts.db.b: 2019-11-02T19:02:24+0000 - 928.00 B
+2019-11-13 14:11:03.322+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.id: 2019-11-13T14:11:03+0000 - 9.00 B
+2019-11-13 14:11:03.322+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labelscanstore.db: 2019-11-13T14:11:03+0000 - 48.00 kB
+2019-11-13 14:11:03.322+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labeltokenstore.db: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:11:03.322+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labeltokenstore.db.id: 2019-11-13T14:11:02+0000 - 9.00 B
+2019-11-13 14:11:03.337+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labeltokenstore.db.names: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:11:03.337+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labeltokenstore.db.names.id: 2019-11-13T14:11:02+0000 - 9.00 B
+2019-11-13 14:11:03.337+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.nodestore.db: 2019-11-02T19:02:24+0000 - 16.00 kB
+2019-11-13 14:11:03.337+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.nodestore.db.id: 2019-11-13T14:11:02+0000 - 9.00 B
+2019-11-13 14:11:03.337+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.nodestore.db.labels: 2019-11-02T18:59:40+0000 - 8.00 kB
+2019-11-13 14:11:03.337+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.nodestore.db.labels.id: 2019-11-13T14:11:02+0000 - 9.00 B
+2019-11-13 14:11:03.337+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db: 2019-11-02T19:02:24+0000 - 446.20 kB
+2019-11-13 14:11:03.337+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.arrays: 2019-11-02T18:59:41+0000 - 8.00 kB
+2019-11-13 14:11:03.337+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.arrays.id: 2019-11-13T14:11:02+0000 - 9.00 B
+2019-11-13 14:11:03.337+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.id: 2019-11-13T14:11:02+0000 - 9.00 B
+2019-11-13 14:11:03.337+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.index: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:11:03.337+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.index.id: 2019-11-13T14:11:02+0000 - 9.00 B
+2019-11-13 14:11:03.337+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.index.keys: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:11:03.337+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.index.keys.id: 2019-11-13T14:11:02+0000 - 9.00 B
+2019-11-13 14:11:03.337+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.strings: 2019-11-02T19:02:24+0000 - 16.00 kB
+2019-11-13 14:11:03.337+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.strings.id: 2019-11-13T14:11:02+0000 - 9.00 B
+2019-11-13 14:11:03.337+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshipgroupstore.db: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:11:03.353+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshipgroupstore.db.id: 2019-11-13T14:11:03+0000 - 9.00 B
+2019-11-13 14:11:03.353+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshipstore.db: 2019-11-02T19:02:24+0000 - 111.56 kB
+2019-11-13 14:11:03.353+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshipstore.db.id: 2019-11-13T14:11:02+0000 - 9.00 B
+2019-11-13 14:11:03.353+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshiptypestore.db: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:11:03.353+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshiptypestore.db.id: 2019-11-13T14:11:02+0000 - 9.00 B
+2019-11-13 14:11:03.353+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshiptypestore.db.names: 2019-11-02T19:02:24+0000 - 8.00 kB
+2019-11-13 14:11:03.353+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshiptypestore.db.names.id: 2019-11-13T14:11:02+0000 - 9.00 B
+2019-11-13 14:11:03.353+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.schemastore.db: 2019-11-02T18:59:42+0000 - 8.00 kB
+2019-11-13 14:11:03.353+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.schemastore.db.id: 2019-11-13T14:11:03+0000 - 9.00 B
+2019-11-13 14:11:03.353+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.transaction.db.0: 2019-11-13T14:11:00+0000 - 1.69 MB
+2019-11-13 14:11:03.353+0000 INFO [o.n.k.i.DiagnosticsManager]   store_lock: 2019-11-02T18:59:40+0000 - 0.00 B
+2019-11-13 14:11:03.353+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for KernelDiagnostics:StoreFiles END ---
+2019-11-13 14:11:03.461+0000 INFO [o.n.k.i.f.GraphDatabaseFacadeFactory] Shutdown started
+2019-11-13 14:11:03.461+0000 INFO [o.n.k.i.f.GraphDatabaseFacadeFactory] Database is now unavailable
+2019-11-13 14:11:03.461+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Check Pointing triggered by database shutdown [59]:  Starting check pointing...
+2019-11-13 14:11:03.461+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Check Pointing triggered by database shutdown [59]:  Starting store flush...
+2019-11-13 14:11:03.572+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Check Pointing triggered by database shutdown [59]:  Store flush completed
+2019-11-13 14:11:03.572+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Check Pointing triggered by database shutdown [59]:  Starting appending check point entry into the tx log...
+2019-11-13 14:11:03.607+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Check Pointing triggered by database shutdown [59]:  Appending check point entry into the tx log completed
+2019-11-13 14:11:03.607+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Check Pointing triggered by database shutdown [59]:  Check pointing completed
+2019-11-13 14:11:03.607+0000 INFO [o.n.k.i.t.l.p.LogPruningImpl] Log Rotation [0]:  Starting log pruning.
+2019-11-13 14:11:03.607+0000 INFO [o.n.k.i.t.l.p.LogPruningImpl] Log Rotation [0]:  Log pruning complete.
+2019-11-13 14:11:05.041+0000 INFO [o.n.k.i.DiagnosticsManager] --- STOPPING diagnostics START ---
+2019-11-13 14:11:05.041+0000 INFO [o.n.k.i.DiagnosticsManager] --- STOPPING diagnostics END ---

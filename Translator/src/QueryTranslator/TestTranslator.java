@@ -86,4 +86,24 @@ public class TestTranslator {
 		System.out.println(queryTranslator.getTranslatedQuery());
 		assertTrue(resultFormatter.compare());
 	}
+	
+	@Test
+	public void testOrderByLimit() {
+		Translator queryTranslator = new Translator("MATCH (n:Movie) RETURN n.title as title, n.released as released ORDER BY n.released DESC, n.title LIMIT 5");
+		Formatter resultFormatter = new Formatter();
+		
+		resultFormatter.initialiseResultSets();
+		resultFormatter.getNeo4JResult("tests\\graph.db", queryTranslator.getCypherQuery());
+		long startTime = System.currentTimeMillis();
+		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
+		
+		System.out.println(queryTranslator.getCypherQuery());
+		System.out.println(queryTranslator.getTranslatedQuery());
+		
+		resultFormatter.printNeo4JResult();
+		resultFormatter.printPostgresResult();
+		
+		assertTrue(resultFormatter.compare());
+	}
 }

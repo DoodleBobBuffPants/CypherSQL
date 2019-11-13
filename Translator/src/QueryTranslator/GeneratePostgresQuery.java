@@ -9,6 +9,7 @@ import QueryAST.OrderBy;
 import QueryAST.Pattern;
 import QueryAST.Query;
 import QueryAST.ReturnItem;
+import QueryAST.SortItem;
 import QueryAST.Where;
 import QueryAST.WhereExpression;
 
@@ -294,7 +295,19 @@ public class GeneratePostgresQuery {
 	private void handleQueryOrderBy(Query parsedQuery) {
 		OrderBy orderByClause = parsedQuery.getOrderByClause();
 		if (orderByClause != null) {
-			
+			for (SortItem sortItem: orderByClause.getSortItems()) {
+				String functionName = sortItem.getFunctionName();
+				if (functionName != null) {
+					String tempSelect = select;
+					select = orderBy;
+					returnFunctionHandler(functionName, sortItem.getFunctionArgument(), parsedQuery.getMatchClause().getPattern());
+					orderBy = select;
+					select = tempSelect;
+					orderBy = orderBy + " " + sortItem.getAscdesc() + ",";
+				} else {
+					orderBy = orderBy + returnItemHandler(sortItem.getField(), parsedQuery.getMatchClause().getPattern()) + " " + sortItem.getAscdesc() + ",";
+				}
+			}
 		}
 	}
 	
