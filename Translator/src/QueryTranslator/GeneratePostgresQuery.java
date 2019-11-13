@@ -153,11 +153,17 @@ public class GeneratePostgresQuery {
 				where = uniqueStringConcat(where, "type = " + "'" + edgeType + "'", " AND ");
 			}
 		} else if (functionName.toLowerCase().equals("count")) {
+			if (functionArgument.startsWith("DISTINCT ")) {
+				select = select + "count(DISTINCT ";
+				functionArgument = functionArgument.substring(9);
+			} else {
+				select = select + "count(";
+			}
+			
 			if (functionArgument.split("\\(").length > 1) {
 				String nestedFunctionName = functionArgument.substring(0, functionArgument.indexOf("("));
 				String nestedFunctionArgument = functionArgument.substring(functionArgument.indexOf("(") + 1, functionArgument.length() - 1);
 				
-				select = select + "count(";
 				returnFunctionHandler(nestedFunctionName, nestedFunctionArgument, pattern);
 				select = select + ")";
 			} else {
@@ -168,7 +174,7 @@ public class GeneratePostgresQuery {
 						groupBy = uniqueStringConcat(groupBy, field, ",");
 					}
 				}
-				select = select + "count(" + translatedArgument + ")";
+				select = select + translatedArgument + ")";
 			}
 		} else if (functionName.toLowerCase().equals("keys")) {
 			select = select + "column_name";

@@ -191,7 +191,13 @@ public class QueryListener extends antlr4.CypherBaseListener {
 			sortItem.setFunctionArgument(ctx.oC_Expression(0).getText());
 		} else {
 			returnItem.setFunctionName(ctx.oC_FunctionName().getText());
-			returnItem.setFunctionArgument(ctx.oC_Expression(0).getText());
+			
+			ParseTree distinct = ctx.getChild(2);
+			if (distinct != null && distinct.getText().toLowerCase().equals("distinct")) {
+				returnItem.setFunctionArgument("DISTINCT " + ctx.oC_Expression(0).getText());
+			} else {
+				returnItem.setFunctionArgument(ctx.oC_Expression(0).getText());
+			}
 		}
 	}
 	
