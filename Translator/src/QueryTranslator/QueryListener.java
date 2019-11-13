@@ -51,6 +51,7 @@ public class QueryListener extends antlr4.CypherBaseListener {
 		query.setMatchClause(matchClause);
 		query.setWhereClause(whereClause);
 		query.setReturnClause(returnClause);
+		query.setOrderByClause(orderByClause);
 		query.setLimitClause(limitClause);
 	}
 	

@@ -5,6 +5,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import QueryAST.EdgePattern;
 import QueryAST.Limit;
 import QueryAST.NodePattern;
+import QueryAST.OrderBy;
 import QueryAST.Pattern;
 import QueryAST.Query;
 import QueryAST.ReturnItem;
@@ -28,6 +29,7 @@ public class GeneratePostgresQuery {
 		handleQueryMatch(parsedQuery);
 		handleQueryWhere(parsedQuery);
 		handleQueryReturn(parsedQuery);
+		handleQueryOrderBy(parsedQuery);
 		handleQueryLimit(parsedQuery);
 		
 		translatedQuery = "SELECT " + select.substring(1, select.length() - 1) + " FROM " + from.substring(1, from.length() - 1);
@@ -106,8 +108,8 @@ public class GeneratePostgresQuery {
 				from = uniqueStringConcat(from, "nodes", ",");
 				
 				if (node.getVariable().equals(functionArgument) && nodeLabel != null) {
-					where = where + "nodes.nodeid = " + nodeLabel.toLowerCase() + ".nodeid AND ";
-					where = where + "'" + nodeLabel + "' = ANY(labels) AND ";
+					where = uniqueStringConcat(where, "nodes.nodeid = " + nodeLabel.toLowerCase() + ".nodeid", " AND ");
+					where = uniqueStringConcat(where, "'" + nodeLabel + "' = ANY(labels)", " AND ");
 				}
 			} else {
 				EdgePattern edge = (EdgePattern) pattern;
@@ -131,8 +133,8 @@ public class GeneratePostgresQuery {
 					select = select + nodeVar + "_node.labels";
 					from = uniqueStringConcat(from, "nodes AS " + nodeVar + "_node", ",");
 					if (nodeLabel != null) {
-						where = where + nodeVar + "_node.nodeid = " + nodeLabel.toLowerCase() + ".nodeid AND ";
-						where = where + "'" + nodeLabel + "' = ANY(" + nodeVar + "_node.labels) AND ";
+						where = uniqueStringConcat(where, nodeVar + "_node.nodeid = " + nodeLabel.toLowerCase() + ".nodeid", " AND ");
+						where = uniqueStringConcat(where, "'" + nodeLabel + "' = ANY(" + nodeVar + "_node.labels)", " AND ");
 					}
 				}
 			}
@@ -144,9 +146,9 @@ public class GeneratePostgresQuery {
 			from = uniqueStringConcat(from, "edges", ",");
 			
 			if (edge.getVariable().equals(functionArgument) && edgeType != null) {
-				where = where + "edges.nodesrcid = " + edgeType.toLowerCase() + ".nodesrcid AND ";
-				where = where + "edges.nodetrgtid = " + edgeType.toLowerCase() + ".nodetrgtid AND ";
-				where = where + "type = " + "'" + edgeType + "' AND ";
+				where = uniqueStringConcat(where, "edges.nodesrcid = " + edgeType.toLowerCase() + ".nodesrcid", " AND ");
+				where = uniqueStringConcat(where, "edges.nodetrgtid = " + edgeType.toLowerCase() + ".nodetrgtid", " AND ");
+				where = uniqueStringConcat(where, "type = " + "'" + edgeType + "'", " AND ");
 			}
 		} else if (functionName.toLowerCase().equals("count")) {
 			if (functionArgument.split("\\(").length > 1) {
@@ -286,6 +288,13 @@ public class GeneratePostgresQuery {
 				}
 			}
 			select = select + ",";
+		}
+	}
+	
+	private void handleQueryOrderBy(Query parsedQuery) {
+		OrderBy orderByClause = parsedQuery.getOrderByClause();
+		if (orderByClause != null) {
+			
 		}
 	}
 	
