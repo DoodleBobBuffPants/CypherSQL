@@ -180,7 +180,7 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	
 	@Override
 	public void exitOC_FunctionInvocation(CypherParser.OC_FunctionInvocationContext ctx) {
-		if (returnClause == null) {
+		if (returnClause == null && orderByClause == null) {
 			if (leftExpression) {
 				whereExpression.setLeftFunctionName(ctx.oC_FunctionName().getText());
 				whereExpression.setLeftFunctionArgument(ctx.oC_Expression(0).getText());
@@ -188,6 +188,9 @@ public class QueryListener extends antlr4.CypherBaseListener {
 				whereExpression.setRightFunctionName(ctx.oC_FunctionName().getText());
 				whereExpression.setRightFunctionArgument(ctx.oC_Expression(0).getText());
 			}
+		} else if (returnClause == null) {
+			orderByClause.setFunctionName(ctx.oC_FunctionName().getText());
+			orderByClause.setFunctionArgument(ctx.oC_Expression(0).getText());
 		} else {
 			returnItem.setFunctionName(ctx.oC_FunctionName().getText());
 			returnItem.setFunctionArgument(ctx.oC_Expression(0).getText());

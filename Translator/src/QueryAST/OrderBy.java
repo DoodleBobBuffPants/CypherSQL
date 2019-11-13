@@ -1,9 +1,27 @@
 package QueryAST;
 
 public class OrderBy {
+	private String functionName;
+	private String functionArgument;
 	private String field;
 	private String ascdesc;
 	
+	public String getFunctionName() {
+		return functionName;
+	}
+
+	public void setFunctionName(String functionName) {
+		this.functionName = functionName;
+	}
+
+	public String getFunctionArgument() {
+		return functionArgument;
+	}
+
+	public void setFunctionArgument(String functionArg) {
+		this.functionArgument = functionArg;
+	}
+
 	public String getField() {
 		return field;
 	}
