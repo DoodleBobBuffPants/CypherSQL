@@ -10,6 +10,7 @@ import QueryAST.OrderBy;
 import QueryAST.Query;
 import QueryAST.Return;
 import QueryAST.ReturnItem;
+import QueryAST.SortItem;
 import QueryAST.Where;
 import QueryAST.WhereExpression;
 import antlr4.CypherParser;
@@ -31,6 +32,7 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	private EdgePattern edgePattern;
 	private WhereExpression whereExpression;
 	private ReturnItem returnItem;
+	private SortItem sortItem;
 	private boolean hasEdge;
 	private boolean leftRight;
 	private boolean leftExpression;
@@ -189,8 +191,8 @@ public class QueryListener extends antlr4.CypherBaseListener {
 				whereExpression.setRightFunctionArgument(ctx.oC_Expression(0).getText());
 			}
 		} else if (returnClause == null) {
-			orderByClause.setFunctionName(ctx.oC_FunctionName().getText());
-			orderByClause.setFunctionArgument(ctx.oC_Expression(0).getText());
+			sortItem.setFunctionName(ctx.oC_FunctionName().getText());
+			sortItem.setFunctionArgument(ctx.oC_Expression(0).getText());
 		} else {
 			returnItem.setFunctionName(ctx.oC_FunctionName().getText());
 			returnItem.setFunctionArgument(ctx.oC_Expression(0).getText());
@@ -212,13 +214,23 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	@Override
 	public void enterOC_Order(CypherParser.OC_OrderContext ctx) {
 		orderByClause = new OrderBy();
+	}
+	
+	@Override
+	public void enterOC_SortItem(CypherParser.OC_SortItemContext ctx) {
+		sortItem = new SortItem();
 		ParseTree order = ctx.getChild(2);
 		if (order != null) {
-			orderByClause.setAscdesc(order.getText().toLowerCase());
+			sortItem.setAscdesc(order.getText().toLowerCase());
 		} else {
-			orderByClause.setAscdesc("asc");
+			sortItem.setAscdesc("asc");
 		}
-		orderByClause.setField(ctx.oC_SortItem(0).oC_Expression().getText());
+		sortItem.setField(ctx.oC_Expression().getText());
+	}
+	
+	@Override
+	public void exitOC_SortItem(CypherParser.OC_SortItemContext ctx) {
+		orderByClause.addSortItem(sortItem);
 	}
 	
 	@Override

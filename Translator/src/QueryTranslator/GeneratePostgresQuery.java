@@ -17,6 +17,7 @@ public class GeneratePostgresQuery {
 	private String from = ",";
 	private String where = " AND ";
 	private String groupBy = "";
+	private String orderBy = "";
 	private String limit = "";
 	
 	public String getTranslatedQuery() {
@@ -36,6 +37,9 @@ public class GeneratePostgresQuery {
 		}
 		if (!groupBy.equals("")) {
 			translatedQuery += " GROUP BY " + groupBy.substring(0, groupBy.length() - 1);
+		}
+		if (!orderBy.equals("")) {
+			translatedQuery += " ORDER BY " + orderBy.substring(0, orderBy.length() - 1);
 		}
 		if (!limit.equals("")) {
 			translatedQuery += " LIMIT " + limit;

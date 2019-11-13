@@ -1,40 +1,16 @@
 package QueryAST;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OrderBy {
-	private String functionName;
-	private String functionArgument;
-	private String field;
-	private String ascdesc;
-	
-	public String getFunctionName() {
-		return functionName;
+	private List<SortItem> sortItems = new ArrayList<SortItem>();
+
+	public List<SortItem> getSortItems() {
+		return new ArrayList<SortItem>(sortItems);
 	}
 
-	public void setFunctionName(String functionName) {
-		this.functionName = functionName;
-	}
-
-	public String getFunctionArgument() {
-		return functionArgument;
-	}
-
-	public void setFunctionArgument(String functionArg) {
-		this.functionArgument = functionArg;
-	}
-
-	public String getField() {
-		return field;
-	}
-	
-	public void setField(String field) {
-		this.field = field;
-	}
-	
-	public String getAscdesc() {
-		return ascdesc;
-	}
-	
-	public void setAscdesc(String ascdesc) {
-		this.ascdesc = ascdesc;
+	public void addSortItem(SortItem sortItem) {
+		this.sortItems.add(sortItem);
 	}
 }
