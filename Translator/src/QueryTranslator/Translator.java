@@ -20,7 +20,7 @@ public class Translator {
 	private GeneratePostgresQuery genPostgresQuery;
 	
 	public static void main(String[] args) {
-		Translator queryTranslator = new Translator("MATCH (n:Movie) RETURN n.title as title, n.released as released ORDER BY n.released DESC, n.title LIMIT 5");
+		Translator queryTranslator = new Translator("MATCH (n)-[r]->(m) RETURN keys(r) AS keys, count(*) AS count");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();

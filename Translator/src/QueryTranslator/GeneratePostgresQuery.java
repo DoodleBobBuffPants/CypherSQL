@@ -18,7 +18,7 @@ public class GeneratePostgresQuery {
 	private String select = ",";
 	private String from = ",";
 	private String where = " AND ";
-	private String groupBy = "";
+	private String groupBy = ",";
 	private String orderBy = "";
 	private String limit = "";
 	
@@ -38,8 +38,8 @@ public class GeneratePostgresQuery {
 		if (!where.equals(" AND ")) {
 			translatedQuery += " WHERE " + where.substring(5, where.length() - 5);
 		}
-		if (!groupBy.equals("")) {
-			translatedQuery += " GROUP BY " + groupBy.substring(0, groupBy.length() - 1);
+		if (!groupBy.equals(",")) {
+			translatedQuery += " GROUP BY " + groupBy.substring(1, groupBy.length() - 1);
 		}
 		if (!orderBy.equals("")) {
 			translatedQuery += " ORDER BY " + orderBy.substring(0, orderBy.length() - 1);
@@ -164,10 +164,36 @@ public class GeneratePostgresQuery {
 				for (String fieldWithAlias: select.substring(1).split(",")) {
 					String field = fieldWithAlias.split("AS")[0].trim();
 					if (!field.equals(translatedArgument) && !field.equals("")) {
-						groupBy = groupBy + field + ",";
+						groupBy = uniqueStringConcat(groupBy, field, ",");
 					}
 				}
 				select = select + "count(" + translatedArgument + ")";
+			}
+		} else if (functionName.toLowerCase().equals("keys")) {
+			select = select + "column_name";
+			from = uniqueStringConcat(from, "information_schema.columns", ",");
+			groupBy = uniqueStringConcat(groupBy, "column_name", ",");
+			
+			if (pattern instanceof NodePattern) {
+				where = uniqueStringConcat(where,  "initcap(table_name) = ANY(labels)", " AND ");
+				where = uniqueStringConcat(where,  "column_name <> 'nodeid'", " AND ");
+			} else if (pattern instanceof EdgePattern) {
+				EdgePattern edge = (EdgePattern) pattern;
+				String nodeSrcVar = edge.getNodeSrc().getVariable();
+				String nodeTrgtVar = edge.getNodeTrgt().getVariable();
+				
+				if (edge.getVariable().equals(functionArgument)) {
+					from = uniqueStringConcat(from, "edges", ",");
+					where = uniqueStringConcat(where,  "table_name = lower(type)", " AND ");
+					where = uniqueStringConcat(where,  "column_name <> 'nodesrcid'", " AND ");
+					where = uniqueStringConcat(where,  "column_name <> 'nodetrgtid'", " AND ");
+				} else if (nodeSrcVar.equals(functionArgument)) {
+					where = uniqueStringConcat(where,  "initcap(table_name) = ANY(" + nodeSrcVar + "_node.labels)", " AND ");
+					where = uniqueStringConcat(where,  "column_name <> 'nodeid'", " AND ");
+				} else if (nodeTrgtVar.equals(functionArgument)) {
+					where = uniqueStringConcat(where,  "initcap(table_name) = ANY(" + nodeTrgtVar + "_node.labels)", " AND ");
+					where = uniqueStringConcat(where,  "column_name <> 'nodeid'", " AND ");
+				}
 			}
 		}
 	}
@@ -275,7 +301,7 @@ public class GeneratePostgresQuery {
 				returnFunctionHandler(functionName, returnItem.getFunctionArgument(), parsedQuery.getMatchClause().getPattern());
 			} else if (toReturn.toLowerCase().equals("count(*)")) {
 				for (String field: select.substring(1).split(",")) {
-					groupBy = groupBy + field.split("AS")[0].trim() + ",";
+					groupBy = uniqueStringConcat(groupBy, field.split("AS")[0].trim(), ",");
 				}
 				select = select + toReturn;
 			} else {

@@ -89,7 +89,7 @@ public class TestTranslator {
 	
 	@Test
 	public void testOrderByLimit() {
-		Translator queryTranslator = new Translator("MATCH (n:Movie) RETURN n.title as title, n.released as released ORDER BY n.released DESC, n.title LIMIT 5");
+		Translator queryTranslator = new Translator("MATCH (n:Movie) RETURN n.title AS title, n.released AS released ORDER BY n.released DESC, n.title LIMIT 5");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
