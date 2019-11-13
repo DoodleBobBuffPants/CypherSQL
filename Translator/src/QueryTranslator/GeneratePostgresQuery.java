@@ -8,6 +8,7 @@ import QueryAST.NodePattern;
 import QueryAST.OrderBy;
 import QueryAST.Pattern;
 import QueryAST.Query;
+import QueryAST.Return;
 import QueryAST.ReturnItem;
 import QueryAST.SortItem;
 import QueryAST.Where;
@@ -293,7 +294,12 @@ public class GeneratePostgresQuery {
 	}
 	
 	private void handleQueryReturn(Query parsedQuery) {
-		for (ReturnItem returnItem: parsedQuery.getReturnClause().getReturnItems()) {
+		Return returnClause = parsedQuery.getReturnClause();
+		if (returnClause.isDistinct()) {
+			select = select + "DISTINCT ";
+		}
+		
+		for (ReturnItem returnItem: returnClause.getReturnItems()) {
 			String functionName = returnItem.getFunctionName();
 			String toReturn = returnItem.getToReturn();
 			

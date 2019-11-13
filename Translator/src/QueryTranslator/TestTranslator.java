@@ -106,4 +106,24 @@ public class TestTranslator {
 		
 		assertTrue(resultFormatter.compare());
 	}
+	
+	@Test
+	public void testDistinct() {
+		Translator queryTranslator = new Translator("MATCH (n) RETURN DISTINCT labels(n) AS labels");
+		Formatter resultFormatter = new Formatter();
+		
+		resultFormatter.initialiseResultSets();
+		resultFormatter.getNeo4JResult("tests\\graph.db", queryTranslator.getCypherQuery());
+		long startTime = System.currentTimeMillis();
+		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
+		
+		System.out.println(queryTranslator.getCypherQuery());
+		System.out.println(queryTranslator.getTranslatedQuery());
+		
+		resultFormatter.printNeo4JResult();
+		resultFormatter.printPostgresResult();
+		
+		assertTrue(resultFormatter.compare());
+	}
 }

@@ -165,6 +165,10 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	@Override
 	public void enterOC_Return(CypherParser.OC_ReturnContext ctx) {
 		returnClause = new Return();
+		ParseTree distinct = ctx.getChild(2);
+		if (distinct != null && distinct.getText().toLowerCase().equals("distinct")) {
+			returnClause.setDistinct(true);
+		}
 	}
 	
 	@Override

@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Return {
 	private List<ReturnItem> returnItems = new ArrayList<ReturnItem>();
+	private boolean isDistinct = false;
 
 	public List<ReturnItem> getReturnItems() {
 		return new ArrayList<ReturnItem>(returnItems);
@@ -12,5 +13,13 @@ public class Return {
 
 	public void addReturnItem(ReturnItem returnItem) {
 		this.returnItems.add(returnItem);
+	}
+
+	public boolean isDistinct() {
+		return isDistinct;
+	}
+
+	public void setDistinct(boolean isDistinct) {
+		this.isDistinct = isDistinct;
 	}
 }
