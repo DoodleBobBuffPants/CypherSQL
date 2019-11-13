@@ -4,6 +4,7 @@ public class Query {
 	private Match matchClause;
 	private Where whereClause;
 	private Return returnClause;
+	private OrderBy orderByClause;
 	private Limit limitClause;
 	
 	public Match getMatchClause() {
@@ -28,6 +29,14 @@ public class Query {
 	
 	public void setReturnClause(Return returnClause) {
 		this.returnClause = returnClause;
+	}
+
+	public OrderBy getOrderByClause() {
+		return orderByClause;
+	}
+
+	public void setOrderByClause(OrderBy orderByClause) {
+		this.orderByClause = orderByClause;
 	}
 
 	public Limit getLimitClause() {

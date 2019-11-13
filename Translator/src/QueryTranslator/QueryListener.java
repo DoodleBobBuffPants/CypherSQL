@@ -6,6 +6,7 @@ import QueryAST.EdgePattern;
 import QueryAST.Limit;
 import QueryAST.Match;
 import QueryAST.NodePattern;
+import QueryAST.OrderBy;
 import QueryAST.Query;
 import QueryAST.Return;
 import QueryAST.ReturnItem;
@@ -24,6 +25,7 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	private Match matchClause;
 	private Where whereClause;
 	private Return returnClause;
+	private OrderBy orderByClause;
 	private Limit limitClause;
 	private NodePattern nodePattern;
 	private EdgePattern edgePattern;
@@ -202,6 +204,18 @@ public class QueryListener extends antlr4.CypherBaseListener {
 			}
 		}
 		returnClause.addReturnItem(returnItem);
+	}
+	
+	@Override
+	public void enterOC_Order(CypherParser.OC_OrderContext ctx) {
+		orderByClause = new OrderBy();
+		ParseTree order = ctx.getChild(2);
+		if (order != null) {
+			orderByClause.setAscdesc(order.getText().toLowerCase());
+		} else {
+			orderByClause.setAscdesc("asc");
+		}
+		orderByClause.setField(ctx.oC_SortItem(0).oC_Expression().getText());
 	}
 	
 	@Override
