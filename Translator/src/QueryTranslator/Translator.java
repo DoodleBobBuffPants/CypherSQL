@@ -20,7 +20,7 @@ public class Translator {
 	private GeneratePostgresQuery genPostgresQuery;
 	
 	public static void main(String[] args) {
-		Translator queryTranslator = new Translator("MATCH (n) RETURN count(DISTINCT labels(n)) AS count");
+		Translator queryTranslator = new Translator("MATCH (n) RETURN keys(n) AS keys");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
