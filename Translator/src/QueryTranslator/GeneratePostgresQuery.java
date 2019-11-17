@@ -280,10 +280,8 @@ public class GeneratePostgresQuery {
 	
 	private void handleQueryMatch(Query parsedQuery) {
 		List<Pattern> patternList = parsedQuery.getMatchClause().getPatternList();
-		
 		for (int i = 0; i < patternList.size(); i++) {
 			Pattern pattern = patternList.get(i);
-			
 			if (pattern instanceof NodePattern) {
 				NodePattern node = (NodePattern) pattern;
 				String nodeVar = node.getVariable();
