@@ -20,7 +20,7 @@ public class Translator {
 	private GeneratePostgresQuery genPostgresQuery;
 	
 	public static void main(String[] args) {
-		Translator queryTranslator = new Translator("MATCH (n:Movie)<-[r:DIRECTED]-(p:Person)-[s:WROTE]->(n:Movie) WHERE ID(p) = 5 AND ID(n) = 121 RETURN p.name AS name, n.title AS title");
+		Translator queryTranslator = new Translator("MATCH (n:Movie), (p:Person) WHERE ID(n) = 0 AND ID(p) = 5 RETURN p.name AS name, n.title AS title");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();

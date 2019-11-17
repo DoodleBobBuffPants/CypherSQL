@@ -146,4 +146,44 @@ public class TestTranslator {
 		
 		assertTrue(resultFormatter.compare());
 	}
+	
+	@Test
+	public void testMatchAnyPattern() {
+		Translator queryTranslator = new Translator("MATCH (n:Movie)<-[r:DIRECTED]-(p:Person)-[s:WROTE]->(n:Movie) WHERE ID(p) = 5 AND ID(n) = 121 RETURN p.name AS name, n.title AS title");
+		Formatter resultFormatter = new Formatter();
+		
+		resultFormatter.initialiseResultSets();
+		resultFormatter.getNeo4JResult("tests\\graph.db", queryTranslator.getCypherQuery());
+		long startTime = System.currentTimeMillis();
+		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
+		
+		System.out.println(queryTranslator.getCypherQuery());
+		System.out.println(queryTranslator.getTranslatedQuery());
+		
+		resultFormatter.printNeo4JResult();
+		resultFormatter.printPostgresResult();
+		
+		assertTrue(resultFormatter.compare());
+	}
+	
+	@Test
+	public void testMatchCSV() {
+		Translator queryTranslator = new Translator("MATCH (n:Movie), (p:Person) WHERE ID(n) = 0 AND ID(p) = 5 RETURN p.name AS name, n.title AS title");
+		Formatter resultFormatter = new Formatter();
+		
+		resultFormatter.initialiseResultSets();
+		resultFormatter.getNeo4JResult("tests\\graph.db", queryTranslator.getCypherQuery());
+		long startTime = System.currentTimeMillis();
+		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
+		
+		System.out.println(queryTranslator.getCypherQuery());
+		System.out.println(queryTranslator.getTranslatedQuery());
+		
+		resultFormatter.printNeo4JResult();
+		resultFormatter.printPostgresResult();
+		
+		assertTrue(resultFormatter.compare());
+	}
 }
