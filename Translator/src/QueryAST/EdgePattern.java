@@ -1,25 +1,16 @@
 package QueryAST;
 
 public class EdgePattern extends Pattern {
-	private NodePattern nodeSrc;
-	private NodePattern nodeTrgt;
+	private boolean leftSrc;
 	private String variable;
 	private String type;
 	
-	public NodePattern getNodeSrc() {
-		return nodeSrc;
+	public boolean isLeftSrc() {
+		return leftSrc;
 	}
-	
-	public void setNodeSrc(NodePattern nodeSrc) {
-		this.nodeSrc = nodeSrc;
-	}
-	
-	public NodePattern getNodeTrgt() {
-		return nodeTrgt;
-	}
-	
-	public void setNodeTrgt(NodePattern nodeTrgt) {
-		this.nodeTrgt = nodeTrgt;
+
+	public void setLeftSrc(boolean leftSrc) {
+		this.leftSrc = leftSrc;
 	}
 	
 	public String getVariable() {

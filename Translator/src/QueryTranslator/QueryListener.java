@@ -33,8 +33,6 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	private WhereExpression whereExpression;
 	private ReturnItem returnItem;
 	private SortItem sortItem;
-	private boolean hasEdge;
-	private boolean leftRight;
 	private boolean leftExpression;
 	
 	public Query getQuery() {
@@ -61,29 +59,6 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	}
 	
 	@Override
-	public void exitOC_Match(CypherParser.OC_MatchContext ctx) {
-		if (edgePattern != null) {
-			matchClause.setPattern(edgePattern);
-		} else if (nodePattern != null) {
-			matchClause.setPattern(nodePattern);
-		}
-	}
-	
-	@Override
-	public void enterOC_PatternElement(CypherParser.OC_PatternElementContext ctx) {
-		hasEdge = false;
-	}
-	
-	@Override
-	public void exitOC_PatternElement(CypherParser.OC_PatternElementContext ctx) {
-		if (hasEdge && leftRight) {
-			edgePattern.setNodeTrgt(nodePattern);
-		} else if (hasEdge) {
-			edgePattern.setNodeSrc(nodePattern);
-		}
-	}
-	
-	@Override
 	public void enterOC_NodePattern(CypherParser.OC_NodePatternContext ctx) {
 		nodePattern = new NodePattern();
 		OC_VariableContext variable = ctx.oC_Variable();
@@ -94,12 +69,12 @@ public class QueryListener extends antlr4.CypherBaseListener {
 		if (nodeLabels != null) {
 			nodePattern.setLabel(nodeLabels.oC_NodeLabel(0).getText().substring(1));
 		}
+		matchClause.addPattern(nodePattern);
 	}
 	
 	@Override
 	public void enterOC_RelationshipPattern(CypherParser.OC_RelationshipPatternContext ctx) {
 		edgePattern = new EdgePattern();
-		hasEdge = true;
 		
 		OC_RelationshipDetailContext relationshipDetail = ctx.oC_RelationshipDetail();
 		OC_VariableContext variable = relationshipDetail.oC_Variable();
@@ -111,12 +86,11 @@ public class QueryListener extends antlr4.CypherBaseListener {
 			edgePattern.setType(edgeType.getText().substring(1));
 		}
 		if (ctx.oC_RightArrowHead() != null) {
-			leftRight = true;
-			edgePattern.setNodeSrc(nodePattern);
+			edgePattern.setLeftSrc(false);
 		} else {
-			leftRight = false;
-			edgePattern.setNodeTrgt(nodePattern);
+			edgePattern.setLeftSrc(true);
 		}
+		matchClause.addPattern(edgePattern);
 	}
 	
 	@Override

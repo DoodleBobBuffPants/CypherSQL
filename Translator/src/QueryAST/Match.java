@@ -1,13 +1,16 @@
 package QueryAST;
 
-public class Match {
-	private Pattern pattern;
+import java.util.ArrayList;
+import java.util.List;
 
-	public Pattern getPattern() {
-		return pattern;
+public class Match {
+	private List<Pattern> patternList = new ArrayList<Pattern>();
+
+	public List<Pattern> getPatternList() {
+		return new ArrayList<Pattern>(patternList);
 	}
 
-	public void setPattern(Pattern pattern) {
-		this.pattern = pattern;
+	public void addPattern(Pattern pattern) {
+		this.patternList.add(pattern);
 	}
 }
