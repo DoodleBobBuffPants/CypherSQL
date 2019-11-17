@@ -1,5 +1,7 @@
 package QueryTranslator;
 
+import java.util.List;
+
 import org.apache.commons.lang3.math.NumberUtils;
 
 import QueryAST.EdgePattern;
@@ -57,16 +59,42 @@ public class GeneratePostgresQuery {
 		return target + concat + delim;
 	}
 	
+	private void matchNodeHandler(String currentNodeVar, String currentNodeName, int index, List<Pattern> patternList) {
+		for (int i = 0; i < index; i++) {
+			Pattern pattern = patternList.get(i);
+			
+			if (pattern instanceof NodePattern) {
+				NodePattern otherNode = (NodePattern) pattern;
+				String otherNodeVar = otherNode.getVariable();
+				
+				if (otherNodeVar.equals(currentNodeVar)) {
+					String otherNodeLabel = otherNode.getLabel();
+					String otherNodeName;
+					
+					if (otherNodeLabel == null) {
+						otherNodeName = otherNodeVar + "_node";
+					} else {
+						otherNodeName = otherNodeVar + "_" + otherNodeLabel.toLowerCase();
+					}
+					
+					where = uniqueStringConcat(where, currentNodeName + ".nodeid = " + otherNodeName + ".nodeid", " AND ");
+				}
+			}
+		}
+	}
+	
 	private void matchEdgeHandler(String nodeVar, String nodeLabel, String edgeType, String srctrgt) {
 		if (nodeVar != null && nodeLabel == null) {
 			from = uniqueStringConcat(from, "nodes AS " + nodeVar + "_node", ",");
 			where = uniqueStringConcat(where, edgeType + ".node" + srctrgt + "id = " + nodeVar + "_node.nodeid", " AND ");
 		} else if (nodeVar != null && nodeLabel != null) {
-			from = uniqueStringConcat(from, nodeLabel.toLowerCase() + " AS " + nodeVar + "_" + nodeLabel.toLowerCase() , ",");
-			where = uniqueStringConcat(where, edgeType + ".node" + srctrgt + "id = " + nodeVar + "_" + nodeLabel.toLowerCase() + ".nodeid", " AND ");
+			String lowerNodeLabel = nodeLabel.toLowerCase();
+			from = uniqueStringConcat(from, lowerNodeLabel + " AS " + nodeVar + "_" + lowerNodeLabel , ",");
+			where = uniqueStringConcat(where, edgeType + ".node" + srctrgt + "id = " + nodeVar + "_" + lowerNodeLabel + ".nodeid", " AND ");
 		} else if (nodeLabel != null) {
-			from = uniqueStringConcat(from, nodeLabel.toLowerCase(), ",");
-			where = uniqueStringConcat(where, edgeType + ".node" + srctrgt + "id = " + nodeLabel.toLowerCase() + ".nodeid", " AND ");
+			String lowerNodeLabel = nodeLabel.toLowerCase();
+			from = uniqueStringConcat(from, lowerNodeLabel, ",");
+			where = uniqueStringConcat(where, edgeType + ".node" + srctrgt + "id = " + lowerNodeLabel + ".nodeid", " AND ");
 		}
 	}
 	
@@ -251,38 +279,55 @@ public class GeneratePostgresQuery {
 	}
 	
 	private void handleQueryMatch(Query parsedQuery) {
-		Pattern pattern = parsedQuery.getMatchClause().getPattern();
+		List<Pattern> patternList = parsedQuery.getMatchClause().getPatternList();
 		
-		if (pattern instanceof NodePattern) {
-			NodePattern node = (NodePattern) pattern;
-			String nodeVar = node.getVariable();
-			String nodeLabel = node.getLabel();
+		for (int i = 0; i < patternList.size(); i++) {
+			Pattern pattern = patternList.get(i);
 			
-			if (nodeVar != null && nodeLabel == null) {
-				from = from + "nodes,";
-			} else if (nodeLabel != null){
-				from = from + nodeLabel.toLowerCase() + ",";
-			}
-		} else {
-			EdgePattern edge = (EdgePattern) pattern;
-			NodePattern nodeSrc = edge.getNodeSrc();
-			NodePattern nodeTrgt = edge.getNodeTrgt();
-			
-			String nodeSrcVar = nodeSrc.getVariable();
-			String nodeSrcLabel = nodeSrc.getLabel();
-			String nodeTrgtVar = nodeTrgt.getVariable();
-			String nodeTrgtLabel = nodeTrgt.getLabel();
-			String edgeVar = edge.getVariable();
-			String edgeType = edge.getType();
-			
-			if (edgeVar != null && edgeType == null) {
-				from = from + "edges,";
-				matchEdgeHandler(nodeSrcVar, nodeSrcLabel, "edges", "src");
-				matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, "edges", "trgt");
-			} else if (edgeType != null){
-				from = from + edgeType.toLowerCase() + ",";
-				matchEdgeHandler(nodeSrcVar, nodeSrcLabel, edgeType.toLowerCase(), "src");
-				matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, edgeType.toLowerCase(), "trgt");
+			if (pattern instanceof NodePattern) {
+				NodePattern node = (NodePattern) pattern;
+				String nodeVar = node.getVariable();
+				String nodeLabel = node.getLabel();
+				
+				if (nodeVar != null && nodeLabel == null) {
+					String nodeName = nodeVar + "_node";
+					from = uniqueStringConcat(from, "nodes AS " + nodeName, ",");
+					matchNodeHandler(nodeVar, nodeName, i, patternList);
+				} else if (nodeVar != null){
+					String lowerNodeLabel = nodeLabel.toLowerCase();
+					String nodeName = nodeVar + "_" + lowerNodeLabel;
+					from = uniqueStringConcat(from, lowerNodeLabel + " AS " + nodeName, ",");
+					matchNodeHandler(nodeVar, nodeName, i, patternList);
+				}
+			} else {
+				EdgePattern edge = (EdgePattern) pattern;
+				NodePattern nodeSrc;
+				NodePattern nodeTrgt;
+				
+				if (edge.isLeftSrc()) {
+					nodeSrc = (NodePattern) patternList.get(i - 1);
+					nodeTrgt = (NodePattern) patternList.get(i + 1);
+				} else {
+					nodeSrc = (NodePattern) patternList.get(i + 1);
+					nodeTrgt = (NodePattern) patternList.get(i - 1);
+				}
+				
+				String nodeSrcVar = nodeSrc.getVariable();
+				String nodeSrcLabel = nodeSrc.getLabel();
+				String nodeTrgtVar = nodeTrgt.getVariable();
+				String nodeTrgtLabel = nodeTrgt.getLabel();
+				String edgeVar = edge.getVariable();
+				String edgeType = edge.getType();
+				
+				if (edgeVar != null && edgeType == null) {
+					from = uniqueStringConcat(from, "edges", ",");
+					matchEdgeHandler(nodeSrcVar, nodeSrcLabel, "edges", "src");
+					matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, "edges", "trgt");
+				} else if (edgeType != null){
+					from = uniqueStringConcat(from, edgeType.toLowerCase(), ",");
+					matchEdgeHandler(nodeSrcVar, nodeSrcLabel, edgeType.toLowerCase(), "src");
+					matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, edgeType.toLowerCase(), "trgt");
+				}
 			}
 		}
 	}
@@ -291,9 +336,10 @@ public class GeneratePostgresQuery {
 		Where whereClause = parsedQuery.getWhereClause();
 		if (whereClause != null) {
 			for (WhereExpression whereExpression: whereClause.getAndExpressions()) {
-				whereExpressionHandler(whereExpression.getLeftFunctionName(), whereExpression.getLeftFunctionArgument(), whereExpression.getLeftLiteral(), parsedQuery.getMatchClause().getPattern());
+				Pattern pattern = parsedQuery.getMatchClause().getPattern();
+				whereExpressionHandler(whereExpression.getLeftFunctionName(), whereExpression.getLeftFunctionArgument(), whereExpression.getLeftLiteral(), pattern);
 				where = where + " " + whereExpression.getComparisonOperator() + " ";
-				whereExpressionHandler(whereExpression.getRightFunctionName(), whereExpression.getRightFunctionArgument(), whereExpression.getRightLiteral(), parsedQuery.getMatchClause().getPattern());
+				whereExpressionHandler(whereExpression.getRightFunctionName(), whereExpression.getRightFunctionArgument(), whereExpression.getRightLiteral(), pattern);
 				where = where + " AND ";
 			}
 		}
