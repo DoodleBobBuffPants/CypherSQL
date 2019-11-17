@@ -83,18 +83,20 @@ public class GeneratePostgresQuery {
 		}
 	}
 	
-	private void matchEdgeHandler(String nodeVar, String nodeLabel, String edgeType, String srctrgt) {
+	private void matchEdgeHandler(String nodeVar, String nodeLabel, String edgeName, String srctrgt) {
 		if (nodeVar != null && nodeLabel == null) {
-			from = uniqueStringConcat(from, "nodes AS " + nodeVar + "_node", ",");
-			where = uniqueStringConcat(where, edgeType + ".node" + srctrgt + "id = " + nodeVar + "_node.nodeid", " AND ");
+			String nodeName = nodeVar + "_node";
+			from = uniqueStringConcat(from, "nodes AS " + nodeName, ",");
+			where = uniqueStringConcat(where, edgeName + ".node" + srctrgt + "id = " + nodeName + ".nodeid", " AND ");
 		} else if (nodeVar != null && nodeLabel != null) {
 			String lowerNodeLabel = nodeLabel.toLowerCase();
-			from = uniqueStringConcat(from, lowerNodeLabel + " AS " + nodeVar + "_" + lowerNodeLabel , ",");
-			where = uniqueStringConcat(where, edgeType + ".node" + srctrgt + "id = " + nodeVar + "_" + lowerNodeLabel + ".nodeid", " AND ");
+			String nodeName = nodeVar + "_" + lowerNodeLabel;
+			from = uniqueStringConcat(from, lowerNodeLabel + " AS " + nodeName, ",");
+			where = uniqueStringConcat(where, edgeName + ".node" + srctrgt + "id = " + nodeName + ".nodeid", " AND ");
 		} else if (nodeLabel != null) {
 			String lowerNodeLabel = nodeLabel.toLowerCase();
 			from = uniqueStringConcat(from, lowerNodeLabel, ",");
-			where = uniqueStringConcat(where, edgeType + ".node" + srctrgt + "id = " + lowerNodeLabel + ".nodeid", " AND ");
+			where = uniqueStringConcat(where, edgeName + ".node" + srctrgt + "id = " + lowerNodeLabel + ".nodeid", " AND ");
 		}
 	}
 	
@@ -318,13 +320,16 @@ public class GeneratePostgresQuery {
 				String edgeType = edge.getType();
 				
 				if (edgeVar != null && edgeType == null) {
-					from = uniqueStringConcat(from, "edges", ",");
-					matchEdgeHandler(nodeSrcVar, nodeSrcLabel, "edges", "src");
-					matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, "edges", "trgt");
-				} else if (edgeType != null){
-					from = uniqueStringConcat(from, edgeType.toLowerCase(), ",");
-					matchEdgeHandler(nodeSrcVar, nodeSrcLabel, edgeType.toLowerCase(), "src");
-					matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, edgeType.toLowerCase(), "trgt");
+					String edgeName =  edgeVar + "_edge";
+					from = uniqueStringConcat(from, "edges AS " + edgeName, ",");
+					matchEdgeHandler(nodeSrcVar, nodeSrcLabel, edgeName, "src");
+					matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, edgeName, "trgt");
+				} else if (edgeVar != null){
+					String lowerEdgeType = edgeType.toLowerCase();
+					String edgeName = edgeVar + "_" + lowerEdgeType;
+					from = uniqueStringConcat(from, lowerEdgeType + " AS " + edgeName, ",");
+					matchEdgeHandler(nodeSrcVar, nodeSrcLabel, edgeName, "src");
+					matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, edgeName, "trgt");
 				}
 			}
 		}
