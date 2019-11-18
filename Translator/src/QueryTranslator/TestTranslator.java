@@ -100,10 +100,6 @@ public class TestTranslator {
 		
 		System.out.println(queryTranslator.getCypherQuery());
 		System.out.println(queryTranslator.getTranslatedQuery());
-		
-		resultFormatter.printNeo4JResult();
-		resultFormatter.printPostgresResult();
-		
 		assertTrue(resultFormatter.compare());
 	}
 	
@@ -120,10 +116,6 @@ public class TestTranslator {
 		
 		System.out.println(queryTranslator.getCypherQuery());
 		System.out.println(queryTranslator.getTranslatedQuery());
-		
-		resultFormatter.printNeo4JResult();
-		resultFormatter.printPostgresResult();
-		
 		assertTrue(resultFormatter.compare());
 	}
 	
@@ -140,10 +132,6 @@ public class TestTranslator {
 		
 		System.out.println(queryTranslator.getCypherQuery());
 		System.out.println(queryTranslator.getTranslatedQuery());
-		
-		resultFormatter.printNeo4JResult();
-		resultFormatter.printPostgresResult();
-		
 		assertTrue(resultFormatter.compare());
 	}
 	
@@ -160,10 +148,6 @@ public class TestTranslator {
 		
 		System.out.println(queryTranslator.getCypherQuery());
 		System.out.println(queryTranslator.getTranslatedQuery());
-		
-		resultFormatter.printNeo4JResult();
-		resultFormatter.printPostgresResult();
-		
 		assertTrue(resultFormatter.compare());
 	}
 	
@@ -180,10 +164,6 @@ public class TestTranslator {
 		
 		System.out.println(queryTranslator.getCypherQuery());
 		System.out.println(queryTranslator.getTranslatedQuery());
-		
-		resultFormatter.printNeo4JResult();
-		resultFormatter.printPostgresResult();
-		
 		assertTrue(resultFormatter.compare());
 	}
 }

@@ -1,6 +1,8 @@
 package QueryTranslator;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -24,6 +26,8 @@ public class GeneratePostgresQuery {
 	private String groupBy = ",";
 	private String orderBy = "";
 	private String limit = "";
+	
+	private Map<String, String> varNameMap = new HashMap<String, String>();
 	
 	public String getTranslatedQuery() {
 		return translatedQuery;
@@ -66,13 +70,7 @@ public class GeneratePostgresQuery {
 				NodePattern otherNode = (NodePattern) pattern;
 				String otherNodeVar = otherNode.getVariable();
 				if (currentNodeVar.equals(otherNodeVar)) {
-					String otherNodeLabel = otherNode.getLabel();
-					String otherNodeName;
-					if (otherNodeLabel == null) {
-						otherNodeName = otherNodeVar = "_node";
-					} else {
-						otherNodeName = otherNodeVar + "_" + otherNodeLabel.toLowerCase();
-					}
+					String otherNodeName = varNameMap.get(otherNodeVar);
 					if (!currentNodeName.equals(otherNodeName)) {
 						where = uniqueStringConcat(where, currentNodeName + ".nodeid = " +  otherNodeName + ".nodeid", " AND ");
 					}
@@ -101,12 +99,7 @@ public class GeneratePostgresQuery {
 						NodePattern node = (NodePattern) pattern;
 						String nodeVar = node.getVariable();
 						if (nodeVar.equals(functionArgument)) {
-							String nodeLabel = node.getLabel();
-							if (nodeLabel == null) {
-								where = where + nodeVar + "_node.nodeid";
-							} else {
-								where = where + nodeVar + "_" + nodeLabel.toLowerCase() + ".nodeid";
-							}
+							where = where + varNameMap.get(nodeVar) + ".nodeid";
 							break;
 						}
 					}
@@ -137,7 +130,7 @@ public class GeneratePostgresQuery {
 						from = uniqueStringConcat(from, "nodes AS " + nodeName, ",");
 						
 						if (nodeLabel != null) {
-							where = uniqueStringConcat(where, nodeName + ".nodeid = " + nodeVar + "_" + nodeLabel.toLowerCase() + ".nodeid", " AND ");
+							where = uniqueStringConcat(where, nodeName + ".nodeid = " + varNameMap.get(nodeVar) + ".nodeid", " AND ");
 							where = uniqueStringConcat(where, "'" + nodeLabel + "' = ANY(labels)", " AND ");
 						}
 						break;
@@ -157,9 +150,9 @@ public class GeneratePostgresQuery {
 						from = uniqueStringConcat(from, "edges AS " + edgeName, ",");
 						
 						if (edgeType != null) {
-							String lowerEdgeType = edgeType.toLowerCase();
-							where = uniqueStringConcat(where, edgeName + ".nodesrcid = " + edgeVar + "_" + lowerEdgeType + ".nodesrcid", " AND ");
-							where = uniqueStringConcat(where, edgeName + ".nodetrgtid = " + edgeVar + "_" + lowerEdgeType + ".nodetrgtid", " AND ");
+							String typedEdgeName = varNameMap.get(edgeVar);
+							where = uniqueStringConcat(where, edgeName + ".nodesrcid = " + typedEdgeName + ".nodesrcid", " AND ");
+							where = uniqueStringConcat(where, edgeName + ".nodetrgtid = " + typedEdgeName + ".nodetrgtid", " AND ");
 							where = uniqueStringConcat(where, "type = " + "'" + edgeType + "'", " AND ");
 						}
 						break;
@@ -230,23 +223,13 @@ public class GeneratePostgresQuery {
 				NodePattern node = (NodePattern) pattern;
 				String nodeVar = node.getVariable();
 				if (returnVar.equals(nodeVar)) {
-					String nodeLabel = node.getLabel();
-					if (nodeLabel == null) {
-						return nodeVar + "_node." + returnField;
-					} else {
-						return nodeVar + "_" + nodeLabel.toLowerCase() + "." + returnField;
-					}
+					return varNameMap.get(nodeVar) + "." + returnField;
 				}
 			} else if (pattern instanceof EdgePattern) {
 				EdgePattern edge = (EdgePattern) pattern;
 				String edgeVar = edge.getVariable();
 				if (returnVar.equals(edgeVar)) {
-					String edgeType = edge.getType();
-					if (edgeType == null) {
-						return edgeVar + "_edge." + returnField;
-					} else {
-						return edgeVar + "_" + edgeType.toLowerCase() + "." + returnField;
-					}
+					return varNameMap.get(edgeVar) + "." + returnField;
 				}
 			}
 		}
@@ -267,11 +250,13 @@ public class GeneratePostgresQuery {
 					String nodeName = nodeVar + "_node";
 					from = uniqueStringConcat(from, "nodes AS " + nodeName, ",");
 					matchNodeHandler(nodeVar, nodeName, i, patternList);
+					varNameMap.put(nodeVar, nodeName);
 				} else if (nodeVar != null){
 					String lowerNodeLabel = nodeLabel.toLowerCase();
 					String nodeName = nodeVar + "_" + lowerNodeLabel;
 					from = uniqueStringConcat(from, lowerNodeLabel + " AS " + nodeName, ",");
 					matchNodeHandler(nodeVar, nodeName, i, patternList);
+					varNameMap.put(nodeVar, nodeName);
 				}
 			} else {
 				EdgePattern edge = (EdgePattern) pattern;
@@ -298,12 +283,14 @@ public class GeneratePostgresQuery {
 					from = uniqueStringConcat(from, "edges AS " + edgeName, ",");
 					matchEdgeHandler(nodeSrcVar, nodeSrcLabel, edgeName, "src");
 					matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, edgeName, "trgt");
+					varNameMap.put(edgeVar, edgeName);
 				} else if (edgeVar != null && edgeType != null){
 					String lowerEdgeType = edgeType.toLowerCase();
 					String edgeName = edgeVar + "_" + lowerEdgeType;
 					from = uniqueStringConcat(from, lowerEdgeType + " AS " + edgeName, ",");
 					matchEdgeHandler(nodeSrcVar, nodeSrcLabel, edgeName, "src");
 					matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, edgeName, "trgt");
+					varNameMap.put(edgeVar, edgeName);
 				} else if (edgeType != null) {
 					String lowerEdgeType = edgeType.toLowerCase();
 					from = uniqueStringConcat(from, lowerEdgeType, ",");
@@ -349,10 +336,8 @@ public class GeneratePostgresQuery {
 			}
 			
 			String alias = returnItem.getAlias();
-			if (alias != null) {
-				if (!select.endsWith("," + alias)) {
-					select = select + " AS " + alias;
-				}
+			if (alias != null && !select.endsWith("," + alias)) {
+				select = select + " AS " + alias;
 			}
 			select = select + ",";
 		}
@@ -367,9 +352,8 @@ public class GeneratePostgresQuery {
 					String tempSelect = select;
 					select = orderBy;
 					returnFunctionHandler(functionName, sortItem.getFunctionArgument(), parsedQuery.getMatchClause().getPatternList());
-					orderBy = select;
+					orderBy = select + " " + sortItem.getAscdesc() + ",";
 					select = tempSelect;
-					orderBy = orderBy + " " + sortItem.getAscdesc() + ",";
 				} else {
 					orderBy = orderBy + returnItemHandler(sortItem.getField(), parsedQuery.getMatchClause().getPatternList()) + " " + sortItem.getAscdesc() + ",";
 				}
