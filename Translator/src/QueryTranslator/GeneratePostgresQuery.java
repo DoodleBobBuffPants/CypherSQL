@@ -60,11 +60,12 @@ public class GeneratePostgresQuery {
 	}
 	
 	private void matchNodeHandler(String currentNodeVar, String currentNodeName, int index, List<Pattern> patternList) {
-		for (Pattern pattern: patternList) {
+		for (int i = 0; i < index; i++) {
+			Pattern pattern = patternList.get(i);
 			if (pattern instanceof NodePattern) {
 				NodePattern otherNode = (NodePattern) pattern;
 				String otherNodeVar = otherNode.getVariable();
-				if (otherNodeVar.equals(currentNodeVar)) {
+				if (currentNodeVar.equals(otherNodeVar)) {
 					String otherNodeLabel = otherNode.getLabel();
 					if (otherNodeLabel == null) {
 						where = uniqueStringConcat(where, currentNodeName + ".nodeid = " +  otherNodeVar + "_node.nodeid", " AND ");
@@ -78,14 +79,9 @@ public class GeneratePostgresQuery {
 	
 	private void matchEdgeHandler(String nodeVar, String nodeLabel, String edgeName, String srctrgt) {
 		if (nodeVar != null && nodeLabel == null) {
-			String nodeName = nodeVar + "_node";
-			from = uniqueStringConcat(from, "nodes AS " + nodeName, ",");
-			where = uniqueStringConcat(where, edgeName + ".node" + srctrgt + "id = " + nodeName + ".nodeid", " AND ");
+			where = uniqueStringConcat(where, edgeName + ".node" + srctrgt + "id = " + nodeVar + "_node" + ".nodeid", " AND ");
 		} else if (nodeVar != null && nodeLabel != null) {
-			String lowerNodeLabel = nodeLabel.toLowerCase();
-			String nodeName = nodeVar + "_" + lowerNodeLabel;
-			from = uniqueStringConcat(from, lowerNodeLabel + " AS " + nodeName, ",");
-			where = uniqueStringConcat(where, edgeName + ".node" + srctrgt + "id = " + nodeName + ".nodeid", " AND ");
+			where = uniqueStringConcat(where, edgeName + ".node" + srctrgt + "id = " + nodeVar + "_" + nodeLabel.toLowerCase() + ".nodeid", " AND ");
 		} else if (nodeLabel != null) {
 			String lowerNodeLabel = nodeLabel.toLowerCase();
 			from = uniqueStringConcat(from, lowerNodeLabel, ",");
