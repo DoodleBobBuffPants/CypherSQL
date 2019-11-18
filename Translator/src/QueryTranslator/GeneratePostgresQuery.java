@@ -303,12 +303,17 @@ public class GeneratePostgresQuery {
 					from = uniqueStringConcat(from, "edges AS " + edgeName, ",");
 					matchEdgeHandler(nodeSrcVar, nodeSrcLabel, edgeName, "src");
 					matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, edgeName, "trgt");
-				} else if (edgeVar != null){
+				} else if (edgeVar != null && edgeType != null){
 					String lowerEdgeType = edgeType.toLowerCase();
 					String edgeName = edgeVar + "_" + lowerEdgeType;
 					from = uniqueStringConcat(from, lowerEdgeType + " AS " + edgeName, ",");
 					matchEdgeHandler(nodeSrcVar, nodeSrcLabel, edgeName, "src");
 					matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, edgeName, "trgt");
+				} else if (edgeType != null) {
+					String lowerEdgeType = edgeType.toLowerCase();
+					from = uniqueStringConcat(from, lowerEdgeType, ",");
+					matchEdgeHandler(nodeSrcVar, nodeSrcLabel, lowerEdgeType, "src");
+					matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, lowerEdgeType, "trgt");
 				}
 			}
 		}
