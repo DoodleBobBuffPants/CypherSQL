@@ -67,13 +67,11 @@ public class GeneratePostgresQuery {
 				String otherNodeVar = otherNode.getVariable();
 				if (otherNodeVar.equals(currentNodeVar)) {
 					String otherNodeLabel = otherNode.getLabel();
-					String otherNodeName;
 					if (otherNodeLabel == null) {
-						otherNodeName = otherNodeVar + "_node";
+						where = uniqueStringConcat(where, currentNodeName + ".nodeid = " +  otherNodeVar + "_node.nodeid", " AND ");
 					} else {
-						otherNodeName = otherNodeVar + "_" + otherNodeLabel.toLowerCase();
+						where = uniqueStringConcat(where, currentNodeName + ".nodeid = " + otherNodeVar + "_" + otherNodeLabel.toLowerCase() + ".nodeid", " AND ");
 					}
-					where = uniqueStringConcat(where, currentNodeName + ".nodeid = " + otherNodeName + ".nodeid", " AND ");
 				}
 			}
 		}
@@ -198,7 +196,6 @@ public class GeneratePostgresQuery {
 					String field = fieldWithAlias.split("AS")[0].trim();
 					if (!field.equals(translatedArgument) && !field.equals("")) {
 						groupBy = uniqueStringConcat(groupBy, field, ",");
-						break;
 					}
 				}
 				select = select + translatedArgument + ")";
