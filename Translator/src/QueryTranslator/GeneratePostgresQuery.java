@@ -120,55 +120,44 @@ public class GeneratePostgresQuery {
 	
 	private void returnFunctionHandler(String functionName, String functionArgument, List<Pattern> patternList) {
 		if (functionName.toLowerCase().equals("labels")) {
-			if (pattern instanceof NodePattern) {
-				NodePattern node = (NodePattern) pattern;
-				String nodeLabel = node.getLabel();
-				
-				select = select + "labels";
-				from = uniqueStringConcat(from, "nodes", ",");
-				
-				if (node.getVariable().equals(functionArgument) && nodeLabel != null) {
-					where = uniqueStringConcat(where, "nodes.nodeid = " + nodeLabel.toLowerCase() + ".nodeid", " AND ");
-					where = uniqueStringConcat(where, "'" + nodeLabel + "' = ANY(labels)", " AND ");
-				}
-			} else {
-				EdgePattern edge = (EdgePattern) pattern;
-				NodePattern nodeSrc = edge.getNodeSrc();
-				NodePattern nodeTrgt = edge.getNodeTrgt();
-				
-				String nodeSrcVar = nodeSrc.getVariable();
-				String nodeTrgtVar = nodeTrgt.getVariable();
-				
-				String nodeVar = "";
-				String nodeLabel = null;
-				if (nodeSrcVar.equals(functionArgument)) {
-					nodeVar = nodeSrcVar;
-					nodeLabel = nodeSrc.getLabel();
-				} else if (nodeTrgtVar.equals(functionArgument)){
-					nodeVar = nodeTrgtVar;
-					nodeLabel = nodeTrgt.getLabel();
-				}
-				
-				if (!nodeVar.equals("")) {
-					select = select + nodeVar + "_node.labels";
-					from = uniqueStringConcat(from, "nodes AS " + nodeVar + "_node", ",");
-					if (nodeLabel != null) {
-						where = uniqueStringConcat(where, nodeVar + "_node.nodeid = " + nodeLabel.toLowerCase() + ".nodeid", " AND ");
-						where = uniqueStringConcat(where, "'" + nodeLabel + "' = ANY(" + nodeVar + "_node.labels)", " AND ");
+			for (Pattern pattern: patternList) {
+				if (pattern instanceof NodePattern) {
+					NodePattern node = (NodePattern) pattern;
+					String nodeVar = node.getVariable();
+					if (functionArgument.equals(nodeVar)) {
+						String nodeLabel = node.getLabel();
+						String nodeName = nodeVar + "_node";
+						
+						select = select + nodeName + ".labels";
+						from = uniqueStringConcat(from, "nodes AS " + nodeName, ",");
+						
+						if (nodeLabel != null) {
+							where = uniqueStringConcat(where, nodeName + ".nodeid = " + nodeVar + "_" + nodeLabel.toLowerCase() + ".nodeid", " AND ");
+							where = uniqueStringConcat(where, "'" + nodeLabel + "' = ANY(labels)", " AND ");
+						}
+						break;
 					}
 				}
 			}
 		} else if (functionName.toLowerCase().equals("type")) {
-			EdgePattern edge = (EdgePattern) pattern;
-			String edgeType = edge.getType();
-			
-			select = select + "type";
-			from = uniqueStringConcat(from, "edges", ",");
-			
-			if (edge.getVariable().equals(functionArgument) && edgeType != null) {
-				where = uniqueStringConcat(where, "edges.nodesrcid = " + edgeType.toLowerCase() + ".nodesrcid", " AND ");
-				where = uniqueStringConcat(where, "edges.nodetrgtid = " + edgeType.toLowerCase() + ".nodetrgtid", " AND ");
-				where = uniqueStringConcat(where, "type = " + "'" + edgeType + "'", " AND ");
+			for (Pattern pattern: patternList) {
+				EdgePattern edge = (EdgePattern) pattern;
+				String edgeVar = edge.getVariable();
+				if (functionArgument.equals(edgeVar)) {
+					String edgeType = edge.getType();
+					String edgeName = edgeVar + "_edge";
+					
+					select = select + edgeName + ".type";
+					from = uniqueStringConcat(from, "edges AS " + edgeName, ",");
+					
+					if (edgeType != null) {
+						String lowerEdgeType = edgeType.toLowerCase();
+						where = uniqueStringConcat(where, edgeName + ".nodesrcid = " + edgeVar + "_" + lowerEdgeType + ".nodesrcid", " AND ");
+						where = uniqueStringConcat(where, edgeName + ".nodetrgtid = " + edgeVar + "_" + lowerEdgeType + ".nodetrgtid", " AND ");
+						where = uniqueStringConcat(where, "type = " + "'" + edgeType + "'", " AND ");
+					}
+					break;
+				}
 			}
 		} else if (functionName.toLowerCase().equals("count")) {
 			if (functionArgument.startsWith("DISTINCT ")) {
@@ -199,25 +188,24 @@ public class GeneratePostgresQuery {
 			from = uniqueStringConcat(from, "information_schema.columns", ",");
 			groupBy = uniqueStringConcat(groupBy, "column_name", ",");
 			
-			if (pattern instanceof NodePattern) {
-				where = uniqueStringConcat(where,  "initcap(table_name) = ANY(labels)", " AND ");
-				where = uniqueStringConcat(where,  "column_name <> 'nodeid'", " AND ");
-			} else if (pattern instanceof EdgePattern) {
-				EdgePattern edge = (EdgePattern) pattern;
-				String nodeSrcVar = edge.getNodeSrc().getVariable();
-				String nodeTrgtVar = edge.getNodeTrgt().getVariable();
-				
-				if (edge.getVariable().equals(functionArgument)) {
-					from = uniqueStringConcat(from, "edges", ",");
-					where = uniqueStringConcat(where,  "table_name = lower(type)", " AND ");
-					where = uniqueStringConcat(where,  "column_name <> 'nodesrcid'", " AND ");
-					where = uniqueStringConcat(where,  "column_name <> 'nodetrgtid'", " AND ");
-				} else if (nodeSrcVar.equals(functionArgument)) {
-					where = uniqueStringConcat(where,  "initcap(table_name) = ANY(" + nodeSrcVar + "_node.labels)", " AND ");
-					where = uniqueStringConcat(where,  "column_name <> 'nodeid'", " AND ");
-				} else if (nodeTrgtVar.equals(functionArgument)) {
-					where = uniqueStringConcat(where,  "initcap(table_name) = ANY(" + nodeTrgtVar + "_node.labels)", " AND ");
-					where = uniqueStringConcat(where,  "column_name <> 'nodeid'", " AND ");
+			for (Pattern pattern: patternList) {
+				if (pattern instanceof NodePattern) {
+					NodePattern node = (NodePattern) pattern;
+					if (functionArgument.equals(node.getVariable())) {
+						from = uniqueStringConcat(from, "nodes", ",");
+						where = uniqueStringConcat(where,  "initcap(table_name) = ANY(nodes.labels)", " AND ");
+						where = uniqueStringConcat(where,  "column_name <> 'nodeid'", " AND ");
+						break;
+					}
+				} else if (pattern instanceof EdgePattern) {
+					EdgePattern edge = (EdgePattern) pattern;
+					if (functionArgument.equals(edge.getVariable())) {
+						from = uniqueStringConcat(from, "edges", ",");
+						where = uniqueStringConcat(where,  "table_name = lower(edges.type)", " AND ");
+						where = uniqueStringConcat(where,  "column_name <> 'nodesrcid'", " AND ");
+						where = uniqueStringConcat(where,  "column_name <> 'nodetrgtid'", " AND ");
+						break;
+					}
 				}
 			}
 		}
