@@ -62,21 +62,17 @@ public class GeneratePostgresQuery {
 	private void matchNodeHandler(String currentNodeVar, String currentNodeName, int index, List<Pattern> patternList) {
 		for (int i = 0; i < index; i++) {
 			Pattern pattern = patternList.get(i);
-			
 			if (pattern instanceof NodePattern) {
 				NodePattern otherNode = (NodePattern) pattern;
 				String otherNodeVar = otherNode.getVariable();
-				
 				if (otherNodeVar.equals(currentNodeVar)) {
 					String otherNodeLabel = otherNode.getLabel();
 					String otherNodeName;
-					
 					if (otherNodeLabel == null) {
 						otherNodeName = otherNodeVar + "_node";
 					} else {
 						otherNodeName = otherNodeVar + "_" + otherNodeLabel.toLowerCase();
 					}
-					
 					where = uniqueStringConcat(where, currentNodeName + ".nodeid = " + otherNodeName + ".nodeid", " AND ");
 				}
 			}
@@ -100,7 +96,7 @@ public class GeneratePostgresQuery {
 		}
 	}
 	
-	private void whereExpressionHandler(String functionName, String functionArgument, String literal, Pattern pattern) {
+	private void whereExpressionHandler(String functionName, String functionArgument, String literal, List<Pattern> patternList) {
 		if (functionName != null) {
 			if (functionName.toLowerCase().equals("id")) {
 				if (pattern instanceof NodePattern) {
@@ -125,12 +121,12 @@ public class GeneratePostgresQuery {
 			} else if (literal.startsWith("'") && literal.endsWith("'")) {
 				where = where + literal;
 			} else {
-				where = where + returnItemHandler(literal, pattern);
+				where = where + returnItemHandler(literal, patternList);
 			}
 		}
 	}
 	
-	private void returnFunctionHandler(String functionName, String functionArgument, Pattern pattern) {
+	private void returnFunctionHandler(String functionName, String functionArgument, List<Pattern> patternList) {
 		if (functionName.toLowerCase().equals("labels")) {
 			if (pattern instanceof NodePattern) {
 				NodePattern node = (NodePattern) pattern;
@@ -194,14 +190,15 @@ public class GeneratePostgresQuery {
 				String nestedFunctionName = functionArgument.substring(0, functionArgument.indexOf("("));
 				String nestedFunctionArgument = functionArgument.substring(functionArgument.indexOf("(") + 1, functionArgument.length() - 1);
 				
-				returnFunctionHandler(nestedFunctionName, nestedFunctionArgument, pattern);
+				returnFunctionHandler(nestedFunctionName, nestedFunctionArgument, patternList);
 				select = select + ")";
 			} else {
-				String translatedArgument = returnItemHandler(functionArgument, pattern);
+				String translatedArgument = returnItemHandler(functionArgument, patternList);
 				for (String fieldWithAlias: select.substring(1).split(",")) {
 					String field = fieldWithAlias.split("AS")[0].trim();
 					if (!field.equals(translatedArgument) && !field.equals("")) {
 						groupBy = uniqueStringConcat(groupBy, field, ",");
+						break;
 					}
 				}
 				select = select + translatedArgument + ")";
@@ -235,7 +232,7 @@ public class GeneratePostgresQuery {
 		}
 	}
 	
-	private String returnItemHandler(String toReturn, Pattern pattern) {
+	private String returnItemHandler(String toReturn, List<Pattern> patternList) {
 		if (!toReturn.contains(".")) return toReturn;
 		
 		String[] returnElems = toReturn.split("\\.");
@@ -339,10 +336,10 @@ public class GeneratePostgresQuery {
 		Where whereClause = parsedQuery.getWhereClause();
 		if (whereClause != null) {
 			for (WhereExpression whereExpression: whereClause.getAndExpressions()) {
-				Pattern pattern = parsedQuery.getMatchClause().getPattern();
-				whereExpressionHandler(whereExpression.getLeftFunctionName(), whereExpression.getLeftFunctionArgument(), whereExpression.getLeftLiteral(), pattern);
+				List<Pattern> patternList = parsedQuery.getMatchClause().getPatternList();
+				whereExpressionHandler(whereExpression.getLeftFunctionName(), whereExpression.getLeftFunctionArgument(), whereExpression.getLeftLiteral(), patternList);
 				where = where + " " + whereExpression.getComparisonOperator() + " ";
-				whereExpressionHandler(whereExpression.getRightFunctionName(), whereExpression.getRightFunctionArgument(), whereExpression.getRightLiteral(), pattern);
+				whereExpressionHandler(whereExpression.getRightFunctionName(), whereExpression.getRightFunctionArgument(), whereExpression.getRightLiteral(), patternList);
 				where = where + " AND ";
 			}
 		}
@@ -359,14 +356,14 @@ public class GeneratePostgresQuery {
 			String toReturn = returnItem.getToReturn();
 			
 			if (functionName != null) {
-				returnFunctionHandler(functionName, returnItem.getFunctionArgument(), parsedQuery.getMatchClause().getPattern());
+				returnFunctionHandler(functionName, returnItem.getFunctionArgument(), parsedQuery.getMatchClause().getPatternList());
 			} else if (toReturn.toLowerCase().equals("count(*)")) {
 				for (String field: select.substring(1).split(",")) {
 					groupBy = uniqueStringConcat(groupBy, field.split("AS")[0].trim(), ",");
 				}
 				select = select + toReturn;
 			} else {
-				select = select + returnItemHandler(toReturn, parsedQuery.getMatchClause().getPattern());
+				select = select + returnItemHandler(toReturn, parsedQuery.getMatchClause().getPatternList());
 			}
 			
 			String alias = returnItem.getAlias();
@@ -387,12 +384,12 @@ public class GeneratePostgresQuery {
 				if (functionName != null) {
 					String tempSelect = select;
 					select = orderBy;
-					returnFunctionHandler(functionName, sortItem.getFunctionArgument(), parsedQuery.getMatchClause().getPattern());
+					returnFunctionHandler(functionName, sortItem.getFunctionArgument(), parsedQuery.getMatchClause().getPatternList());
 					orderBy = select;
 					select = tempSelect;
 					orderBy = orderBy + " " + sortItem.getAscdesc() + ",";
 				} else {
-					orderBy = orderBy + returnItemHandler(sortItem.getField(), parsedQuery.getMatchClause().getPattern()) + " " + sortItem.getAscdesc() + ",";
+					orderBy = orderBy + returnItemHandler(sortItem.getField(), parsedQuery.getMatchClause().getPatternList()) + " " + sortItem.getAscdesc() + ",";
 				}
 			}
 		}
