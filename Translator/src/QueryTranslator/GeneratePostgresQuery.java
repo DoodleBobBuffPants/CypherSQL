@@ -60,8 +60,7 @@ public class GeneratePostgresQuery {
 	}
 	
 	private void matchNodeHandler(String currentNodeVar, String currentNodeName, int index, List<Pattern> patternList) {
-		for (int i = 0; i < index; i++) {
-			Pattern pattern = patternList.get(i);
+		for (Pattern pattern: patternList) {
 			if (pattern instanceof NodePattern) {
 				NodePattern otherNode = (NodePattern) pattern;
 				String otherNodeVar = otherNode.getVariable();
@@ -97,19 +96,18 @@ public class GeneratePostgresQuery {
 	private void whereExpressionHandler(String functionName, String functionArgument, String literal, List<Pattern> patternList) {
 		if (functionName != null) {
 			if (functionName.toLowerCase().equals("id")) {
-				if (pattern instanceof NodePattern) {
-					NodePattern node = (NodePattern) pattern;
-					
-					if (node.getVariable().equals(functionArgument)) {
-						where = where + "nodeid";
-					}
-				} else if (pattern instanceof EdgePattern) {
-					EdgePattern edge = (EdgePattern) pattern;
-					
-					if (edge.getNodeSrc().getVariable().equals(functionArgument)) {
-						where = where + "nodesrcid";
-					} else if (edge.getNodeTrgt().getVariable().equals(functionArgument)) {
-						where = where + "nodetrgtid";
+				for (Pattern pattern: patternList) {
+					if (pattern instanceof NodePattern) {
+						NodePattern node = (NodePattern) pattern;
+						String nodeVar = node.getVariable();
+						if (nodeVar.equals(functionArgument)) {
+							String nodeLabel = node.getLabel();
+							if (nodeLabel == null) {
+								where = where + nodeVar + "_node.nodeid";
+							} else {
+								where = where + nodeVar + "_" + nodeLabel.toLowerCase() + ".nodeid";
+							}
+						}
 					}
 				}
 			}
@@ -236,8 +234,7 @@ public class GeneratePostgresQuery {
 		String returnVar = returnElems[0];
 		String returnField = returnElems[1];
 		
-		for (int i = 0; i < patternList.size(); i++) {
-			Pattern pattern = patternList.get(i);
+		for (Pattern pattern: patternList) {
 			if (pattern instanceof NodePattern) {
 				NodePattern node = (NodePattern) pattern;
 				String nodeVar = node.getVariable();
