@@ -236,39 +236,31 @@ public class GeneratePostgresQuery {
 		String returnVar = returnElems[0];
 		String returnField = returnElems[1];
 		
-		if (pattern instanceof NodePattern) {
-			if (returnVar.equals(((NodePattern) pattern).getVariable())) {
-				return returnField;
-			}
-		} else if (pattern instanceof EdgePattern) {
-			EdgePattern edge = (EdgePattern) pattern;
-			String edgeVar = edge.getVariable();
-			
-			if (returnVar.equals(edgeVar)) {
-				return returnField;
-			} else { 
-				NodePattern nodeSrc = edge.getNodeSrc();
-				String nodeSrcVar = nodeSrc.getVariable();
-				String nodeSrcLabel = nodeSrc.getLabel();
-				if (returnVar.equals(nodeSrcVar)) {
-					if (nodeSrcLabel == null) {
-						return nodeSrcVar + "_node." + returnField;
+		for (int i = 0; i < patternList.size(); i++) {
+			Pattern pattern = patternList.get(i);
+			if (pattern instanceof NodePattern) {
+				NodePattern node = (NodePattern) pattern;
+				String nodeVar = node.getVariable();
+				if (returnVar.equals(nodeVar)) {
+					String nodeLabel = node.getLabel();
+					if (nodeLabel == null) {
+						return nodeVar + "_node." + returnField;
 					} else {
-						return nodeSrcVar + "_" + nodeSrcLabel.toLowerCase() + "." + returnField;
-					}
-				} else { 
-					NodePattern nodeTrgt = edge.getNodeTrgt();
-					String nodeTrgtVar = nodeTrgt.getVariable();
-					String nodeTrgtLabel = nodeTrgt.getLabel();
-					if (returnVar.equals(nodeTrgtVar)) {
-						if (nodeTrgtLabel == null) {
-							return nodeTrgtVar + "_node." + returnField;
-						} else {
-							return nodeTrgtVar + "_" + nodeTrgtLabel.toLowerCase() + "." + returnField;
-						}
+						return nodeVar + "_" + nodeLabel.toLowerCase() + "." + returnField;
 					}
 				}
-			} 
+			} else if (pattern instanceof EdgePattern) {
+				EdgePattern edge = (EdgePattern) pattern;
+				String edgeVar = edge.getVariable();
+				if (returnVar.equals(edgeVar)) {
+					String edgeType = edge.getType();
+					if (edgeType == null) {
+						return edgeVar + "_edge." + returnField;
+					} else {
+						return edgeVar + "_" + edgeType.toLowerCase() + "." + returnField;
+					}
+				}
+			}
 		}
 		
 		return "";
