@@ -67,10 +67,14 @@ public class GeneratePostgresQuery {
 				String otherNodeVar = otherNode.getVariable();
 				if (currentNodeVar.equals(otherNodeVar)) {
 					String otherNodeLabel = otherNode.getLabel();
+					String otherNodeName;
 					if (otherNodeLabel == null) {
-						where = uniqueStringConcat(where, currentNodeName + ".nodeid = " +  otherNodeVar + "_node.nodeid", " AND ");
+						otherNodeName = otherNodeVar = "_node";
 					} else {
-						where = uniqueStringConcat(where, currentNodeName + ".nodeid = " + otherNodeVar + "_" + otherNodeLabel.toLowerCase() + ".nodeid", " AND ");
+						otherNodeName = otherNodeVar + "_" + otherNodeLabel.toLowerCase();
+					}
+					if (!currentNodeName.equals(otherNodeName)) {
+						where = uniqueStringConcat(where, currentNodeName + ".nodeid = " +  otherNodeName + ".nodeid", " AND ");
 					}
 				}
 			}
@@ -103,6 +107,7 @@ public class GeneratePostgresQuery {
 							} else {
 								where = where + nodeVar + "_" + nodeLabel.toLowerCase() + ".nodeid";
 							}
+							break;
 						}
 					}
 				}
@@ -141,22 +146,24 @@ public class GeneratePostgresQuery {
 			}
 		} else if (functionName.toLowerCase().equals("type")) {
 			for (Pattern pattern: patternList) {
-				EdgePattern edge = (EdgePattern) pattern;
-				String edgeVar = edge.getVariable();
-				if (functionArgument.equals(edgeVar)) {
-					String edgeType = edge.getType();
-					String edgeName = edgeVar + "_edge";
-					
-					select = select + edgeName + ".type";
-					from = uniqueStringConcat(from, "edges AS " + edgeName, ",");
-					
-					if (edgeType != null) {
-						String lowerEdgeType = edgeType.toLowerCase();
-						where = uniqueStringConcat(where, edgeName + ".nodesrcid = " + edgeVar + "_" + lowerEdgeType + ".nodesrcid", " AND ");
-						where = uniqueStringConcat(where, edgeName + ".nodetrgtid = " + edgeVar + "_" + lowerEdgeType + ".nodetrgtid", " AND ");
-						where = uniqueStringConcat(where, "type = " + "'" + edgeType + "'", " AND ");
+				if (pattern instanceof EdgePattern) {
+					EdgePattern edge = (EdgePattern) pattern;
+					String edgeVar = edge.getVariable();
+					if (functionArgument.equals(edgeVar)) {
+						String edgeType = edge.getType();
+						String edgeName = edgeVar + "_edge";
+						
+						select = select + edgeName + ".type";
+						from = uniqueStringConcat(from, "edges AS " + edgeName, ",");
+						
+						if (edgeType != null) {
+							String lowerEdgeType = edgeType.toLowerCase();
+							where = uniqueStringConcat(where, edgeName + ".nodesrcid = " + edgeVar + "_" + lowerEdgeType + ".nodesrcid", " AND ");
+							where = uniqueStringConcat(where, edgeName + ".nodetrgtid = " + edgeVar + "_" + lowerEdgeType + ".nodetrgtid", " AND ");
+							where = uniqueStringConcat(where, "type = " + "'" + edgeType + "'", " AND ");
+						}
+						break;
 					}
-					break;
 				}
 			}
 		} else if (functionName.toLowerCase().equals("count")) {

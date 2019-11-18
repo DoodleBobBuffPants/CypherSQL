@@ -86,9 +86,9 @@ public class QueryListener extends antlr4.CypherBaseListener {
 			edgePattern.setType(edgeType.getText().substring(1));
 		}
 		if (ctx.oC_RightArrowHead() != null) {
-			edgePattern.setLeftSrc(false);
-		} else {
 			edgePattern.setLeftSrc(true);
+		} else {
+			edgePattern.setLeftSrc(false);
 		}
 		matchClause.addPattern(edgePattern);
 	}
