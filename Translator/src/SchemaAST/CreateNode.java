@@ -20,6 +20,6 @@ public class CreateNode extends Create {
 	}
 	
 	public List<String> getLabelList() {
-		return new ArrayList<String>(labels);
+		return labels;
 	}
 }

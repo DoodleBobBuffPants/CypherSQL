@@ -8,7 +8,7 @@ public class Return {
 	private boolean isDistinct = false;
 
 	public List<ReturnItem> getReturnItems() {
-		return new ArrayList<ReturnItem>(returnItems);
+		return returnItems;
 	}
 
 	public void addReturnItem(ReturnItem returnItem) {

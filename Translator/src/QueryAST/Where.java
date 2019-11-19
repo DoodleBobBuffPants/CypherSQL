@@ -7,7 +7,7 @@ public class Where {
 	private List<WhereExpression> andExpressions = new ArrayList<WhereExpression>();
 
 	public List<WhereExpression> getAndExpressions() {
-		return new ArrayList<WhereExpression>(andExpressions);
+		return andExpressions;
 	}
 
 	public void addAndExpression(WhereExpression whereExpression) {

@@ -11,6 +11,6 @@ public class Create {
 	}
 	
 	public Map<String, Object> getColumnValueMap() {
-		return new HashMap<String, Object>(columnValue);
+		return columnValue;
 	}
 }

@@ -7,7 +7,7 @@ public class OrderBy {
 	private List<SortItem> sortItems = new ArrayList<SortItem>();
 
 	public List<SortItem> getSortItems() {
-		return new ArrayList<SortItem>(sortItems);
+		return sortItems;
 	}
 
 	public void addSortItem(SortItem sortItem) {

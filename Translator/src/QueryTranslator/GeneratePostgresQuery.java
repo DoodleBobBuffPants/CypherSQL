@@ -81,7 +81,7 @@ public class GeneratePostgresQuery {
 	
 	private void matchEdgeHandler(String nodeVar, String nodeLabel, String edgeName, String srctrgt) {
 		if (nodeVar != null && nodeLabel == null) {
-			where = uniqueStringConcat(where, edgeName + ".node" + srctrgt + "id = " + nodeVar + "_node" + ".nodeid", " AND ");
+			where = uniqueStringConcat(where, edgeName + ".node" + srctrgt + "id = " + nodeVar + "_node.nodeid", " AND ");
 		} else if (nodeVar != null && nodeLabel != null) {
 			where = uniqueStringConcat(where, edgeName + ".node" + srctrgt + "id = " + nodeVar + "_" + nodeLabel.toLowerCase() + ".nodeid", " AND ");
 		} else if (nodeLabel != null) {
@@ -99,19 +99,17 @@ public class GeneratePostgresQuery {
 						NodePattern node = (NodePattern) pattern;
 						String nodeVar = node.getVariable();
 						if (nodeVar.equals(functionArgument)) {
-							where = where + varNameMap.get(nodeVar) + ".nodeid";
+							where += varNameMap.get(nodeVar) + ".nodeid";
 							break;
 						}
 					}
 				}
 			}
 		} else {
-			if (NumberUtils.isNumber(literal)) {
-				where = where + literal;
-			} else if (literal.startsWith("'") && literal.endsWith("'")) {
-				where = where + literal;
+			if (NumberUtils.isNumber(literal) || (literal.startsWith("'") && literal.endsWith("'"))) {
+				where += literal;
 			} else {
-				where = where + returnItemHandler(literal, patternList);
+				where += returnItemHandler(literal, patternList);
 			}
 		}
 	}
@@ -126,7 +124,7 @@ public class GeneratePostgresQuery {
 						String nodeLabel = node.getLabel();
 						String nodeName = nodeVar + "_node";
 						
-						select = select + nodeName + ".labels";
+						select += nodeName + ".labels";
 						from = uniqueStringConcat(from, "nodes AS " + nodeName, ",");
 						
 						if (nodeLabel != null) {
@@ -146,7 +144,7 @@ public class GeneratePostgresQuery {
 						String edgeType = edge.getType();
 						String edgeName = edgeVar + "_edge";
 						
-						select = select + edgeName + ".type";
+						select += edgeName + ".type";
 						from = uniqueStringConcat(from, "edges AS " + edgeName, ",");
 						
 						if (edgeType != null) {
@@ -161,10 +159,10 @@ public class GeneratePostgresQuery {
 			}
 		} else if (functionName.toLowerCase().equals("count")) {
 			if (functionArgument.startsWith("DISTINCT ")) {
-				select = select + "count(DISTINCT ";
+				select += "count(DISTINCT ";
 				functionArgument = functionArgument.substring(9);
 			} else {
-				select = select + "count(";
+				select += "count(";
 			}
 			
 			if (functionArgument.split("\\(").length > 1) {
@@ -172,7 +170,7 @@ public class GeneratePostgresQuery {
 				String nestedFunctionArgument = functionArgument.substring(functionArgument.indexOf("(") + 1, functionArgument.length() - 1);
 				
 				returnFunctionHandler(nestedFunctionName, nestedFunctionArgument, patternList);
-				select = select + ")";
+				select += ")";
 			} else {
 				String translatedArgument = returnItemHandler(functionArgument, patternList);
 				for (String fieldWithAlias: select.substring(1).split(",")) {
@@ -181,10 +179,10 @@ public class GeneratePostgresQuery {
 						groupBy = uniqueStringConcat(groupBy, field, ",");
 					}
 				}
-				select = select + translatedArgument + ")";
+				select += translatedArgument + ")";
 			}
 		} else if (functionName.toLowerCase().equals("keys")) {
-			select = select + "column_name";
+			select += "column_name";
 			from = uniqueStringConcat(from, "information_schema.columns", ",");
 			groupBy = uniqueStringConcat(groupBy, "column_name", ",");
 			
@@ -307,9 +305,9 @@ public class GeneratePostgresQuery {
 			for (WhereExpression whereExpression: whereClause.getAndExpressions()) {
 				List<Pattern> patternList = parsedQuery.getMatchClause().getPatternList();
 				whereExpressionHandler(whereExpression.getLeftFunctionName(), whereExpression.getLeftFunctionArgument(), whereExpression.getLeftLiteral(), patternList);
-				where = where + " " + whereExpression.getComparisonOperator() + " ";
+				where += " " + whereExpression.getComparisonOperator() + " ";
 				whereExpressionHandler(whereExpression.getRightFunctionName(), whereExpression.getRightFunctionArgument(), whereExpression.getRightLiteral(), patternList);
-				where = where + " AND ";
+				where += " AND ";
 			}
 		}
 	}
@@ -317,7 +315,7 @@ public class GeneratePostgresQuery {
 	private void handleQueryReturn(Query parsedQuery) {
 		Return returnClause = parsedQuery.getReturnClause();
 		if (returnClause.isDistinct()) {
-			select = select + "DISTINCT ";
+			select += "DISTINCT ";
 		}
 		
 		for (ReturnItem returnItem: returnClause.getReturnItems()) {
@@ -330,16 +328,16 @@ public class GeneratePostgresQuery {
 				for (String field: select.substring(1).split(",")) {
 					groupBy = uniqueStringConcat(groupBy, field.split("AS")[0].trim(), ",");
 				}
-				select = select + toReturn;
+				select += toReturn;
 			} else {
-				select = select + returnItemHandler(toReturn, parsedQuery.getMatchClause().getPatternList());
+				select += returnItemHandler(toReturn, parsedQuery.getMatchClause().getPatternList());
 			}
 			
 			String alias = returnItem.getAlias();
 			if (alias != null && !select.endsWith("," + alias)) {
-				select = select + " AS " + alias;
+				select += " AS " + alias;
 			}
-			select = select + ",";
+			select += ",";
 		}
 	}
 	
@@ -355,7 +353,7 @@ public class GeneratePostgresQuery {
 					orderBy = select + " " + sortItem.getAscdesc() + ",";
 					select = tempSelect;
 				} else {
-					orderBy = orderBy + returnItemHandler(sortItem.getField(), parsedQuery.getMatchClause().getPatternList()) + " " + sortItem.getAscdesc() + ",";
+					orderBy += returnItemHandler(sortItem.getField(), parsedQuery.getMatchClause().getPatternList()) + " " + sortItem.getAscdesc() + ",";
 				}
 			}
 		}

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -39,11 +38,11 @@ public class Translator {
 	}
 
 	public Map<String, Map<String, Object>> getLabelTables() {
-		return new HashMap<String, Map<String, Object>>(labelTables);
+		return labelTables;
 	}
 
 	public Map<String, Map<String, Object>> getTypeTables() {
-		return new HashMap<String, Map<String, Object>>(typeTables);
+		return typeTables;
 	}
 	
 	public void translate() {

@@ -7,7 +7,7 @@ public class Match {
 	private List<Pattern> patternList = new ArrayList<Pattern>();
 
 	public List<Pattern> getPatternList() {
-		return new ArrayList<Pattern>(patternList);
+		return patternList;
 	}
 
 	public void addPattern(Pattern pattern) {

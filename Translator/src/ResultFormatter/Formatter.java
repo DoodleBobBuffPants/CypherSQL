@@ -62,9 +62,10 @@ public class Formatter {
 	
 	private String formatNeo4JValue(Object value) {
 		if (value instanceof Object[]) {
+			Object[] castValue = (Object[]) value;
 			String result = "]";
-			for (int i = 0; i < ((Object[]) value).length; i++) {
-				result = "," + ((Object[]) value)[i].toString().toLowerCase() + result;
+			for (int i = 0; i < castValue.length; i++) {
+				result = "," + castValue[i].toString().toLowerCase() + result;
 			}
 			return "[" + result.substring(1, result.length());
 		} else {

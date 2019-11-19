@@ -27,11 +27,11 @@ public class CreateListener extends antlr4.CypherBaseListener {
 	}
 	
 	public Map<String, Map<String, Object>> getLabelTables() {
-		return new HashMap<String, Map<String, Object>>(labelTables);
+		return labelTables;
 	}
 	
 	public Map<String, Map<String, Object>> getTypeTables() {
-		return new HashMap<String, Map<String, Object>>(typeTables);
+		return typeTables;
 	}
 	
 	private String removeQuotes(String unformattedString) {
@@ -42,7 +42,7 @@ public class CreateListener extends antlr4.CypherBaseListener {
 	
 	@Override
 	public void exitOC_SymbolicName(CypherParser.OC_SymbolicNameContext ctx) {
-		terminalStack.push(new String(removeQuotes(ctx.getChild(0).getText())));	
+		terminalStack.push(removeQuotes(ctx.getChild(0).getText()));	
 	}
 	
 	@Override
@@ -52,7 +52,7 @@ public class CreateListener extends antlr4.CypherBaseListener {
 		} else if (ctx.oC_ListLiteral() != null) {
 			//Do not process lists here
 		} else {
-			terminalStack.push(new String(removeQuotes(ctx.getChild(0).getText())));
+			terminalStack.push(removeQuotes(ctx.getChild(0).getText()));
 		}
 	}
 	
@@ -116,7 +116,7 @@ public class CreateListener extends antlr4.CypherBaseListener {
 	public void exitOC_RelationshipPattern(CypherParser.OC_RelationshipPatternContext ctx) {
 		leftRight = (ctx.oC_LeftArrowHead() == null);
 		processMapLiteral(createEdge);
-		createEdge.setType(new String(terminalStack.pop().toString()));
+		createEdge.setType(terminalStack.pop().toString());
 		
 		Map<String, Object> newColumns = createEdge.getColumnValueMap();
 		String type = createEdge.getType();
@@ -153,7 +153,7 @@ public class CreateListener extends antlr4.CypherBaseListener {
 		if (terminalStack.peek().toString().equals("EXIT NODE LABELS")) {
 			terminalStack.pop();
 			while(!terminalStack.peek().toString().equals("ENTER NODE LABELS")) {
-				createNode.addLabel(new String(terminalStack.pop().toString()));
+				createNode.addLabel(terminalStack.pop().toString());
 			}
 			terminalStack.pop();
 		}
@@ -208,7 +208,7 @@ public class CreateListener extends antlr4.CypherBaseListener {
 					}
 				} else {
 					String column = terminalStack.pop().toString();
-					create.addColumnValue(column, new String(top.toString()));
+					create.addColumnValue(column, top.toString());
 				}
 			}
 			terminalStack.pop();
