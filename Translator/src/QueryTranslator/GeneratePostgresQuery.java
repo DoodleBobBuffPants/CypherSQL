@@ -1,6 +1,5 @@
 package QueryTranslator;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -332,12 +331,12 @@ public class GeneratePostgresQuery {
 				whereExpressionHandler(whereExpression.getRightFunctionName(), whereExpression.getRightFunctionArgument(), whereExpression.getRightLiteral(), patternList);
 				
 				if (isHaving) {
-					String[] whereItems = where.substring(5).split(" AND ");
-					String havingItem = whereItems[whereItems.length - 1];
+					String havingItem = where.substring(where.lastIndexOf(" AND ") + 5);
+					where = where.substring(0, where.length() - havingItem.length());
 					having = uniqueStringConcat(having, havingItem, ",");
-					where = " AND " + String.join(" AND ", Arrays.copyOfRange(whereItems, 0, whereItems.length - 1));
+				} else {
+					where += " AND ";
 				}
-				where += " AND ";
 			}
 		}
 	}

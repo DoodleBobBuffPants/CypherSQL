@@ -201,14 +201,14 @@ public class QueryListener extends antlr4.CypherBaseListener {
 		ParseTree aliasTree = ctx.getChild(2);
 		
 		if (aliasTree == null || !aliasTree.getText().toLowerCase().equals("as")) {
-			boolean isNotAlias = true;
+			boolean isAlias = false;
 			for (ReturnItem existingReturnItem: returnClause.getReturnItems()) {
 				if (toReturn.equals(existingReturnItem.getAlias())) {
-					isNotAlias = false;
+					isAlias = true;
 					break;
 				}
 			}
-			if (isNotAlias) {
+			if (!isAlias) {
 				returnItem.setToReturn(toReturn);
 				returnClause.addReturnItem(returnItem);
 			}
