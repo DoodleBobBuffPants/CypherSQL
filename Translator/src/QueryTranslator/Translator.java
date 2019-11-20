@@ -24,7 +24,7 @@ public class Translator {
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("tests\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
 		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
 		
 		System.out.println(queryTranslator.getCypherQuery());

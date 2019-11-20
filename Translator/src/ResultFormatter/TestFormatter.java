@@ -12,7 +12,7 @@ public class TestFormatter {
 		String postgresQuery = "SELECT labels, count(*) FROM nodes GROUP BY labels";
 		
 		formatter.initialiseResultSets();
-		formatter.getNeo4JResult("tests\\graph.db", neo4jQuery);
+		formatter.getNeo4JResult("resources\\graph.db", neo4jQuery);
 		formatter.getPostgresResult("graph", postgresQuery);
 		
 		formatter.printNeo4JResult();
@@ -28,7 +28,7 @@ public class TestFormatter {
 		String postgresQuery = "SELECT title FROM movie WHERE nodeid = 0";
 		
 		formatter.initialiseResultSets();
-		formatter.getNeo4JResult("tests\\graph.db", neo4jQuery);
+		formatter.getNeo4JResult("resources\\graph.db", neo4jQuery);
 		formatter.getPostgresResult("graph", postgresQuery);
 		
 		formatter.printNeo4JResult();
@@ -44,7 +44,7 @@ public class TestFormatter {
 		String postgresQuery = "SELECT roles FROM ACTED_IN WHERE nodesrcid = 34 AND nodetrgtid = 78";
 		
 		formatter.initialiseResultSets();
-		formatter.getNeo4JResult("tests\\graph.db", neo4jQuery);
+		formatter.getNeo4JResult("resources\\graph.db", neo4jQuery);
 		formatter.getPostgresResult("graph", postgresQuery);
 		
 		formatter.printNeo4JResult();
@@ -60,7 +60,7 @@ public class TestFormatter {
 		String postgresQuery = "SELECT labels, count(*) FROM nodes GROUP BY labels";
 		
 		formatter.initialiseResultSets();
-		formatter.getNeo4JResult("tests\\northwind.db", neo4jQuery);
+		formatter.getNeo4JResult("resources\\northwind.db", neo4jQuery);
 		formatter.getPostgresResult("northwind", postgresQuery);
 		
 		formatter.printNeo4JResult();
@@ -76,7 +76,7 @@ public class TestFormatter {
 		String postgresQuery = "SELECT productname FROM product WHERE nodeid = 0";
 		
 		formatter.initialiseResultSets();
-		formatter.getNeo4JResult("tests\\northwind.db", neo4jQuery);
+		formatter.getNeo4JResult("resources\\northwind.db", neo4jQuery);
 		formatter.getPostgresResult("northwind", postgresQuery);
 		
 		formatter.printNeo4JResult();
@@ -92,7 +92,7 @@ public class TestFormatter {
 		String postgresQuery = "SELECT quantity FROM ORDERS WHERE nodesrcid = 205 AND nodetrgtid = 41";
 		
 		formatter.initialiseResultSets();
-		formatter.getNeo4JResult("tests\\northwind.db", neo4jQuery);
+		formatter.getNeo4JResult("resources\\northwind.db", neo4jQuery);
 		formatter.getPostgresResult("northwind", postgresQuery);
 		
 		formatter.printNeo4JResult();

@@ -13,7 +13,7 @@ public class TestTranslator {
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("tests\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
 		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
@@ -29,7 +29,7 @@ public class TestTranslator {
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("tests\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
 		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
@@ -45,7 +45,7 @@ public class TestTranslator {
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("tests\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
 		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
@@ -61,7 +61,7 @@ public class TestTranslator {
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("tests\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
 		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
@@ -77,7 +77,7 @@ public class TestTranslator {
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("tests\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
 		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
@@ -93,7 +93,7 @@ public class TestTranslator {
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("tests\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
 		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
@@ -109,7 +109,7 @@ public class TestTranslator {
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("tests\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
 		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
@@ -125,7 +125,7 @@ public class TestTranslator {
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("tests\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
 		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
@@ -141,7 +141,7 @@ public class TestTranslator {
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("tests\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
 		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
@@ -157,7 +157,7 @@ public class TestTranslator {
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("tests\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
 		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
@@ -173,7 +173,7 @@ public class TestTranslator {
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("tests\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
 		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));

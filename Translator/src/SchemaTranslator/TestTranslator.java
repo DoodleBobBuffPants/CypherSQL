@@ -19,7 +19,7 @@ import SchemaAST.CreateNode;
 public class TestTranslator {
 	@Test
 	public void testCreateASTStack() {
-		String createFile = "tests\\creates.txt";
+		String createFile = "resources\\creates.txt";
 		Translator schemaTranslator = new Translator(createFile);
 		
 		schemaTranslator.createAST();
@@ -31,7 +31,7 @@ public class TestTranslator {
 	
 	@Test
 	public void testCreateASTLabels() {
-		String createFile = "tests\\creates.txt";
+		String createFile = "resources\\creates.txt";
 		Translator schemaTranslator = new Translator(createFile);
 		
 		schemaTranslator.createAST();
@@ -42,7 +42,7 @@ public class TestTranslator {
 	
 	@Test
 	public void testCreateASTTypes() {
-		String createFile = "tests\\creates.txt";
+		String createFile = "resources\\creates.txt";
 		Translator schemaTranslator = new Translator(createFile);
 		
 		schemaTranslator.createAST();
@@ -53,7 +53,7 @@ public class TestTranslator {
 	
 	@Test
 	public void testCreatePostgresDB() {
-		String createFile = "tests\\creates.txt";
+		String createFile = "resources\\creates.txt";
 		Translator schemaTranslator = new Translator(createFile);
 		
 		schemaTranslator.translate();
@@ -63,7 +63,7 @@ public class TestTranslator {
 	
 	@Test
 	public void testPopulatedNodes() throws SQLException {
-//		String createFile = "test\\creates.txt";
+//		String createFile = "resources\\creates.txt";
 //		Translator schemaTranslator = new Translator(createFile);
 //		
 //		schemaTranslator.translate();
@@ -79,7 +79,7 @@ public class TestTranslator {
 	
 	@Test
 	public void testPopulatedEdges() throws SQLException {
-//		String createFile = "test\\creates.txt";
+//		String createFile = "resources\\creates.txt";
 //		Translator schemaTranslator = new Translator(createFile);
 //		
 //		schemaTranslator.translate();
@@ -96,7 +96,7 @@ public class TestTranslator {
 	
 	@Test
 	public void testPopulatedLabels() throws SQLException {
-//		String createFile = "test\\creates.txt";
+//		String createFile = "resources\\creates.txt";
 //		Translator schemaTranslator = new Translator(createFile);
 //		
 //		schemaTranslator.translate();
@@ -114,7 +114,7 @@ public class TestTranslator {
 	
 	@Test
 	public void testPopulatedTypes() throws SQLException {
-//		String createFile = "test\\creates.txt";
+//		String createFile = "resources\\creates.txt";
 //		Translator schemaTranslator = new Translator(createFile);
 //		
 //		schemaTranslator.translate();

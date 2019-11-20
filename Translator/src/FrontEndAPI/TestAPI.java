@@ -16,7 +16,7 @@ public class TestAPI {
 	
 	@Test
 	public void testGraphDB() {
-		String neo4jDBPath = "tests\\graph.db";
+		String neo4jDBPath = "resources\\graph.db";
 		String[] args = {"--graphdb", neo4jDBPath};
 		
 		API.main(args);
@@ -27,7 +27,7 @@ public class TestAPI {
 
 	@Test
 	public void testSchema() {
-		String neo4jDumpFilePath = "tests\\graph.dbdump.txt";
+		String neo4jDumpFilePath = "resources\\graph.dbdump.txt";
 		String[] args = {"--schema", neo4jDumpFilePath};
 		
 		API.main(args);
@@ -46,7 +46,7 @@ public class TestAPI {
 	
 	@Test
 	public void testQueryPath() {
-		String[] args = {"--query", "tests\\query.txt"};
+		String[] args = {"--query", "resources\\query.txt"};
 		
 		API.main(args);
 		
