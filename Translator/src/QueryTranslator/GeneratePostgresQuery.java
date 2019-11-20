@@ -1,5 +1,6 @@
 package QueryTranslator;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +25,11 @@ public class GeneratePostgresQuery {
 	private String from = ",";
 	private String where = " AND ";
 	private String groupBy = ",";
+	private String having = ",";
 	private String orderBy = "";
 	private String limit = "";
+	
+	private boolean isHaving;
 	
 	private Map<String, String> varNameMap = new HashMap<String, String>();
 	
@@ -35,8 +39,8 @@ public class GeneratePostgresQuery {
 
 	public String generatePostgresQuery(Query parsedQuery) {
 		handleQueryMatch(parsedQuery);
-		handleQueryWhere(parsedQuery);
 		handleQueryReturn(parsedQuery);
+		handleQueryWhere(parsedQuery);
 		handleQueryOrderBy(parsedQuery);
 		handleQueryLimit(parsedQuery);
 		
@@ -47,6 +51,9 @@ public class GeneratePostgresQuery {
 		}
 		if (!groupBy.equals(",")) {
 			translatedQuery += " GROUP BY " + groupBy.substring(1, groupBy.length() - 1);
+		}
+		if (!having.equals(",")) {
+			translatedQuery += " HAVING " + having.substring(1, having.length() - 1);
 		}
 		if (!orderBy.equals("")) {
 			translatedQuery += " ORDER BY " + orderBy.substring(0, orderBy.length() - 1);
@@ -210,7 +217,22 @@ public class GeneratePostgresQuery {
 	}
 	
 	private String returnItemHandler(String toReturn, List<Pattern> patternList) {
-		if (!toReturn.contains(".")) return toReturn;
+		if (!toReturn.contains(".")) {
+			for (String returnItems: select.substring(1).split(",")) {
+				String[] itemAndAlias = returnItems.split("AS");
+				if (itemAndAlias.length == 2) {
+					String alias = itemAndAlias[1].trim();
+					if (toReturn.equals(alias)) {
+						String item = itemAndAlias[0].trim();
+						if (item.toLowerCase().startsWith("count(")) {
+							isHaving = true;
+						}
+						return item;
+					}
+				}
+			}
+			return toReturn;
+		}
 		
 		String[] returnElems = toReturn.split("\\.");
 		String returnVar = returnElems[0];
@@ -304,9 +326,17 @@ public class GeneratePostgresQuery {
 		if (whereClause != null) {
 			for (WhereExpression whereExpression: whereClause.getAndExpressions()) {
 				List<Pattern> patternList = parsedQuery.getMatchClause().getPatternList();
+				isHaving = false;
 				whereExpressionHandler(whereExpression.getLeftFunctionName(), whereExpression.getLeftFunctionArgument(), whereExpression.getLeftLiteral(), patternList);
 				where += " " + whereExpression.getComparisonOperator() + " ";
 				whereExpressionHandler(whereExpression.getRightFunctionName(), whereExpression.getRightFunctionArgument(), whereExpression.getRightLiteral(), patternList);
+				
+				if (isHaving) {
+					String[] whereItems = where.substring(5).split(" AND ");
+					String havingItem = whereItems[whereItems.length - 1];
+					having = uniqueStringConcat(having, havingItem, ",");
+					where = " AND " + String.join(" AND ", Arrays.copyOfRange(whereItems, 0, whereItems.length - 1));
+				}
 				where += " AND ";
 			}
 		}

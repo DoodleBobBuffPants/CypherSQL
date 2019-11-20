@@ -166,4 +166,20 @@ public class TestTranslator {
 		System.out.println(queryTranslator.getTranslatedQuery());
 		assertTrue(resultFormatter.compare());
 	}
+	
+	@Test
+	public void testWith() {
+		Translator queryTranslator = new Translator("MATCH (n:Movie)<-[r:ACTED_IN]-(p:Person)-[s:ACTED_IN]->(m:Movie) WHERE ID(n) <> ID(m) WITH p.name AS name, count(*) AS total WHERE total > 10 RETURN name, total");
+		Formatter resultFormatter = new Formatter();
+		
+		resultFormatter.initialiseResultSets();
+		resultFormatter.getNeo4JResult("tests\\graph.db", queryTranslator.getCypherQuery());
+		long startTime = System.currentTimeMillis();
+		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
+		
+		System.out.println(queryTranslator.getCypherQuery());
+		System.out.println(queryTranslator.getTranslatedQuery());
+		assertTrue(resultFormatter.compare());
+	}
 }

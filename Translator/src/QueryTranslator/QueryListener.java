@@ -34,6 +34,9 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	private ReturnItem returnItem;
 	private SortItem sortItem;
 	private boolean leftExpression;
+	private boolean inWhere;
+	private boolean inReturn;
+	private boolean inOrderBy;
 	
 	public Query getQuery() {
 		return query;
@@ -95,12 +98,18 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	
 	@Override
 	public void enterOC_Where(CypherParser.OC_WhereContext ctx) {
-		whereClause = new Where();
+		if (whereClause == null) whereClause = new Where();
+		inWhere = true;
+	}
+	
+	@Override
+	public void exitOC_Where(CypherParser.OC_WhereContext ctx) {
+		inWhere = false;
 	}
 	
 	@Override
 	public void enterOC_NotExpression(CypherParser.OC_NotExpressionContext ctx) {
-		if (returnClause == null && orderByClause == null) {
+		if (inWhere) {
 			OC_ComparisonExpressionContext comparisonExp = ctx.oC_ComparisonExpression();
 			if (comparisonExp.getChild(comparisonExp.getChildCount() - 1) instanceof OC_PartialComparisonExpressionContext) {
 				whereExpression = new WhereExpression();
@@ -111,7 +120,7 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	
 	@Override
 	public void exitOC_NotExpression(CypherParser.OC_NotExpressionContext ctx) {
-		if (returnClause == null && orderByClause == null) { 
+		if (inWhere) { 
 			OC_ComparisonExpressionContext comparisonExp = ctx.oC_ComparisonExpression();
 			if (comparisonExp.getChild(comparisonExp.getChildCount() - 1) instanceof OC_PartialComparisonExpressionContext) {
 				whereClause.addAndExpression(whereExpression);
@@ -127,7 +136,7 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	
 	@Override
 	public void exitOC_AddOrSubtractExpression(CypherParser.OC_AddOrSubtractExpressionContext ctx) {
-		if (returnClause == null && orderByClause == null) {
+		if (inWhere) {
 			if (leftExpression) {
 				whereExpression.setLeftLiteral(ctx.getText());
 			} else {
@@ -137,12 +146,23 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	}
 	
 	@Override
+	public void enterOC_With(CypherParser.OC_WithContext ctx) {
+		if (returnClause == null) returnClause = new Return();
+	}
+	
+	@Override
 	public void enterOC_Return(CypherParser.OC_ReturnContext ctx) {
-		returnClause = new Return();
+		if (returnClause == null) returnClause = new Return();
 		ParseTree distinct = ctx.getChild(2);
 		if (distinct != null && distinct.getText().toLowerCase().equals("distinct")) {
 			returnClause.setDistinct(true);
 		}
+		inReturn = true;
+	}
+	
+	@Override
+	public void exitOC_Return(CypherParser.OC_ReturnContext ctx) {
+		inReturn = false;
 	}
 	
 	@Override
@@ -152,7 +172,7 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	
 	@Override
 	public void exitOC_FunctionInvocation(CypherParser.OC_FunctionInvocationContext ctx) {
-		if (returnClause == null && orderByClause == null) {
+		if (inWhere) {
 			if (leftExpression) {
 				whereExpression.setLeftFunctionName(ctx.oC_FunctionName().getText());
 				whereExpression.setLeftFunctionArgument(ctx.oC_Expression(0).getText());
@@ -160,10 +180,10 @@ public class QueryListener extends antlr4.CypherBaseListener {
 				whereExpression.setRightFunctionName(ctx.oC_FunctionName().getText());
 				whereExpression.setRightFunctionArgument(ctx.oC_Expression(0).getText());
 			}
-		} else if (returnClause == null) {
+		} else if (inOrderBy) {
 			sortItem.setFunctionName(ctx.oC_FunctionName().getText());
 			sortItem.setFunctionArgument(ctx.oC_Expression(0).getText());
-		} else {
+		} else if (inReturn) {
 			returnItem.setFunctionName(ctx.oC_FunctionName().getText());
 			
 			ParseTree distinct = ctx.getChild(2);
@@ -177,19 +197,37 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	
 	@Override
 	public void exitOC_ReturnItem(CypherParser.OC_ReturnItemContext ctx) {
-		returnItem.setToReturn(ctx.oC_Expression().getText());
+		String toReturn = ctx.oC_Expression().getText();
 		ParseTree aliasTree = ctx.getChild(2);
-		if (aliasTree != null) {
-			if (aliasTree.getText().toLowerCase().equals("as")) {
-				returnItem.setAlias(ctx.getChild(4).getText());
+		
+		if (aliasTree == null || !aliasTree.getText().toLowerCase().equals("as")) {
+			boolean isNotAlias = true;
+			for (ReturnItem existingReturnItem: returnClause.getReturnItems()) {
+				if (toReturn.equals(existingReturnItem.getAlias())) {
+					isNotAlias = false;
+					break;
+				}
 			}
-		}
-		returnClause.addReturnItem(returnItem);
+			if (isNotAlias) {
+				returnItem.setToReturn(toReturn);
+				returnClause.addReturnItem(returnItem);
+			}
+		} else {
+			returnItem.setToReturn(toReturn);
+			returnItem.setAlias(ctx.getChild(4).getText());
+			returnClause.addReturnItem(returnItem);
+		}	
 	}
 	
 	@Override
 	public void enterOC_Order(CypherParser.OC_OrderContext ctx) {
 		orderByClause = new OrderBy();
+		inOrderBy = true;
+	}
+	
+	@Override
+	public void exitOC_Order(CypherParser.OC_OrderContext ctx) {
+		inOrderBy = false;
 	}
 	
 	@Override
