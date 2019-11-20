@@ -1,3 +1,3 @@
 Translator/bin
-Translator/tests/graph.db/logs
-Translator/tests/northwind.db/logs
+Translator/tests/graph.db
+Translator/tests/northwind.db
