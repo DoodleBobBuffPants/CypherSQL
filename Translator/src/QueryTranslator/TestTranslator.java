@@ -20,6 +20,7 @@ public class TestTranslator {
 		
 		System.out.println(queryTranslator.getCypherQuery());
 		System.out.println(queryTranslator.getTranslatedQuery());
+		System.out.println();
 		assertTrue(resultFormatter.compare());
 	}
 	
@@ -36,6 +37,7 @@ public class TestTranslator {
 		
 		System.out.println(queryTranslator.getCypherQuery());
 		System.out.println(queryTranslator.getTranslatedQuery());
+		System.out.println();
 		assertTrue(resultFormatter.compare());
 	}
 	
@@ -52,6 +54,7 @@ public class TestTranslator {
 		
 		System.out.println(queryTranslator.getCypherQuery());
 		System.out.println(queryTranslator.getTranslatedQuery());
+		System.out.println();
 		assertTrue(resultFormatter.compare());
 	}
 	
@@ -68,6 +71,7 @@ public class TestTranslator {
 		
 		System.out.println(queryTranslator.getCypherQuery());
 		System.out.println(queryTranslator.getTranslatedQuery());
+		System.out.println();
 		assertTrue(resultFormatter.compare());
 	}
 	
@@ -84,6 +88,7 @@ public class TestTranslator {
 		
 		System.out.println(queryTranslator.getCypherQuery());
 		System.out.println(queryTranslator.getTranslatedQuery());
+		System.out.println();
 		assertTrue(resultFormatter.compare());
 	}
 	
@@ -100,6 +105,7 @@ public class TestTranslator {
 		
 		System.out.println(queryTranslator.getCypherQuery());
 		System.out.println(queryTranslator.getTranslatedQuery());
+		System.out.println();
 		assertTrue(resultFormatter.compare());
 	}
 	
@@ -116,6 +122,7 @@ public class TestTranslator {
 		
 		System.out.println(queryTranslator.getCypherQuery());
 		System.out.println(queryTranslator.getTranslatedQuery());
+		System.out.println();
 		assertTrue(resultFormatter.compare());
 	}
 	
@@ -132,6 +139,7 @@ public class TestTranslator {
 		
 		System.out.println(queryTranslator.getCypherQuery());
 		System.out.println(queryTranslator.getTranslatedQuery());
+		System.out.println();
 		assertTrue(resultFormatter.compare());
 	}
 	
@@ -148,6 +156,7 @@ public class TestTranslator {
 		
 		System.out.println(queryTranslator.getCypherQuery());
 		System.out.println(queryTranslator.getTranslatedQuery());
+		System.out.println();
 		assertTrue(resultFormatter.compare());
 	}
 	
@@ -164,6 +173,7 @@ public class TestTranslator {
 		
 		System.out.println(queryTranslator.getCypherQuery());
 		System.out.println(queryTranslator.getTranslatedQuery());
+		System.out.println();
 		assertTrue(resultFormatter.compare());
 	}
 	
@@ -180,6 +190,7 @@ public class TestTranslator {
 		
 		System.out.println(queryTranslator.getCypherQuery());
 		System.out.println(queryTranslator.getTranslatedQuery());
+		System.out.println();
 		assertTrue(resultFormatter.compare());
 	}
 }

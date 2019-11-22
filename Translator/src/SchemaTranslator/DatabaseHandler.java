@@ -1,5 +1,8 @@
 package SchemaTranslator;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -31,6 +34,7 @@ public class DatabaseHandler {
 		try {
 			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + dbName, "postgres", "admin");
 			Statement createTables = connection.createStatement();
+			BufferedWriter queryLogger = new BufferedWriter(new FileWriter(dbName + "SQL.txt"));
 			
 			String makeNodeQuery = makeNodeTable();
 			String makeEdgeQuery = makeEdgeTable();
@@ -38,12 +42,20 @@ public class DatabaseHandler {
 			List<String> makeTypeQueries = makeTypeTables();
 			
 			createTables.execute(makeNodeQuery);
+			queryLogger.write(makeNodeQuery);
+			queryLogger.newLine();
 			createTables.execute(makeEdgeQuery);
+			queryLogger.write(makeEdgeQuery);
+			queryLogger.newLine();
 			for (String query: makeLabelQueries) {
 				createTables.execute(query);
+				queryLogger.write(query);
+				queryLogger.newLine();
 			}
 			for (String query: makeTypeQueries) {
 				createTables.execute(query);
+				queryLogger.write(query);
+				queryLogger.newLine();
 			}
 			
 			for (Create dbItem: createStack) {
@@ -55,11 +67,15 @@ public class DatabaseHandler {
 				}
 				for (String query: queries) {
 					createTables.execute(query);
+					queryLogger.write(query);
+					queryLogger.newLine();
 				}
 			}
 			
 			connection.close();
-		} catch (SQLException e) {
+			queryLogger.flush();
+			queryLogger.close();
+		} catch (SQLException | IOException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
