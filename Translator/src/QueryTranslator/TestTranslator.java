@@ -193,4 +193,21 @@ public class TestTranslator {
 		System.out.println();
 		assertTrue(resultFormatter.compare());
 	}
+	
+	@Test
+	public void testUndirectedEdge() {
+		Translator queryTranslator = new Translator("MATCH (p:Person)-[:ACTED_IN]-(m:Movie) WHERE ID(p) = 1 RETURN m.title as title");
+		Formatter resultFormatter = new Formatter();
+		
+		resultFormatter.initialiseResultSets();
+		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
+		long startTime = System.currentTimeMillis();
+		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
+		
+		System.out.println(queryTranslator.getCypherQuery());
+		System.out.println(queryTranslator.getTranslatedQuery());
+		System.out.println();
+		assertTrue(resultFormatter.compare());
+	}
 }

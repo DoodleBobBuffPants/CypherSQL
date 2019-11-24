@@ -97,6 +97,35 @@ public class GeneratePostgresQuery {
 		}
 	}
 	
+	private void matchEdgeCases(NodePattern nodeSrc, NodePattern nodeTrgt, EdgePattern edge) {
+		String nodeSrcVar = nodeSrc.getVariable();
+		String nodeSrcLabel = nodeSrc.getLabel();
+		String nodeTrgtVar = nodeTrgt.getVariable();
+		String nodeTrgtLabel = nodeTrgt.getLabel();
+		String edgeVar = edge.getVariable();
+		String edgeType = edge.getType();
+		
+		if (edgeVar != null && edgeType == null) {
+			String edgeName =  edgeVar + "_edge";
+			from = uniqueStringConcat(from, "edges AS " + edgeName, ",");
+			matchEdgeHandler(nodeSrcVar, nodeSrcLabel, edgeName, "src");
+			matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, edgeName, "trgt");
+			varNameMap.put(edgeVar, edgeName);
+		} else if (edgeVar != null && edgeType != null){
+			String lowerEdgeType = edgeType.toLowerCase();
+			String edgeName = edgeVar + "_" + lowerEdgeType;
+			from = uniqueStringConcat(from, lowerEdgeType + " AS " + edgeName, ",");
+			matchEdgeHandler(nodeSrcVar, nodeSrcLabel, edgeName, "src");
+			matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, edgeName, "trgt");
+			varNameMap.put(edgeVar, edgeName);
+		} else if (edgeType != null) {
+			String lowerEdgeType = edgeType.toLowerCase();
+			from = uniqueStringConcat(from, lowerEdgeType, ",");
+			matchEdgeHandler(nodeSrcVar, nodeSrcLabel, lowerEdgeType, "src");
+			matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, lowerEdgeType, "trgt");
+		}
+	}
+	
 	private void whereExpressionHandler(String functionName, String functionArgument, String literal, List<Pattern> patternList) {
 		if (functionName != null) {
 			if (functionName.toLowerCase().equals("id")) {
@@ -279,42 +308,19 @@ public class GeneratePostgresQuery {
 				}
 			} else {
 				EdgePattern edge = (EdgePattern) pattern;
-				NodePattern nodeSrc;
-				NodePattern nodeTrgt;
 				
-				if (edge.isLeftSrc()) {
-					nodeSrc = (NodePattern) patternList.get(i - 1);
-					nodeTrgt = (NodePattern) patternList.get(i + 1);
+				if (!edge.isDirected()) {
+					NodePattern nodeSrc = (NodePattern) patternList.get(i - 1);
+					NodePattern nodeTrgt = (NodePattern) patternList.get(i + 1);
+					where = where + "((";
+					matchEdgeCases(nodeSrc, nodeTrgt, edge);
+					where = where.substring(0, where.length() - 5) + ") OR (";
+					matchEdgeCases(nodeTrgt, nodeSrc, edge);
+					where = where.substring(0, where.length() - 5) + ")) AND ";
+				} else if (edge.isLeftSrc()) {
+					matchEdgeCases((NodePattern) patternList.get(i - 1), (NodePattern) patternList.get(i + 1), edge);
 				} else {
-					nodeSrc = (NodePattern) patternList.get(i + 1);
-					nodeTrgt = (NodePattern) patternList.get(i - 1);
-				}
-				
-				String nodeSrcVar = nodeSrc.getVariable();
-				String nodeSrcLabel = nodeSrc.getLabel();
-				String nodeTrgtVar = nodeTrgt.getVariable();
-				String nodeTrgtLabel = nodeTrgt.getLabel();
-				String edgeVar = edge.getVariable();
-				String edgeType = edge.getType();
-				
-				if (edgeVar != null && edgeType == null) {
-					String edgeName =  edgeVar + "_edge";
-					from = uniqueStringConcat(from, "edges AS " + edgeName, ",");
-					matchEdgeHandler(nodeSrcVar, nodeSrcLabel, edgeName, "src");
-					matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, edgeName, "trgt");
-					varNameMap.put(edgeVar, edgeName);
-				} else if (edgeVar != null && edgeType != null){
-					String lowerEdgeType = edgeType.toLowerCase();
-					String edgeName = edgeVar + "_" + lowerEdgeType;
-					from = uniqueStringConcat(from, lowerEdgeType + " AS " + edgeName, ",");
-					matchEdgeHandler(nodeSrcVar, nodeSrcLabel, edgeName, "src");
-					matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, edgeName, "trgt");
-					varNameMap.put(edgeVar, edgeName);
-				} else if (edgeType != null) {
-					String lowerEdgeType = edgeType.toLowerCase();
-					from = uniqueStringConcat(from, lowerEdgeType, ",");
-					matchEdgeHandler(nodeSrcVar, nodeSrcLabel, lowerEdgeType, "src");
-					matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, lowerEdgeType, "trgt");
+					matchEdgeCases((NodePattern) patternList.get(i + 1),(NodePattern) patternList.get(i - 1), edge);
 				}
 			}
 		}
