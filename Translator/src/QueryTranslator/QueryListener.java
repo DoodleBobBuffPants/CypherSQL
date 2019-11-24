@@ -1,5 +1,7 @@
 package QueryTranslator;
 
+import java.util.List;
+
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import QueryAST.EdgePattern;
@@ -7,6 +9,7 @@ import QueryAST.Limit;
 import QueryAST.Match;
 import QueryAST.NodePattern;
 import QueryAST.OrderBy;
+import QueryAST.Pattern;
 import QueryAST.Query;
 import QueryAST.Return;
 import QueryAST.ReturnItem;
@@ -15,8 +18,10 @@ import QueryAST.Where;
 import QueryAST.WhereExpression;
 import antlr4.CypherParser;
 import antlr4.CypherParser.OC_ComparisonExpressionContext;
+import antlr4.CypherParser.OC_IntegerLiteralContext;
 import antlr4.CypherParser.OC_NodeLabelsContext;
 import antlr4.CypherParser.OC_PartialComparisonExpressionContext;
+import antlr4.CypherParser.OC_RangeLiteralContext;
 import antlr4.CypherParser.OC_RelationshipDetailContext;
 import antlr4.CypherParser.OC_RelationshipTypesContext;
 import antlr4.CypherParser.OC_VariableContext;
@@ -37,6 +42,7 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	private boolean inWhere;
 	private boolean inReturn;
 	private boolean inOrderBy;
+	private boolean nextNodeStarredTrgt = false;
 	
 	public Query getQuery() {
 		return query;
@@ -72,6 +78,9 @@ public class QueryListener extends antlr4.CypherBaseListener {
 		if (nodeLabels != null) {
 			nodePattern.setLabel(nodeLabels.oC_NodeLabel(0).getText().substring(1));
 		}
+		if (nextNodeStarredTrgt) {
+			nodePattern.setStarredTrgt(true);
+		}
 		matchClause.addPattern(nodePattern);
 	}
 	
@@ -94,6 +103,22 @@ public class QueryListener extends antlr4.CypherBaseListener {
 			edgePattern.setLeftSrc(false);
 		} else {
 			edgePattern.setDirected(false);
+		}
+		OC_RangeLiteralContext star = relationshipDetail.oC_RangeLiteral();
+		if (star != null) {
+			edgePattern.setStarredEdge(true);
+			OC_IntegerLiteralContext starLength = star.oC_IntegerLiteral(0);
+			if (starLength != null) {
+				edgePattern.setStarLength(Integer.parseInt(starLength.getText()));
+			} else {
+				edgePattern.setStarLength(-1);
+			}
+			List<Pattern> patterns = matchClause.getPatternList();
+			NodePattern prevNode = (NodePattern) patterns.get(patterns.size() - 1);
+			prevNode.setStarredSrc(true);
+			nextNodeStarredTrgt = true;
+		} else {
+			edgePattern.setStarredEdge(false);
 		}
 		matchClause.addPattern(edgePattern);
 	}

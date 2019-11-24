@@ -5,6 +5,8 @@ public class EdgePattern extends Pattern {
 	private boolean leftSrc;
 	private String variable;
 	private String type;
+	private boolean starredEdge;
+	private int starLength;
 	
 	public boolean isDirected() {
 		return directed;
@@ -36,5 +38,21 @@ public class EdgePattern extends Pattern {
 	
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public boolean isStarredEdge() {
+		return starredEdge;
+	}
+
+	public void setStarredEdge(boolean starredEdge) {
+		this.starredEdge = starredEdge;
+	}
+
+	public int getStarLength() {
+		return starLength;
+	}
+
+	public void setStarLength(int starLength) {
+		this.starLength = starLength;
 	}
 }
