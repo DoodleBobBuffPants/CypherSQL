@@ -90,8 +90,10 @@ public class QueryListener extends antlr4.CypherBaseListener {
 		}
 		if (ctx.oC_RightArrowHead() != null) {
 			edgePattern.setLeftSrc(true);
-		} else {
+		} else if (ctx.oC_LeftArrowHead() != null){
 			edgePattern.setLeftSrc(false);
+		} else {
+			edgePattern.setDirected(false);
 		}
 		matchClause.addPattern(edgePattern);
 	}

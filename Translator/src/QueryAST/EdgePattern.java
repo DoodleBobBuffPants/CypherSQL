@@ -1,10 +1,19 @@
 package QueryAST;
 
 public class EdgePattern extends Pattern {
+	private boolean directed = true;
 	private boolean leftSrc;
 	private String variable;
 	private String type;
 	
+	public boolean isDirected() {
+		return directed;
+	}
+
+	public void setDirected(boolean directed) {
+		this.directed = directed;
+	}
+
 	public boolean isLeftSrc() {
 		return leftSrc;
 	}
