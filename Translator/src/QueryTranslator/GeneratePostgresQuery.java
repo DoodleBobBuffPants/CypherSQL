@@ -97,7 +97,7 @@ public class GeneratePostgresQuery {
 		}
 	}
 	
-	private void matchEdgeCases(NodePattern nodeSrc, NodePattern nodeTrgt, EdgePattern edge) {
+	private void matchEdgeCasesHandler(NodePattern nodeSrc, NodePattern nodeTrgt, EdgePattern edge) {
 		String nodeSrcVar = nodeSrc.getVariable();
 		String nodeSrcLabel = nodeSrc.getLabel();
 		String nodeTrgtVar = nodeTrgt.getVariable();
@@ -313,14 +313,14 @@ public class GeneratePostgresQuery {
 					NodePattern nodeSrc = (NodePattern) patternList.get(i - 1);
 					NodePattern nodeTrgt = (NodePattern) patternList.get(i + 1);
 					where = where + "((";
-					matchEdgeCases(nodeSrc, nodeTrgt, edge);
+					matchEdgeCasesHandler(nodeSrc, nodeTrgt, edge);
 					where = where.substring(0, where.length() - 5) + ") OR (";
-					matchEdgeCases(nodeTrgt, nodeSrc, edge);
+					matchEdgeCasesHandler(nodeTrgt, nodeSrc, edge);
 					where = where.substring(0, where.length() - 5) + ")) AND ";
 				} else if (edge.isLeftSrc()) {
-					matchEdgeCases((NodePattern) patternList.get(i - 1), (NodePattern) patternList.get(i + 1), edge);
+					matchEdgeCasesHandler((NodePattern) patternList.get(i - 1), (NodePattern) patternList.get(i + 1), edge);
 				} else {
-					matchEdgeCases((NodePattern) patternList.get(i + 1),(NodePattern) patternList.get(i - 1), edge);
+					matchEdgeCasesHandler((NodePattern) patternList.get(i + 1),(NodePattern) patternList.get(i - 1), edge);
 				}
 			}
 		}
