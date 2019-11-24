@@ -16,7 +16,9 @@ public class TestFormatter {
 		formatter.getPostgresResult("graph", postgresQuery);
 		
 		formatter.printNeo4JResult();
+		System.out.println();
 		formatter.printPostgresResult();
+		System.out.println();
 		
 		assertTrue(formatter.compare());
 	}
@@ -32,7 +34,9 @@ public class TestFormatter {
 		formatter.getPostgresResult("graph", postgresQuery);
 		
 		formatter.printNeo4JResult();
+		System.out.println();
 		formatter.printPostgresResult();
+		System.out.println();
 		
 		assertTrue(formatter.compare());
 	}
@@ -48,7 +52,9 @@ public class TestFormatter {
 		formatter.getPostgresResult("graph", postgresQuery);
 		
 		formatter.printNeo4JResult();
+		System.out.println();
 		formatter.printPostgresResult();
+		System.out.println();
 		
 		assertTrue(formatter.compare());
 	}
@@ -64,7 +70,9 @@ public class TestFormatter {
 		formatter.getPostgresResult("northwind", postgresQuery);
 		
 		formatter.printNeo4JResult();
+		System.out.println();
 		formatter.printPostgresResult();
+		System.out.println();
 		
 		assertTrue(formatter.compare());
 	}
@@ -80,7 +88,9 @@ public class TestFormatter {
 		formatter.getPostgresResult("northwind", postgresQuery);
 		
 		formatter.printNeo4JResult();
+		System.out.println();
 		formatter.printPostgresResult();
+		System.out.println();
 		
 		assertTrue(formatter.compare());
 	}
@@ -96,7 +106,37 @@ public class TestFormatter {
 		formatter.getPostgresResult("northwind", postgresQuery);
 		
 		formatter.printNeo4JResult();
+		System.out.println();
 		formatter.printPostgresResult();
+		System.out.println();
+		
+		assertTrue(formatter.compare());
+	}
+	
+	@Test
+	public void testCompareStarGraph() {
+		Formatter formatter = new Formatter();
+		String neo4jQuery = "MATCH (p:Person)-[:ACTED_IN*2]-(q:Person) WHERE ID(p) = 1 RETURN q.name AS name";
+		String postgresQuery = "WITH RECURSIVE rec_edge_match(nodeid, depth) AS (" + 
+				"SELECT p_person.nodeid, 2 " + 
+				"FROM person AS p_person " +
+				"WHERE p_person.nodeid = 1 " + 
+				"UNION ALL " + 
+				"SELECT n.nodeid, rec_edge_match.depth-1 " + 
+				"FROM nodes AS n, rec_edge_match, acted_in " + 
+				"WHERE ((acted_in.nodesrcid = rec_edge_match.nodeid AND acted_in.nodetrgtid = n.nodeid) OR (acted_in.nodetrgtid = rec_edge_match.nodeid AND acted_in.nodesrcid = n.nodeid)) AND rec_edge_match.depth > 0" + 
+				") SELECT person.name AS name " + 
+				"FROM rec_edge_match, person " + 
+				"WHERE rec_edge_match.depth = 0 AND person.nodeid = rec_edge_match.nodeid AND person.nodeid <> 1";
+		
+		formatter.initialiseResultSets();
+		formatter.getNeo4JResult("resources\\graph.db", neo4jQuery);
+		formatter.getPostgresResult("graph", postgresQuery);
+		
+		formatter.printNeo4JResult();
+		System.out.println();
+		formatter.printPostgresResult();
+		System.out.println();
 		
 		assertTrue(formatter.compare());
 	}
