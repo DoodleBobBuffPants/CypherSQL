@@ -1,6 +1,8 @@
 package QueryTranslator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +29,7 @@ public class GeneratePostgresQuery {
 	private String having = ",";
 	private String orderBy = "";
 	private String limit = "";
+	private String recursiveQuery = "";
 	
 	private boolean isHaving;
 	
@@ -43,7 +46,7 @@ public class GeneratePostgresQuery {
 		handleQueryOrderBy(parsedQuery);
 		handleQueryLimit(parsedQuery);
 		
-		translatedQuery = "SELECT " + select.substring(1, select.length() - 1) + " FROM " + from.substring(1, from.length() - 1);
+		translatedQuery = recursiveQuery + "SELECT " + select.substring(1, select.length() - 1) + " FROM " + from.substring(1, from.length() - 1);
 		
 		if (!where.equals(" AND ")) {
 			translatedQuery += " WHERE " + where.substring(5, where.length() - 5);
@@ -287,24 +290,51 @@ public class GeneratePostgresQuery {
 	
 	private void handleQueryMatch(Query parsedQuery) {
 		List<Pattern> patternList = parsedQuery.getMatchClause().getPatternList();
+		List<WhereExpression> recursiveSrcExpressions;
+		String recursiveSrcName = "";
+		String recursiveSelectBase = "";
+		
 		for (int i = 0; i < patternList.size(); i++) {
 			Pattern pattern = patternList.get(i);
 			if (pattern instanceof NodePattern) {
 				NodePattern node = (NodePattern) pattern;
 				String nodeVar = node.getVariable();
 				String nodeLabel = node.getLabel();
+				String nodeName = "";
 				
 				if (nodeVar != null && nodeLabel == null) {
-					String nodeName = nodeVar + "_node";
+					nodeName = nodeVar + "_node";
 					from = uniqueStringConcat(from, "nodes AS " + nodeName, ",");
-					matchNodeHandler(nodeVar, nodeName, i, patternList);
-					varNameMap.put(nodeVar, nodeName);
 				} else if (nodeVar != null){
 					String lowerNodeLabel = nodeLabel.toLowerCase();
-					String nodeName = nodeVar + "_" + lowerNodeLabel;
+					nodeName = nodeVar + "_" + lowerNodeLabel;
 					from = uniqueStringConcat(from, lowerNodeLabel + " AS " + nodeName, ",");
+				}
+				
+				if (!nodeName.equals("")) {
 					matchNodeHandler(nodeVar, nodeName, i, patternList);
 					varNameMap.put(nodeVar, nodeName);
+				}
+				
+				if (node.isStarredSrc()) {
+					recursiveSrcName = nodeName;
+					recursiveSrcExpressions = new ArrayList<WhereExpression>();
+					
+					Iterator<WhereExpression> whereIterator = parsedQuery.getWhereClause().getAndExpressions().iterator();
+					while (whereIterator.hasNext()) {
+						WhereExpression whereExpression = whereIterator.next();
+						String leftLiteral = whereExpression.getLeftLiteral();
+						String rightLiteral = whereExpression.getRightLiteral();
+						if (leftLiteral.contains(" " + nodeVar + ".") || leftLiteral.contains("(" + nodeVar + ")") || rightLiteral.contains(" " + nodeVar + ".") || rightLiteral.contains("(" + nodeVar + ")")) {
+							recursiveSrcExpressions.add(whereExpression);
+							whereIterator.remove();
+						}
+					}
+				}
+				if (node.isStarredTrgt()) {
+					String recTableName = "rec_match_" + (i-1);
+					from = uniqueStringConcat(from, recTableName, ",");
+					where = uniqueStringConcat(where, recTableName + ".depth = 0 AND " + recTableName + ".nodeid = " + nodeName + ".nodeid AND " + nodeName + ".nodeid <> " + recursiveSrcName + ".nodeid", " AND ");
 				}
 			} else {
 				EdgePattern edge = (EdgePattern) pattern;

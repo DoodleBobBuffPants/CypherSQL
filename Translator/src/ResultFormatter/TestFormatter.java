@@ -117,12 +117,12 @@ public class TestFormatter {
 	public void testCompareStarGraph() {
 		Formatter formatter = new Formatter();
 		String neo4jQuery = "MATCH (p:Person)-[:ACTED_IN*2]-(q:Person) WHERE ID(p) = 1 RETURN q.name AS name";
-		String postgresQuery = "WITH RECURSIVE rec_match(nodeid, depth) AS (" +
-							       "SELECT nodeid, 2 FROM person WHERE person.nodeid = 1 UNION ALL " +
-							       "SELECT nodes.nodeid, depth-1 FROM nodes, rec_match, acted_in " +
-							       "WHERE ((acted_in.nodesrcid = rec_match.nodeid AND acted_in.nodetrgtid = nodes.nodeid) OR " +
-							              "(acted_in.nodetrgtid = rec_match.nodeid AND acted_in.nodesrcid = nodes.nodeid)) AND depth > 0) " +
-							   "SELECT person.name AS name FROM rec_match, person WHERE rec_match.depth = 0 AND person.nodeid = rec_match.nodeid AND NOT person.nodeid = 1";
+		String postgresQuery = "WITH RECURSIVE rec_match(nodeid, depth) AS ("
+				+ "SELECT nodeid, 2 FROM person WHERE person.nodeid = 1 UNION ALL "
+				+ "SELECT nodes.nodeid, depth-1 FROM nodes, rec_match, acted_in "
+				+ "WHERE ((acted_in.nodesrcid = rec_match.nodeid AND acted_in.nodetrgtid = nodes.nodeid) OR "
+				+ "(acted_in.nodetrgtid = rec_match.nodeid AND acted_in.nodesrcid = nodes.nodeid)) AND depth > 0) "
+				+ "SELECT person.name AS name FROM rec_match, person WHERE rec_match.depth = 0 AND person.nodeid = rec_match.nodeid AND NOT person.nodeid = 1";
 		
 		formatter.initialiseResultSets();
 		formatter.getNeo4JResult("resources\\graph.db", neo4jQuery);
