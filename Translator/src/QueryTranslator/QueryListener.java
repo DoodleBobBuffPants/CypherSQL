@@ -1,7 +1,5 @@
 package QueryTranslator;
 
-import java.util.List;
-
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import QueryAST.EdgePattern;
@@ -9,7 +7,6 @@ import QueryAST.Limit;
 import QueryAST.Match;
 import QueryAST.NodePattern;
 import QueryAST.OrderBy;
-import QueryAST.Pattern;
 import QueryAST.Query;
 import QueryAST.Return;
 import QueryAST.ReturnItem;
@@ -42,7 +39,6 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	private boolean inWhere;
 	private boolean inReturn;
 	private boolean inOrderBy;
-	private boolean nextNodeStarredTrgt = false;
 	
 	public Query getQuery() {
 		return query;
@@ -78,9 +74,6 @@ public class QueryListener extends antlr4.CypherBaseListener {
 		if (nodeLabels != null) {
 			nodePattern.setLabel(nodeLabels.oC_NodeLabel(0).getText().substring(1));
 		}
-		if (nextNodeStarredTrgt) {
-			nodePattern.setStarredTrgt(true);
-		}
 		matchClause.addPattern(nodePattern);
 	}
 	
@@ -113,10 +106,6 @@ public class QueryListener extends antlr4.CypherBaseListener {
 			} else {
 				edgePattern.setStarLength(-1);
 			}
-			List<Pattern> patterns = matchClause.getPatternList();
-			NodePattern prevNode = (NodePattern) patterns.get(patterns.size() - 1);
-			prevNode.setStarredSrc(true);
-			nextNodeStarredTrgt = true;
 		} else {
 			edgePattern.setStarredEdge(false);
 		}

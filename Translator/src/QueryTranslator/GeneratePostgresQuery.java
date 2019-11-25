@@ -1,8 +1,6 @@
 package QueryTranslator;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +27,6 @@ public class GeneratePostgresQuery {
 	private String having = ",";
 	private String orderBy = "";
 	private String limit = "";
-	private String recursiveQuery = "";
 	
 	private boolean isHaving;
 	
@@ -48,9 +45,6 @@ public class GeneratePostgresQuery {
 		
 		translatedQuery = "SELECT " + select.substring(1, select.length() - 1) + " FROM " + from.substring(1, from.length() - 1);
 		
-		if (!recursiveQuery.equals("")) {
-			translatedQuery = recursiveQuery.substring(0, recursiveQuery.length() - 1) + " " + translatedQuery;
-		}
 		if (!where.equals(" AND ")) {
 			translatedQuery += " WHERE " + where.substring(5, where.length() - 5);
 		}
@@ -130,6 +124,41 @@ public class GeneratePostgresQuery {
 			matchEdgeHandler(nodeSrcVar, nodeSrcLabel, lowerEdgeType, "src");
 			matchEdgeHandler(nodeTrgtVar, nodeTrgtLabel, lowerEdgeType, "trgt");
 		}
+	}
+	
+	private void matchStarredEdgeHandler(EdgePattern edge, List<Pattern> patternList, int i) {
+		String edgeType = edge.getType();
+		if (edgeType == null) {
+			edgeType = "edges";
+		} else {
+			edgeType = edgeType.toLowerCase();
+		}
+		
+		int maxDepth = edge.getStarLength();
+		String startNodeVar = ((NodePattern) patternList.get(i - 1)).getVariable();
+		String startNodeAlias = varNameMap.get(startNodeVar);
+		for (int depth = 0; depth < maxDepth; depth ++) {
+			String nodeAlias = "";
+			if (depth == maxDepth - 1) {
+				NodePattern endNode = (NodePattern) patternList.get(i + 1);
+				String nodeVar = endNode.getVariable();
+				String nodeLabel = endNode.getLabel();
+				if (nodeLabel == null) {
+					nodeAlias = nodeVar + "_node";
+				} else {
+					nodeAlias = nodeVar + "_" + nodeLabel.toLowerCase();
+				} 
+			} else {
+				nodeAlias = "star_" + i + "_node_" + depth;
+				from += "nodes AS " + nodeAlias + ",";
+			}
+			String edgeAlias = "star_" + i + "_edge_" + depth;
+			from += edgeType + " AS " + edgeAlias + ",";
+			where += "((" + edgeAlias + ".nodesrcid = " + startNodeAlias + ".nodeid AND " + edgeAlias + ".nodetrgtid = " + nodeAlias + ".nodeid) OR "
+					+ "(" + edgeAlias + ".nodetrgtid = " + startNodeAlias + ".nodeid AND " + edgeAlias + ".nodesrcid = " + nodeAlias + ".nodeid)) AND ";
+			startNodeAlias = nodeAlias;
+		}
+		where = uniqueStringConcat(where, startNodeAlias + ".nodeid <> " + varNameMap.get(startNodeVar) + ".nodeid", " AND ");
 	}
 	
 	private void whereExpressionHandler(String functionName, String functionArgument, String literal, List<Pattern> patternList) {
@@ -293,10 +322,6 @@ public class GeneratePostgresQuery {
 	
 	private void handleQueryMatch(Query parsedQuery) {
 		List<Pattern> patternList = parsedQuery.getMatchClause().getPatternList();
-		List<WhereExpression> recSrcExpressions = new ArrayList<WhereExpression>();
-		String recSrcName = "";
-		String recFromBase = "";
-		
 		for (int i = 0; i < patternList.size(); i++) {
 			Pattern pattern = patternList.get(i);
 			if (pattern instanceof NodePattern) {
@@ -318,71 +343,11 @@ public class GeneratePostgresQuery {
 					matchNodeHandler(nodeVar, nodeName, i, patternList);
 					varNameMap.put(nodeVar, nodeName);
 				}
-				
-				if (node.isStarredSrc()) {
-					recSrcName = nodeName;
-					recSrcExpressions.clear();
-					Iterator<WhereExpression> whereIterator = parsedQuery.getWhereClause().getAndExpressions().iterator();
-					while (whereIterator.hasNext()) {
-						WhereExpression whereExpression = whereIterator.next();
-						String leftLiteral = whereExpression.getLeftLiteral();
-						String rightLiteral = whereExpression.getRightLiteral();
-						if (leftLiteral.contains(" " + nodeVar + ".") || leftLiteral.contains("(" + nodeVar + ")") || rightLiteral.contains(" " + nodeVar + ".") || rightLiteral.contains("(" + nodeVar + ")")) {
-							recSrcExpressions.add(whereExpression);
-							whereIterator.remove();
-						}
-					}
-					if (nodeLabel != null) {
-						recFromBase = " FROM " + nodeLabel.toLowerCase() + " AS " + nodeName;
-					} else {
-						recFromBase = " FROM nodes AS " + nodeName;
-					}
-				}
-				if (node.isStarredTrgt()) {
-					String recOutTableName = "rec_match_" + (i-1) + "_out";
-					from += "rec_match_" + (i-1) + " AS " + recOutTableName + ",";
-					where += recOutTableName + ".depth = 0 AND " + recOutTableName + ".nodeid = " + nodeName + ".nodeid AND " + nodeName + ".nodeid <> " + recSrcName + ".nodeid AND ";
-				}
 			} else {
 				EdgePattern edge = (EdgePattern) pattern;
 				
 				if (edge.isStarredEdge()) {
-					String recWhere = " AND ";
-					String tempWhere = where;
-					where = recWhere;
-					List<WhereExpression> oldWhereExpressions = parsedQuery.getWhereClause().getAndExpressions();
-					List<WhereExpression> tempWhereExpressions = new ArrayList<WhereExpression>(oldWhereExpressions);
-					oldWhereExpressions.clear();
-					oldWhereExpressions.addAll(recSrcExpressions);
-					
-					handleQueryWhere(parsedQuery);
-					
-					recWhere = where;
-					where = tempWhere;
-					if (recWhere.equals(" AND ")) {
-						recWhere = "";
-					} else {
-						recWhere = " WHERE " + recWhere.substring(5, recWhere.length() - 5);
-					}
-					oldWhereExpressions.clear();
-					oldWhereExpressions.addAll(tempWhereExpressions);
-					
-					String edgeType = edge.getType();
-					String starDepth = Integer.toString(edge.getStarLength());
-					if (edgeType == null) {
-						edgeType = "edges";
-					} else {
-						edgeType = edgeType.toLowerCase();
-					}
-					
-					recursiveQuery += "WITH RECURSIVE rec_match_" + i + "(nodeid, depth) AS (SELECT nodeid, " + starDepth + recFromBase + recWhere + " UNION ALL "
-							+ "SELECT nodes.nodeid, depth-1 FROM nodes, rec_match_" + i +", " + edgeType
-							+ " WHERE ((" + edgeType + ".nodesrcid = rec_match_" + i + ".nodeid AND " + edgeType + ".nodetrgtid = nodes.nodeid) OR "
-							+ "(" + edgeType + ".nodetrgtid = rec_match_" + i + ".nodeid AND " + edgeType + ".nodesrcid = nodes.nodeid)) AND depth > 0),";
-					
-					String recInTableName = "rec_match_" + i + "_in";
-					from += "rec_match_" + i + " AS " + recInTableName + ",";
-					where += recInTableName + ".depth = " + starDepth + " AND " + recInTableName + ".nodeid = " + recSrcName + ".nodeid AND ";
+					matchStarredEdgeHandler(edge, patternList, i);
 				} else if (!edge.isDirected()) {
 					NodePattern nodeSrc = (NodePattern) patternList.get(i - 1);
 					NodePattern nodeTrgt = (NodePattern) patternList.get(i + 1);
