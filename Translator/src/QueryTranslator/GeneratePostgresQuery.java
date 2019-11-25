@@ -46,8 +46,11 @@ public class GeneratePostgresQuery {
 		handleQueryOrderBy(parsedQuery);
 		handleQueryLimit(parsedQuery);
 		
-		translatedQuery = recursiveQuery + "SELECT " + select.substring(1, select.length() - 1) + " FROM " + from.substring(1, from.length() - 1);
+		translatedQuery = "SELECT " + select.substring(1, select.length() - 1) + " FROM " + from.substring(1, from.length() - 1);
 		
+		if (!recursiveQuery.equals("")) {
+			translatedQuery = recursiveQuery.substring(0, recursiveQuery.length() - 1) + " " + translatedQuery;
+		}
 		if (!where.equals(" AND ")) {
 			translatedQuery += " WHERE " + where.substring(5, where.length() - 5);
 		}
@@ -375,7 +378,7 @@ public class GeneratePostgresQuery {
 					recursiveQuery += "WITH RECURSIVE rec_match_" + i + "(nodeid, depth) AS (SELECT nodeid, " + starDepth + recFromBase + recWhere + " UNION ALL "
 							+ "SELECT nodes.nodeid, depth-1 FROM nodes, rec_match_" + i +", " + edgeType
 							+ " WHERE ((" + edgeType + ".nodesrcid = rec_match_" + i + ".nodeid AND " + edgeType + ".nodetrgtid = nodes.nodeid) OR "
-							+ "(" + edgeType + ".nodetrgtid = rec_match_" + i + ".nodeid AND " + edgeType + ".nodesrcid = nodes.nodeid)) AND depth > 0) ";
+							+ "(" + edgeType + ".nodetrgtid = rec_match_" + i + ".nodeid AND " + edgeType + ".nodesrcid = nodes.nodeid)) AND depth > 0),";
 					
 					String recInTableName = "rec_match_" + i + "_in";
 					from += "rec_match_" + i + " AS " + recInTableName + ",";
