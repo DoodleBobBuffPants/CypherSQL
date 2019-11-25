@@ -290,9 +290,9 @@ public class GeneratePostgresQuery {
 	
 	private void handleQueryMatch(Query parsedQuery) {
 		List<Pattern> patternList = parsedQuery.getMatchClause().getPatternList();
-		List<WhereExpression> recursiveSrcExpressions;
+		List<WhereExpression> recursiveSrcExpressions = new ArrayList<WhereExpression>();
 		String recursiveSrcName = "";
-		String recursiveSelectBase = "";
+		String recursiveFromBase = "";
 		
 		for (int i = 0; i < patternList.size(); i++) {
 			Pattern pattern = patternList.get(i);
@@ -319,7 +319,6 @@ public class GeneratePostgresQuery {
 				if (node.isStarredSrc()) {
 					recursiveSrcName = nodeName;
 					recursiveSrcExpressions = new ArrayList<WhereExpression>();
-					
 					Iterator<WhereExpression> whereIterator = parsedQuery.getWhereClause().getAndExpressions().iterator();
 					while (whereIterator.hasNext()) {
 						WhereExpression whereExpression = whereIterator.next();
@@ -330,16 +329,52 @@ public class GeneratePostgresQuery {
 							whereIterator.remove();
 						}
 					}
+					if (nodeLabel != null) {
+						recursiveFromBase = "FROM " + nodeLabel.toLowerCase() + " AS " + nodeVar + "_" + nodeLabel.toLowerCase();
+					} else {
+						recursiveFromBase = "FROM nodes AS " + nodeVar + "_node";
+					}
+					
 				}
 				if (node.isStarredTrgt()) {
-					String recTableName = "rec_match_" + (i-1);
-					from = uniqueStringConcat(from, recTableName, ",");
+					String recTableName = "rec_match_" + (i-1) + "_out";
+					from = uniqueStringConcat(from, "rec_match_" + (i-1) + " AS " + recTableName, ",");
 					where = uniqueStringConcat(where, recTableName + ".depth = 0 AND " + recTableName + ".nodeid = " + nodeName + ".nodeid AND " + nodeName + ".nodeid <> " + recursiveSrcName + ".nodeid", " AND ");
 				}
 			} else {
 				EdgePattern edge = (EdgePattern) pattern;
 				
-				if (!edge.isDirected()) {
+				if (edge.isStarredEdge()) {
+					recursiveQuery += "WITH RECURSIVE rec_match_" + i + "(nodeid, depth) AS (";
+					
+					String recursiveWhere = " AND ";
+					String tempWhere = where;
+					where = recursiveWhere;
+					List<WhereExpression> oldWhereExpressions = parsedQuery.getWhereClause().getAndExpressions();
+					List<WhereExpression> tempWhereExpressions = new ArrayList<WhereExpression>(oldWhereExpressions);
+					oldWhereExpressions.clear();
+					oldWhereExpressions.addAll(recursiveSrcExpressions);
+					handleQueryWhere(parsedQuery);
+					recursiveWhere = where.substring(5, where.length() - 5);
+					where = tempWhere;
+					oldWhereExpressions.clear();
+					oldWhereExpressions.addAll(tempWhereExpressions);
+					
+					String edgeType = edge.getType();
+					if (edgeType == null) {
+						edgeType = "edges";
+					} else {
+						edgeType = edgeType.toLowerCase();
+					}
+					recursiveQuery += "SELECT nodeid, " + edge.getStarLength() + " " + recursiveFromBase + " WHERE " + recursiveWhere + " UNION ALL "
+							+ "SELECT nodes.nodeid, depth-1 FROM nodes, rec_match_" + i +", " + edgeType + " "
+							+ "WHERE ((" + edgeType + ".nodesrcid = rec_match_" + i + ".nodeid AND " + edgeType + ".nodetrgtid = nodes.nodeid) OR "
+							+ "(" + edgeType + ".nodetrgtid = rec_match_" + i + ".nodeid AND " + edgeType + ".nodesrcid = nodes.nodeid)) AND depth > 0) ";
+					
+					String recTableName = "rec_match_" + i + "_in";
+					from = uniqueStringConcat(from, "rec_match_" + i + " AS " + recTableName, ",");
+					where = uniqueStringConcat(where, recTableName + ".depth = " + edge.getStarLength() + " AND " + recTableName + ".nodeid = " + recursiveSrcName + ".nodeid", " AND ");
+				} else if (!edge.isDirected()) {
 					NodePattern nodeSrc = (NodePattern) patternList.get(i - 1);
 					NodePattern nodeTrgt = (NodePattern) patternList.get(i + 1);
 					where = where + "((";

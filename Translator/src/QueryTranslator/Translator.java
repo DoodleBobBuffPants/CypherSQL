@@ -34,6 +34,7 @@ public class Translator {
 		resultFormatter.printNeo4JResult();
 		System.out.println();
 		resultFormatter.printPostgresResult();
+		System.out.println(queryTranslator.getTranslatedQuery());
 	}
 	
 	public Translator(String cypherQuery) {
