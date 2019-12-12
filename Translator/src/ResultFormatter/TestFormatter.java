@@ -135,4 +135,22 @@ public class TestFormatter {
 		
 		assertTrue(formatter.compare());
 	}
+	
+	@Test
+	public void testCompareAllShortestPathsGraph() {
+		Formatter formatter = new Formatter();
+		//String neo4jQuery = "MATCH path = allshortestpaths((p:Person)-[:ACTED_IN*]-(q:Person)) WHERE ID(p) = 1 AND ID(q) = 142 RETURN DISTINCT length(path) AS length";
+		String postgresQuery = "Add manual translation here";
+		
+		formatter.initialiseResultSets();
+		//formatter.getNeo4JResult("resources\\graph.db", neo4jQuery);
+		formatter.getPostgresResult("graph", postgresQuery);
+		
+		//formatter.printNeo4JResult();
+		//System.out.println();
+		formatter.printPostgresResult();
+		System.out.println();
+		
+		//assertTrue(formatter.compare());
+	}
 }

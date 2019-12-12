@@ -227,4 +227,21 @@ public class TestTranslator {
 		System.out.println();
 		assertTrue(resultFormatter.compare());
 	}
+	
+	@Test
+	public void testAllShortestPaths() {
+		Translator queryTranslator = new Translator("MATCH path = allshortestpaths((p:Person)-[:ACTED_IN*]-(q:Person)) WHERE ID(p) = 1 AND ID(q) = 142 RETURN DISTINCT length(path) AS length");
+		Formatter resultFormatter = new Formatter();
+		
+		resultFormatter.initialiseResultSets();
+		//resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
+		long startTime = System.currentTimeMillis();
+		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
+		
+		System.out.println(queryTranslator.getCypherQuery());
+		System.out.println(queryTranslator.getTranslatedQuery());
+		System.out.println();
+		//assertTrue(resultFormatter.compare());
+	}
 }

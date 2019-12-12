@@ -20,21 +20,20 @@ public class Translator {
 	private GeneratePostgresQuery genPostgresQuery;
 	
 	public static void main(String[] args) {
-		Translator queryTranslator = new Translator("MATCH (p:Person)-[r:ACTED_IN*2]-(q:Person) WHERE ID(p) = 1 RETURN q.name as name");
+		Translator queryTranslator = new Translator("MATCH path = allshortestpaths((p:Person)-[:ACTED_IN*]-(q:Person)) WHERE ID(p) = 1 AND ID(q) = 142 RETURN DISTINCT length(path) AS length");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
+		//resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
 		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
 		
 		System.out.println();
 		System.out.println(queryTranslator.getCypherQuery());
 		System.out.println(queryTranslator.getTranslatedQuery());
-		System.out.println();
-		resultFormatter.printNeo4JResult();
+		//System.out.println();
+		//resultFormatter.printNeo4JResult();
 		System.out.println();
 		resultFormatter.printPostgresResult();
-		System.out.println(queryTranslator.getTranslatedQuery());
 	}
 	
 	public Translator(String cypherQuery) {
@@ -70,7 +69,7 @@ public class Translator {
 		CypherParser inputParser = new CypherParser(tokens);
 		
 		ParseTree parseTree = inputParser.oC_Cypher();
-		//Trees.inspect(parseTree, inputParser);
+		Trees.inspect(parseTree, inputParser);
 		treeWalker.walk(queryListener, parseTree);
 
 		return genPostgresQuery.generatePostgresQuery(queryListener.getQuery());
