@@ -180,8 +180,11 @@ WHERE : ( 'W' | 'w' ) ( 'H' | 'h' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'E' | 'e' )  ;
 oC_Pattern : oC_PatternPart ( SP? ',' SP? oC_PatternPart )* ;
 
 oC_PatternPart : ( oC_Variable SP? '=' SP? oC_AnonymousPatternPart )
+               | ( oC_Variable SP? '=' SP? (ALLSHORTESTPATHS SP? '(' SP? oC_AnonymousPatternPart SP? ')' ))
                | oC_AnonymousPatternPart
                ;
+
+ALLSHORTESTPATHS : ( 'A' | 'a' ) ( 'L' | 'l' ) ( 'L' | 'l' ) ( 'S' | 's' ) ( 'H' | 'h' ) ( 'O' | 'o' ) ( 'R' | 'r' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'S' | 's' ) ( 'T' | 't' ) ( 'P' | 'p' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'H' | 'h' ) ( 'S' | 's' ) ;
 
 oC_AnonymousPatternPart : oC_PatternElement ;
 
@@ -533,14 +536,11 @@ oC_SymbolicName : UnescapedSymbolicName
                 | ANY
                 | NONE
                 | SINGLE
-                | ALLSHORTESTPATHS
                 ;
 
 FILTER : ( 'F' | 'f' ) ( 'I' | 'i' ) ( 'L' | 'l' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' )  ;
 
 EXTRACT : ( 'E' | 'e' ) ( 'X' | 'x' ) ( 'T' | 't' ) ( 'R' | 'r' ) ( 'A' | 'a' ) ( 'C' | 'c' ) ( 'T' | 't' )  ;
-
-ALLSHORTESTPATHS : ( 'A' | 'a' ) ( 'L' | 'l' ) ( 'L' | 'l' ) ( 'S' | 's' ) ( 'H' | 'h' ) ( 'O' | 'o' ) ( 'R' | 'r' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'S' | 's' ) ( 'T' | 't' ) ( 'P' | 'p' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'H' | 'h' ) ( 'S' | 's' ) ;
 
 UnescapedSymbolicName : IdentifierStart ( IdentifierPart )* ;
 
