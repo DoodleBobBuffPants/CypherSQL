@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class TestFormatter {
+public class TestFormatterGraph {
 	@Test
-	public void testCompareLabelsGraph() {
+	public void testCompareLabels() {
 		Formatter formatter = new Formatter();
 		String neo4jQuery = "MATCH (n) RETURN labels(n) AS labels, count(*) AS count";
 		String postgresQuery = "SELECT labels, count(*) FROM nodes GROUP BY labels";
@@ -24,7 +24,7 @@ public class TestFormatter {
 	}
 	
 	@Test
-	public void testCompareNodeGraph() {
+	public void testCompareNode() {
 		Formatter formatter = new Formatter();
 		String neo4jQuery = "MATCH (n:Movie) WHERE ID(n) = 0 RETURN n.title AS title";
 		String postgresQuery = "SELECT title FROM movie WHERE nodeid = 0";
@@ -42,7 +42,7 @@ public class TestFormatter {
 	}
 	
 	@Test
-	public void testCompareEdgeGraph() {
+	public void testCompareEdge() {
 		Formatter formatter = new Formatter();
 		String neo4jQuery = "MATCH (m)-[r:ACTED_IN]->(n) WHERE ID(m) = 34 AND ID(n) = 78 RETURN r.roles AS roles";
 		String postgresQuery = "SELECT roles FROM ACTED_IN WHERE nodesrcid = 34 AND nodetrgtid = 78";
@@ -60,61 +60,7 @@ public class TestFormatter {
 	}
 	
 	@Test
-	public void testCompareLabelsNorthwind() {
-		Formatter formatter = new Formatter();
-		String neo4jQuery = "MATCH (n) RETURN labels(n) AS labels, count(*) AS count";
-		String postgresQuery = "SELECT labels, count(*) FROM nodes GROUP BY labels";
-		
-		formatter.initialiseResultSets();
-		formatter.getNeo4JResult("resources\\northwind.db", neo4jQuery);
-		formatter.getPostgresResult("northwind", postgresQuery);
-		
-		formatter.printNeo4JResult();
-		System.out.println();
-		formatter.printPostgresResult();
-		System.out.println();
-		
-		assertTrue(formatter.compare());
-	}
-	
-	@Test
-	public void testCompareNodeNorthwind() {
-		Formatter formatter = new Formatter();
-		String neo4jQuery = "MATCH (n:Product) WHERE ID(n) = 0 RETURN n.productName AS productname";
-		String postgresQuery = "SELECT productname FROM product WHERE nodeid = 0";
-		
-		formatter.initialiseResultSets();
-		formatter.getNeo4JResult("resources\\northwind.db", neo4jQuery);
-		formatter.getPostgresResult("northwind", postgresQuery);
-		
-		formatter.printNeo4JResult();
-		System.out.println();
-		formatter.printPostgresResult();
-		System.out.println();
-		
-		assertTrue(formatter.compare());
-	}
-	
-	@Test
-	public void testCompareEdgeNorthwind() {
-		Formatter formatter = new Formatter();
-		String neo4jQuery = "MATCH (m)-[r:ORDERS]->(n) WHERE ID(m) = 205 AND ID(n) = 41 RETURN r.quantity AS quantity";
-		String postgresQuery = "SELECT quantity FROM ORDERS WHERE nodesrcid = 205 AND nodetrgtid = 41";
-		
-		formatter.initialiseResultSets();
-		formatter.getNeo4JResult("resources\\northwind.db", neo4jQuery);
-		formatter.getPostgresResult("northwind", postgresQuery);
-		
-		formatter.printNeo4JResult();
-		System.out.println();
-		formatter.printPostgresResult();
-		System.out.println();
-		
-		assertTrue(formatter.compare());
-	}
-	
-	@Test
-	public void testCompareStarGraph() {
+	public void testCompareStar() {
 		Formatter formatter = new Formatter();
 		String neo4jQuery = "MATCH (p:Person)-[:ACTED_IN*2]-(q:Person) WHERE ID(p) = 1 RETURN q.name AS name";
 		String postgresQuery = "WITH RECURSIVE rec_match(nodeid, depth) AS ("
@@ -137,7 +83,7 @@ public class TestFormatter {
 	}
 	
 	@Test
-	public void testCompareAllShortestPathsGraph() {
+	public void testCompareAllShortestPaths() {
 		Formatter formatter = new Formatter();
 		//String neo4jQuery = "MATCH path = allshortestpaths((p:Person)-[:ACTED_IN*]-(q:Person)) WHERE ID(p) = 1 AND ID(q) = 142 RETURN DISTINCT length(path) AS length";
 		//2.3 seconds to execute

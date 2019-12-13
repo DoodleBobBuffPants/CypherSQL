@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import ResultFormatter.Formatter;
 
-public class TestTranslator {
+public class TestTranslatorGraph {
 	@Test
 	public void testMatchNode() {
 		Translator queryTranslator = new Translator("MATCH (n) RETURN labels(n) AS labels, count(*) AS count");
