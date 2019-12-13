@@ -140,7 +140,14 @@ public class TestFormatter {
 	public void testCompareAllShortestPathsGraph() {
 		Formatter formatter = new Formatter();
 		//String neo4jQuery = "MATCH path = allshortestpaths((p:Person)-[:ACTED_IN*]-(q:Person)) WHERE ID(p) = 1 AND ID(q) = 142 RETURN DISTINCT length(path) AS length";
-		String postgresQuery = "Add manual translation here";
+		//2.3 seconds to execute
+		String postgresQuery = "WITH RECURSIVE asp(id_path, path_length) AS ("
+				+ "SELECT ARRAY[nodeid], 0 FROM person WHERE nodeid = 1 UNION ALL "
+				+ "SELECT id_path || nodes.nodeid, path_length+1 "
+				+ "FROM nodes, asp, acted_in "
+				+ "WHERE ((acted_in.nodesrcid = id_path[array_length(id_path, 1)] AND acted_in.nodetrgtid = nodes.nodeid) OR "
+				+ "(acted_in.nodetrgtid = id_path[array_length(id_path, 1)] AND acted_in.nodesrcid = nodes.nodeid)) AND path_length < 5) "
+				+ "SELECT * FROM asp WHERE id_path[array_length(id_path, 1)] = 142";
 		
 		formatter.initialiseResultSets();
 		//formatter.getNeo4JResult("resources\\graph.db", neo4jQuery);
