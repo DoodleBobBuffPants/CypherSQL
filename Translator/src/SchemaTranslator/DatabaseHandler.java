@@ -34,12 +34,13 @@ public class DatabaseHandler {
 		try {
 			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + dbName, "postgres", "admin");
 			Statement createTables = connection.createStatement();
-			BufferedWriter queryLogger = new BufferedWriter(new FileWriter(dbName + "SQL.txt"));
+			BufferedWriter queryLogger = new BufferedWriter(new FileWriter("resources\\" + dbName + "SQL.txt"));
 			
 			String makeNodeQuery = makeNodeTable();
 			String makeEdgeQuery = makeEdgeTable();
 			List<String> makeLabelQueries = makeLabelTables();
 			List<String> makeTypeQueries = makeTypeTables();
+			String makeASPQuery = makeASPTable();
 			
 			createTables.execute(makeNodeQuery);
 			queryLogger.write(makeNodeQuery);
@@ -57,6 +58,9 @@ public class DatabaseHandler {
 				queryLogger.write(query);
 				queryLogger.newLine();
 			}
+			createTables.execute(makeASPQuery);
+			queryLogger.write(makeASPQuery);
+			queryLogger.newLine();
 			
 			for (Create dbItem: createStack) {
 				List<String> queries;
@@ -132,6 +136,17 @@ public class DatabaseHandler {
 			typeQueries.add(query);
 		}
 		return typeQueries;
+	}
+	
+	private String makeASPTable() {
+		return "CREATE TABLE allshortestpaths AS "
+				+ "WITH RECURSIVE asp(id_path, path_length, cycle) AS ("
+				+ "SELECT ARRAY[nodeid], 0, false FROM nodes UNION ALL "
+				+ "SELECT id_path || nodes.nodeid, path_length+1, nodes.nodeid = ANY(id_path) "
+				+ "FROM nodes, edges, asp "
+				+ "WHERE ((edges.nodesrcid = id_path[array_length(id_path, 1)] AND edges.nodetrgtid = nodes.nodeid) OR "
+				+ "(edges.nodetrgtid = id_path[array_length(id_path, 1)] AND edges.nodesrcid = nodes.nodeid)) AND NOT cycle) "
+				+ "SELECT id_path, path_length FROM asp";
 	}
 
 	private String addTableColumns(Map<String, Object> columns, String query) {
