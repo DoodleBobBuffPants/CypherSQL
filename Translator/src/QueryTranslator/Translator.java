@@ -4,37 +4,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import ResultFormatter.Formatter;
 import antlr4.CypherLexer;
 import antlr4.CypherParser;
 
 public class Translator {
 	private String cypherQuery;
 	private GeneratePostgresQuery genPostgresQuery;
-	
-	public static void main(String[] args) {
-		Translator queryTranslator = new Translator("MATCH path = allshortestpaths((p:Person)-[:ACTED_IN*]-(q:Person)) WHERE ID(p) = 1 AND ID(q) = 142 RETURN length(path)");
-		Formatter resultFormatter = new Formatter();
-		
-		resultFormatter.initialiseResultSets();
-		//resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
-		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
-		
-		System.out.println();
-		System.out.println(queryTranslator.getCypherQuery());
-		System.out.println(queryTranslator.getTranslatedQuery());
-		//System.out.println();
-		//resultFormatter.printNeo4JResult();
-		System.out.println();
-		resultFormatter.printPostgresResult();
-	}
 	
 	public Translator(String cypherQuery) {
 		this.cypherQuery = cypherQuery;
@@ -69,7 +50,6 @@ public class Translator {
 		CypherParser inputParser = new CypherParser(tokens);
 		
 		ParseTree parseTree = inputParser.oC_Cypher();
-		//Trees.inspect(parseTree, inputParser);
 		treeWalker.walk(queryListener, parseTree);
 
 		return genPostgresQuery.generatePostgresQuery(queryListener.getQuery());
