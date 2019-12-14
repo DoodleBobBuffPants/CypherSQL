@@ -166,58 +166,17 @@ public class GeneratePostgresQuery {
 	
 	private void matchAllShortestPathsHandler(Match matchClause, Where whereClause, Return returnClause) {
 		List<Pattern> patternList = matchClause.getPatternList();
-		List<WhereExpression> aspSrcExpressions = new ArrayList<WhereExpression>();
-		List<WhereExpression> aspTrgtExpressions = new ArrayList<WhereExpression>();
 		NodePattern nodeSrc = (NodePattern) patternList.get(0);
 		NodePattern nodeTrgt = (NodePattern) patternList.get(2);
 		String nodeSrcVar = nodeSrc.getVariable();
 		String nodeTrgtVar = nodeTrgt.getVariable();
 		String pathVar = matchClause.getPathVar();
+		String subWhere = "";
 		
 		from += "allshortestpaths,";
 		
-		Iterator<WhereExpression> whereIterator = whereClause.getAndExpressions().iterator();
-		while (whereIterator.hasNext()) {
-			WhereExpression whereExpression = whereIterator.next();
-			String leftLiteral = whereExpression.getLeftLiteral();
-			String rightLiteral = whereExpression.getRightLiteral();
-			if (leftLiteral.contains(" " + nodeSrcVar + ".") || leftLiteral.contains("(" + nodeSrcVar + ")") || rightLiteral.contains(" " + nodeSrcVar + ".") || rightLiteral.contains("(" + nodeSrcVar + ")")) {
-				aspSrcExpressions.add(whereExpression);
-				whereIterator.remove();
-			} else if (leftLiteral.contains(" " + nodeTrgtVar + ".") || leftLiteral.contains("(" + nodeTrgtVar + ")") || rightLiteral.contains(" " + nodeTrgtVar + ".") || rightLiteral.contains("(" + nodeTrgtVar + ")")) {
-				aspTrgtExpressions.add(whereExpression);
-				whereIterator.remove();
-			}
-		}
-		
-		String subWhere = "";
-		String condition = "";
-		for (WhereExpression aspSrcExpression: aspSrcExpressions) {
-			String leftFunctionName = aspSrcExpression.getLeftFunctionName();
-			String rightFunctionName = aspSrcExpression.getRightFunctionName();
-			if (leftFunctionName != null && leftFunctionName.toLowerCase().equals("id")) {
-				condition = "id_path[1] = " + aspSrcExpression.getRightLiteral() + " AND ";
-				where += condition;
-				subWhere += condition;
-			} else if (rightFunctionName != null && rightFunctionName.toLowerCase().equals("id")) {
-				condition = "id_path[1] = " + aspSrcExpression.getLeftLiteral() + " AND ";
-				where += condition;
-				subWhere += condition;
-			}
-		}
-		for (WhereExpression aspTrgtExpression: aspTrgtExpressions) {
-			String leftFunctionName = aspTrgtExpression.getLeftFunctionName();
-			String rightFunctionName = aspTrgtExpression.getRightFunctionName();
-			if (leftFunctionName != null && leftFunctionName.toLowerCase().equals("id")) {
-				condition = "id_path[array_length(id_path, 1)] = " + aspTrgtExpression.getRightLiteral() + " AND ";
-				where += condition;
-				subWhere += condition;
-			} else if (rightFunctionName != null && rightFunctionName.toLowerCase().equals("id")) {
-				condition = "id_path[array_length(id_path, 1)] = " + aspTrgtExpression.getLeftLiteral() + " AND ";
-				where += condition;
-				subWhere += condition;
-			}
-		}
+		subWhere = aspWhereHandler(whereClause, nodeSrcVar, subWhere, "source");
+		subWhere = aspWhereHandler(whereClause, nodeTrgtVar, subWhere, "target");
 		where += "path_length IN (SELECT MIN(path_length) FROM allshortestpaths WHERE " + subWhere.substring(0, subWhere.length() - 5) + ") AND ";
 		
 		for (ReturnItem returnItem: returnClause.getReturnItems()) {
@@ -229,6 +188,37 @@ public class GeneratePostgresQuery {
 				returnItem.setToReturn("id_path");
 			}
 		}
+	}
+	
+	private String aspWhereHandler(Where whereClause, String nodeVar, String subWhere, String sourceTarget) {
+		List<WhereExpression> aspExpressions = new ArrayList<WhereExpression>();
+		Iterator<WhereExpression> whereIterator = whereClause.getAndExpressions().iterator();
+		while (whereIterator.hasNext()) {
+			WhereExpression whereExpression = whereIterator.next();
+			String leftLiteral = whereExpression.getLeftLiteral();
+			String rightLiteral = whereExpression.getRightLiteral();
+			if (leftLiteral.contains(" " + nodeVar + ".") || leftLiteral.contains("(" + nodeVar + ")") || rightLiteral.contains(" " + nodeVar + ".") || rightLiteral.contains("(" + nodeVar + ")")) {
+				aspExpressions.add(whereExpression);
+				whereIterator.remove();
+			}
+		}
+		
+		String condition = "";
+		for (WhereExpression aspExpression: aspExpressions) {
+			String leftFunctionName = aspExpression.getLeftFunctionName();
+			String rightFunctionName = aspExpression.getRightFunctionName();
+			if (leftFunctionName != null && leftFunctionName.toLowerCase().equals("id")) {
+				condition = sourceTarget + " = " + aspExpression.getRightLiteral() + " AND ";
+				where += condition;
+				subWhere += condition;
+			} else if (rightFunctionName != null && rightFunctionName.toLowerCase().equals("id")) {
+				condition = sourceTarget + " = " + aspExpression.getLeftLiteral() + " AND ";
+				where += condition;
+				subWhere += condition;
+			}
+		}
+		
+		return subWhere;
 	}
 	
 	private void whereExpressionHandler(String functionName, String functionArgument, String literal, List<Pattern> patternList) {

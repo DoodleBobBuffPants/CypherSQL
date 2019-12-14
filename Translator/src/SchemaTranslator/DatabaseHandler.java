@@ -40,7 +40,7 @@ public class DatabaseHandler {
 			String makeEdgeQuery = makeEdgeTable();
 			List<String> makeLabelQueries = makeLabelTables();
 			List<String> makeTypeQueries = makeTypeTables();
-			String makeASPQuery = makeASPTable();
+			List<String> makeASPQueries = makeASPTable();
 			
 			createTables.execute(makeNodeQuery);
 			queryLogger.write(makeNodeQuery);
@@ -58,9 +58,11 @@ public class DatabaseHandler {
 				queryLogger.write(query);
 				queryLogger.newLine();
 			}
-			createTables.execute(makeASPQuery);
-			queryLogger.write(makeASPQuery);
-			queryLogger.newLine();
+			for (String query: makeASPQueries) {
+				createTables.execute(query);
+				queryLogger.write(query);
+				queryLogger.newLine();
+			}
 			
 			for (Create dbItem: createStack) {
 				List<String> queries;
@@ -138,15 +140,20 @@ public class DatabaseHandler {
 		return typeQueries;
 	}
 	
-	private String makeASPTable() {
-		return "CREATE TABLE allshortestpaths AS "
+	private List<String> makeASPTable() {
+		List<String> aspQueries = new ArrayList<String>();
+		aspQueries.add("CREATE TABLE allshortestpaths AS "
 				+ "WITH RECURSIVE asp(id_path, path_length) AS ("
-				+ "SELECT ARRAY[nodeid], 0 FROM nodes, edges WHERE nodesrcid = nodeid OR nodetrgtid = nodeid UNION "
+				+ "SELECT ARRAY[nodeid], 0 FROM nodes UNION "
 				+ "SELECT id_path || nodeid, path_length+1 "
 				+ "FROM nodes, edges, asp "
 				+ "WHERE ((nodesrcid = id_path[array_length(id_path, 1)] AND nodetrgtid = nodeid) OR "
-				+ "(nodetrgtid = id_path[array_length(id_path, 1)] AND nodesrcid = nodeid)) AND NOT nodeid = ANY(id_path)) "
-				+ "SELECT * FROM asp";
+				+ "(nodetrgtid = id_path[array_length(id_path, 1)] AND nodesrcid = nodeid)) AND NOT nodeid = ANY(id_path) AND path_length < 6) "
+				+ "SELECT id_path[1] AS source, id_path[array_length(id_path,1)] AS target, id_path, path_length FROM asp");
+		aspQueries.add("CREATE INDEX aspIndex ON allshortestpaths ("
+				+ "source,"
+				+ "target)");
+		return aspQueries;
 	}
 
 	private String addTableColumns(Map<String, Object> columns, String query) {
