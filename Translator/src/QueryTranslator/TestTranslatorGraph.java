@@ -230,7 +230,7 @@ public class TestTranslatorGraph {
 	
 	@Test
 	public void testAllShortestPaths() {
-		Translator queryTranslator = new Translator("MATCH path = allshortestpaths((p:Person)-[:ACTED_IN*]-(q:Person)) WHERE ID(p) = 1 AND ID(q) = 142 RETURN DISTINCT length(path) AS length");
+		Translator queryTranslator = new Translator("MATCH path = allshortestpaths((p:Person)-[:ACTED_IN*]-(q:Person)) WHERE ID(p) = 1 AND ID(q) = 142 RETURN length(path)");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();

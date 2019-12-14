@@ -180,8 +180,8 @@ public class GeneratePostgresQuery {
 		subWhere = aspWhereHandler(whereClause, nodeSrcVar, subWhere, "source");
 		subWhere = aspWhereHandler(whereClause, nodeTrgtVar, subWhere, "target");
 		if (edgeType != null) {
-			where += edgeType + " = edge_type AND ";
-			subWhere += edgeType + " = edge_type AND ";
+			where += "'" + edgeType + "' = edge_type AND ";
+			subWhere += "'" + edgeType + "' = edge_type AND ";
 		}
 		where += "path_length IN (SELECT MIN(path_length) FROM allshortestpaths WHERE " + subWhere.substring(0, subWhere.length() - 5) + ") AND ";
 		
