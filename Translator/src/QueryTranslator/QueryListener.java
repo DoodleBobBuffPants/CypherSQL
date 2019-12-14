@@ -113,6 +113,17 @@ public class QueryListener extends antlr4.CypherBaseListener {
 	}
 	
 	@Override
+	public void enterOC_PatternPart(CypherParser.OC_PatternPartContext ctx) {
+		ParseTree allshortestpaths = ctx.getChild(4);
+		if (allshortestpaths != null) {
+			matchClause.setAllShortestPaths(true);
+			matchClause.setPathVar(ctx.getChild(0).getText());
+		} else {
+			matchClause.setAllShortestPaths(false);
+		}
+	}
+	
+	@Override
 	public void enterOC_Where(CypherParser.OC_WhereContext ctx) {
 		if (whereClause == null) whereClause = new Where();
 		inWhere = true;
