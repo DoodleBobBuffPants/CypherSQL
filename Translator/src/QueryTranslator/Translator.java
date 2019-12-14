@@ -20,7 +20,7 @@ public class Translator {
 	private GeneratePostgresQuery genPostgresQuery;
 	
 	public static void main(String[] args) {
-		Translator queryTranslator = new Translator("MATCH path = allshortestpaths((p:Person)-[:ACTED_IN*]-(q:Person)) WHERE ID(p) = 1 AND ID(q) = 142 RETURN length(path) AS length");
+		Translator queryTranslator = new Translator("MATCH path = allshortestpaths((p:Person)-[:ACTED_IN*]-(q:Person)) WHERE ID(p) = 1 AND ID(q) = 142 RETURN length(path)");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();

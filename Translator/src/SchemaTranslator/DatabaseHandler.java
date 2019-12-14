@@ -140,13 +140,13 @@ public class DatabaseHandler {
 	
 	private String makeASPTable() {
 		return "CREATE TABLE allshortestpaths AS "
-				+ "WITH RECURSIVE asp(id_path, path_length, cycle) AS ("
-				+ "SELECT ARRAY[nodeid], 0, false FROM nodes UNION ALL "
-				+ "SELECT id_path || nodes.nodeid, path_length+1, nodes.nodeid = ANY(id_path) "
+				+ "WITH RECURSIVE asp(id_path, path_length) AS ("
+				+ "SELECT ARRAY[nodeid], 0 FROM nodes UNION "
+				+ "SELECT id_path || nodeid, path_length+1 "
 				+ "FROM nodes, edges, asp "
-				+ "WHERE ((edges.nodesrcid = id_path[array_length(id_path, 1)] AND edges.nodetrgtid = nodes.nodeid) OR "
-				+ "(edges.nodetrgtid = id_path[array_length(id_path, 1)] AND edges.nodesrcid = nodes.nodeid)) AND NOT cycle) "
-				+ "SELECT id_path, path_length FROM asp";
+				+ "WHERE ((nodesrcid = id_path[array_length(id_path, 1)] AND nodetrgtid = nodeid) OR "
+				+ "(nodetrgtid = id_path[array_length(id_path, 1)] AND nodesrcid = nodeid)) AND NOT nodeid = ANY(id_path)) "
+				+ "SELECT * FROM asp";
 	}
 
 	private String addTableColumns(Map<String, Object> columns, String query) {

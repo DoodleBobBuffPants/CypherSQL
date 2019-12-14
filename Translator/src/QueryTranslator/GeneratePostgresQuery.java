@@ -1,6 +1,8 @@
 package QueryTranslator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +10,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 import QueryAST.EdgePattern;
 import QueryAST.Limit;
+import QueryAST.Match;
 import QueryAST.NodePattern;
 import QueryAST.OrderBy;
 import QueryAST.Pattern;
@@ -159,6 +162,62 @@ public class GeneratePostgresQuery {
 			startNodeAlias = nodeAlias;
 		}
 		where = uniqueStringConcat(where, startNodeAlias + ".nodeid <> " + varNameMap.get(startNodeVar) + ".nodeid", " AND ");
+	}
+	
+	private void matchAllShortestPathsHandler(Match matchClause, Where whereClause, Return returnClause) {
+		List<Pattern> patternList = matchClause.getPatternList();
+		List<WhereExpression> aspSrcExpressions = new ArrayList<WhereExpression>();
+		List<WhereExpression> aspTrgtExpressions = new ArrayList<WhereExpression>();
+		NodePattern nodeSrc = (NodePattern) patternList.get(0);
+		NodePattern nodeTrgt = (NodePattern) patternList.get(2);
+		String nodeSrcVar = nodeSrc.getVariable();
+		String nodeTrgtVar = nodeTrgt.getVariable();
+		String pathVar = matchClause.getPathVar();
+		
+		from += "allshortestpaths,";
+		
+		Iterator<WhereExpression> whereIterator = whereClause.getAndExpressions().iterator();
+		while (whereIterator.hasNext()) {
+			WhereExpression whereExpression = whereIterator.next();
+			String leftLiteral = whereExpression.getLeftLiteral();
+			String rightLiteral = whereExpression.getRightLiteral();
+			if (leftLiteral.contains(" " + nodeSrcVar + ".") || leftLiteral.contains("(" + nodeSrcVar + ")") || rightLiteral.contains(" " + nodeSrcVar + ".") || rightLiteral.contains("(" + nodeSrcVar + ")")) {
+				aspSrcExpressions.add(whereExpression);
+				whereIterator.remove();
+			} else if (leftLiteral.contains(" " + nodeTrgtVar + ".") || leftLiteral.contains("(" + nodeTrgtVar + ")") || rightLiteral.contains(" " + nodeTrgtVar + ".") || rightLiteral.contains("(" + nodeTrgtVar + ")")) {
+				aspTrgtExpressions.add(whereExpression);
+				whereIterator.remove();
+			}
+		}
+		
+		for (WhereExpression aspSrcExpression: aspSrcExpressions) {
+			String leftFunctionName = aspSrcExpression.getLeftFunctionName();
+			String rightFunctionName = aspSrcExpression.getRightFunctionName();
+			if (leftFunctionName != null && leftFunctionName.toLowerCase().equals("id")) {
+				where += "id_path[1] = " + aspSrcExpression.getRightLiteral() + " AND ";
+			} else if (rightFunctionName != null && rightFunctionName.toLowerCase().equals("id")) {
+				where += "id_path[1] = " + aspSrcExpression.getLeftLiteral() + " AND ";
+			}
+		}
+		for (WhereExpression aspTrgtExpression: aspTrgtExpressions) {
+			String leftFunctionName = aspTrgtExpression.getLeftFunctionName();
+			String rightFunctionName = aspTrgtExpression.getRightFunctionName();
+			if (leftFunctionName != null && leftFunctionName.toLowerCase().equals("id")) {
+				where += "id_path[array_length(id_path, 1)] = " + aspTrgtExpression.getRightLiteral() + " AND ";
+			} else if (rightFunctionName != null && rightFunctionName.toLowerCase().equals("id")) {
+				where += "id_path[array_length(id_path, 1)] = " + aspTrgtExpression.getLeftLiteral() + " AND ";
+			}
+		}
+		
+		for (ReturnItem returnItem: returnClause.getReturnItems()) {
+			String functionName = returnItem.getFunctionName();
+			if (functionName != null && functionName.toLowerCase().equals("length") && returnItem.getFunctionArgument().equals(pathVar)) {
+				returnItem.setFunctionName(null);
+				returnItem.setToReturn(returnItem.getToReturn().replaceAll("length\\("+pathVar+"\\)", "path_length"));
+			} else if (returnItem.getToReturn().equals(pathVar)) {
+				returnItem.setToReturn("id_path");
+			}
+		}
 	}
 	
 	private void whereExpressionHandler(String functionName, String functionArgument, String literal, List<Pattern> patternList) {
@@ -321,45 +380,50 @@ public class GeneratePostgresQuery {
 	}
 	
 	private void handleQueryMatch(Query parsedQuery) {
-		List<Pattern> patternList = parsedQuery.getMatchClause().getPatternList();
-		for (int i = 0; i < patternList.size(); i++) {
-			Pattern pattern = patternList.get(i);
-			if (pattern instanceof NodePattern) {
-				NodePattern node = (NodePattern) pattern;
-				String nodeVar = node.getVariable();
-				String nodeLabel = node.getLabel();
-				String nodeName = "";
-				
-				if (nodeVar != null && nodeLabel == null) {
-					nodeName = nodeVar + "_node";
-					from = uniqueStringConcat(from, "nodes AS " + nodeName, ",");
-				} else if (nodeVar != null){
-					String lowerNodeLabel = nodeLabel.toLowerCase();
-					nodeName = nodeVar + "_" + lowerNodeLabel;
-					from = uniqueStringConcat(from, lowerNodeLabel + " AS " + nodeName, ",");
-				}
-				
-				if (!nodeName.equals("")) {
-					matchNodeHandler(nodeVar, nodeName, i, patternList);
-					varNameMap.put(nodeVar, nodeName);
-				}
-			} else {
-				EdgePattern edge = (EdgePattern) pattern;
-				
-				if (edge.isStarredEdge()) {
-					matchStarredEdgeHandler(edge, patternList, i);
-				} else if (!edge.isDirected()) {
-					NodePattern nodeSrc = (NodePattern) patternList.get(i - 1);
-					NodePattern nodeTrgt = (NodePattern) patternList.get(i + 1);
-					where = where + "((";
-					matchEdgeCasesHandler(nodeSrc, nodeTrgt, edge);
-					where = where.substring(0, where.length() - 5) + ") OR (";
-					matchEdgeCasesHandler(nodeTrgt, nodeSrc, edge);
-					where = where.substring(0, where.length() - 5) + ")) AND ";
-				} else if (edge.isLeftSrc()) {
-					matchEdgeCasesHandler((NodePattern) patternList.get(i - 1), (NodePattern) patternList.get(i + 1), edge);
+		Match matchClause = parsedQuery.getMatchClause();
+		if (matchClause.isAllShortestPaths()) {
+			matchAllShortestPathsHandler(matchClause, parsedQuery.getWhereClause(), parsedQuery.getReturnClause());
+		} else {
+			List<Pattern> patternList = matchClause.getPatternList();
+			for (int i = 0; i < patternList.size(); i++) {
+				Pattern pattern = patternList.get(i);
+				if (pattern instanceof NodePattern) {
+					NodePattern node = (NodePattern) pattern;
+					String nodeVar = node.getVariable();
+					String nodeLabel = node.getLabel();
+					String nodeName = "";
+					
+					if (nodeVar != null && nodeLabel == null) {
+						nodeName = nodeVar + "_node";
+						from = uniqueStringConcat(from, "nodes AS " + nodeName, ",");
+					} else if (nodeVar != null){
+						String lowerNodeLabel = nodeLabel.toLowerCase();
+						nodeName = nodeVar + "_" + lowerNodeLabel;
+						from = uniqueStringConcat(from, lowerNodeLabel + " AS " + nodeName, ",");
+					}
+					
+					if (!nodeName.equals("")) {
+						matchNodeHandler(nodeVar, nodeName, i, patternList);
+						varNameMap.put(nodeVar, nodeName);
+					}
 				} else {
-					matchEdgeCasesHandler((NodePattern) patternList.get(i + 1),(NodePattern) patternList.get(i - 1), edge);
+					EdgePattern edge = (EdgePattern) pattern;
+					
+					if (edge.isStarredEdge()) {
+						matchStarredEdgeHandler(edge, patternList, i);
+					} else if (!edge.isDirected()) {
+						NodePattern nodeSrc = (NodePattern) patternList.get(i - 1);
+						NodePattern nodeTrgt = (NodePattern) patternList.get(i + 1);
+						where = where + "((";
+						matchEdgeCasesHandler(nodeSrc, nodeTrgt, edge);
+						where = where.substring(0, where.length() - 5) + ") OR (";
+						matchEdgeCasesHandler(nodeTrgt, nodeSrc, edge);
+						where = where.substring(0, where.length() - 5) + ")) AND ";
+					} else if (edge.isLeftSrc()) {
+						matchEdgeCasesHandler((NodePattern) patternList.get(i - 1), (NodePattern) patternList.get(i + 1), edge);
+					} else {
+						matchEdgeCasesHandler((NodePattern) patternList.get(i + 1),(NodePattern) patternList.get(i - 1), edge);
+					}
 				}
 			}
 		}
