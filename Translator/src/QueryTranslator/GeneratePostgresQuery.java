@@ -190,24 +190,35 @@ public class GeneratePostgresQuery {
 			}
 		}
 		
+		String subWhere = "";
+		String condition = "";
 		for (WhereExpression aspSrcExpression: aspSrcExpressions) {
 			String leftFunctionName = aspSrcExpression.getLeftFunctionName();
 			String rightFunctionName = aspSrcExpression.getRightFunctionName();
 			if (leftFunctionName != null && leftFunctionName.toLowerCase().equals("id")) {
-				where += "id_path[1] = " + aspSrcExpression.getRightLiteral() + " AND ";
+				condition = "id_path[1] = " + aspSrcExpression.getRightLiteral() + " AND ";
+				where += condition;
+				subWhere += condition;
 			} else if (rightFunctionName != null && rightFunctionName.toLowerCase().equals("id")) {
-				where += "id_path[1] = " + aspSrcExpression.getLeftLiteral() + " AND ";
+				condition = "id_path[1] = " + aspSrcExpression.getLeftLiteral() + " AND ";
+				where += condition;
+				subWhere += condition;
 			}
 		}
 		for (WhereExpression aspTrgtExpression: aspTrgtExpressions) {
 			String leftFunctionName = aspTrgtExpression.getLeftFunctionName();
 			String rightFunctionName = aspTrgtExpression.getRightFunctionName();
 			if (leftFunctionName != null && leftFunctionName.toLowerCase().equals("id")) {
-				where += "id_path[array_length(id_path, 1)] = " + aspTrgtExpression.getRightLiteral() + " AND ";
+				condition = "id_path[array_length(id_path, 1)] = " + aspTrgtExpression.getRightLiteral() + " AND ";
+				where += condition;
+				subWhere += condition;
 			} else if (rightFunctionName != null && rightFunctionName.toLowerCase().equals("id")) {
-				where += "id_path[array_length(id_path, 1)] = " + aspTrgtExpression.getLeftLiteral() + " AND ";
+				condition = "id_path[array_length(id_path, 1)] = " + aspTrgtExpression.getLeftLiteral() + " AND ";
+				where += condition;
+				subWhere += condition;
 			}
 		}
+		where += "path_length IN (SELECT MIN(path_length) FROM allshortestpaths WHERE " + subWhere.substring(0, subWhere.length() - 5) + ") AND ";
 		
 		for (ReturnItem returnItem: returnClause.getReturnItems()) {
 			String functionName = returnItem.getFunctionName();

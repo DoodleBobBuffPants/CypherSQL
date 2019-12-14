@@ -141,7 +141,7 @@ public class DatabaseHandler {
 	private String makeASPTable() {
 		return "CREATE TABLE allshortestpaths AS "
 				+ "WITH RECURSIVE asp(id_path, path_length) AS ("
-				+ "SELECT ARRAY[nodeid], 0 FROM nodes UNION "
+				+ "SELECT ARRAY[nodeid], 0 FROM nodes, edges WHERE nodesrcid = nodeid OR nodetrgtid = nodeid UNION "
 				+ "SELECT id_path || nodeid, path_length+1 "
 				+ "FROM nodes, edges, asp "
 				+ "WHERE ((nodesrcid = id_path[array_length(id_path, 1)] AND nodetrgtid = nodeid) OR "
