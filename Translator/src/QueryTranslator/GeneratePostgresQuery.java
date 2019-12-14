@@ -168,8 +168,10 @@ public class GeneratePostgresQuery {
 		List<Pattern> patternList = matchClause.getPatternList();
 		NodePattern nodeSrc = (NodePattern) patternList.get(0);
 		NodePattern nodeTrgt = (NodePattern) patternList.get(2);
+		EdgePattern edge = (EdgePattern) patternList.get(1);
 		String nodeSrcVar = nodeSrc.getVariable();
 		String nodeTrgtVar = nodeTrgt.getVariable();
+		String edgeType = edge.getType();
 		String pathVar = matchClause.getPathVar();
 		String subWhere = "";
 		
@@ -177,6 +179,10 @@ public class GeneratePostgresQuery {
 		
 		subWhere = aspWhereHandler(whereClause, nodeSrcVar, subWhere, "source");
 		subWhere = aspWhereHandler(whereClause, nodeTrgtVar, subWhere, "target");
+		if (edgeType != null) {
+			where += edgeType + " = edge_type AND ";
+			subWhere += edgeType + " = edge_type AND ";
+		}
 		where += "path_length IN (SELECT MIN(path_length) FROM allshortestpaths WHERE " + subWhere.substring(0, subWhere.length() - 5) + ") AND ";
 		
 		for (ReturnItem returnItem: returnClause.getReturnItems()) {

@@ -143,16 +143,16 @@ public class DatabaseHandler {
 	private List<String> makeASPTable() {
 		List<String> aspQueries = new ArrayList<String>();
 		aspQueries.add("CREATE TABLE allshortestpaths AS "
-				+ "WITH RECURSIVE asp(id_path, path_length) AS ("
-				+ "SELECT ARRAY[nodeid], 0 FROM nodes UNION "
-				+ "SELECT id_path || nodeid, path_length+1 "
-				+ "FROM nodes, edges, asp "
-				+ "WHERE ((nodesrcid = id_path[array_length(id_path, 1)] AND nodetrgtid = nodeid) OR "
-				+ "(nodetrgtid = id_path[array_length(id_path, 1)] AND nodesrcid = nodeid)) AND NOT nodeid = ANY(id_path) AND path_length < 6) "
-				+ "SELECT id_path[1] AS source, id_path[array_length(id_path,1)] AS target, id_path, path_length FROM asp");
-		aspQueries.add("CREATE INDEX aspIndex ON allshortestpaths ("
-				+ "source,"
-				+ "target)");
+				+ "WITH RECURSIVE asp(id_path, path_length, edge_type) AS ("
+				+ "SELECT ARRAY[nodeid], 0, NULL FROM nodes UNION "
+				+ "SELECT id_path || nodeid, path_length+1, "
+				+ "CASE WHEN edge_type = 'edges' OR edge_type = edges.type OR (edge_type IS NULL AND edges.type IS NULL) THEN edge_type "
+				+ "     WHEN edge_type IS NULL AND edges.type IS NOT NULL THEN edges.type ELSE 'edges' END"
+				+ "FROM nodes, edges, asp"
+				+ "WHERE ((nodesrcid = id_path[array_length(id_path, 1)] AND nodetrgtid = nodeid) OR (nodetrgtid = id_path[array_length(id_path, 1)] AND nodesrcid = nodeid)) AND"
+				+ "NOT nodeid = ANY(id_path) AND path_length < 6)"
+				+ "SELECT id_path[1] AS source, id_path[array_length(id_path,1)] AS target, id_path, path_length, edge_type FROM asp WHERE path_length > 0");
+		aspQueries.add("CREATE INDEX aspIndex ON allshortestpaths (source, target)");
 		return aspQueries;
 	}
 
