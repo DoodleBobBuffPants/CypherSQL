@@ -168,7 +168,7 @@ public class DatabaseHandler {
 				+ "       (((json_edge->>'nodetrgtid')::int) = ((path[array_length(path, 1)]->>'nodeid')::int) AND ((json_edge->>'nodesrcid')::int) = ((json_node->>'nodeid')::int))) AND "
 				+ "NOT ((json_node->>'nodeid')::int) = ANY(closure) AND path_length < 5) "
 				+ "SELECT path[1] AS source, path[array_length(path,1)] AS target, path, path_length, edge_type FROM asp WHERE path_length > 0");
-		aspQueries.add("CREATE INDEX aspIndex ON allshortestpaths (source, target)");
+		aspQueries.add("CREATE INDEX aspIndex ON allshortestpaths (((source->>'nodeid')::int), ((target->>'nodeid')::int))");
 		return aspQueries;
 	}
 	

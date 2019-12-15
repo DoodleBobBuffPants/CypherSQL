@@ -244,4 +244,21 @@ public class TestTranslatorGraph {
 		System.out.println();
 		//assertTrue(resultFormatter.compare());
 	}
+	
+	@Test
+	public void testASPWithJSON() {
+		Translator queryTranslator = new Translator("MATCH path = allshortestpaths((p:Person)-[:ACTED_IN*]-(q:Person)) WHERE p.name = 'Keanu Reeves' AND q.name = 'Danny DeVito' RETURN length(path)");
+		Formatter resultFormatter = new Formatter();
+		
+		resultFormatter.initialiseResultSets();
+		//resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
+		long startTime = System.currentTimeMillis();
+		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
+		
+		System.out.println(queryTranslator.getCypherQuery());
+		System.out.println(queryTranslator.getTranslatedQuery());
+		System.out.println();
+		//assertTrue(resultFormatter.compare());
+	}
 }

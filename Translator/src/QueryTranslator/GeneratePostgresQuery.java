@@ -191,7 +191,7 @@ public class GeneratePostgresQuery {
 				returnItem.setFunctionName(null);
 				returnItem.setToReturn(returnItem.getToReturn().replaceAll("length\\("+pathVar+"\\)", "path_length"));
 			} else if (returnItem.getToReturn().equals(pathVar)) {
-				returnItem.setToReturn("id_path");
+				returnItem.setToReturn("path");
 			}
 		}
 	}
@@ -203,25 +203,35 @@ public class GeneratePostgresQuery {
 			WhereExpression whereExpression = whereIterator.next();
 			String leftLiteral = whereExpression.getLeftLiteral();
 			String rightLiteral = whereExpression.getRightLiteral();
-			if (leftLiteral.contains(" " + nodeVar + ".") || leftLiteral.contains("(" + nodeVar + ")") || rightLiteral.contains(" " + nodeVar + ".") || rightLiteral.contains("(" + nodeVar + ")")) {
+			if (leftLiteral.contains(nodeVar + ".") || leftLiteral.contains("(" + nodeVar + ")") || rightLiteral.contains(nodeVar + ".") || rightLiteral.contains("(" + nodeVar + ")")) {
 				aspExpressions.add(whereExpression);
 				whereIterator.remove();
 			}
 		}
 		
-		String condition = "";
 		for (WhereExpression aspExpression: aspExpressions) {
-			String leftFunctionName = aspExpression.getLeftFunctionName();
-			String rightFunctionName = aspExpression.getRightFunctionName();
-			if (leftFunctionName != null && leftFunctionName.toLowerCase().equals("id")) {
-				condition = sourceTarget + " = " + aspExpression.getRightLiteral() + " AND ";
-				where += condition;
-				subWhere += condition;
-			} else if (rightFunctionName != null && rightFunctionName.toLowerCase().equals("id")) {
-				condition = sourceTarget + " = " + aspExpression.getLeftLiteral() + " AND ";
-				where += condition;
-				subWhere += condition;
-			}
+			subWhere = aspWherePartsHandler(aspExpression.getLeftFunctionName(), aspExpression.getLeftLiteral(), sourceTarget, subWhere);
+			where += " " + aspExpression.getComparisonOperator() + " ";
+			subWhere += " " + aspExpression.getComparisonOperator() + " ";
+			subWhere = aspWherePartsHandler(aspExpression.getRightFunctionName(), aspExpression.getRightLiteral(), sourceTarget, subWhere);
+			where += " AND ";
+			subWhere += " AND ";
+		}
+		
+		return subWhere;
+	}
+	
+	private String aspWherePartsHandler(String functionName, String literal, String sourceTarget, String subWhere) {
+		if (functionName != null && functionName.toLowerCase().equals("id")) {
+			where += "((" + sourceTarget + "->>'nodeid')::int)";
+			subWhere += "((" + sourceTarget + "->>'nodeid')::int)";
+		} else if (NumberUtils.isNumber(literal) || (literal.startsWith("'") && literal.endsWith("'"))) {
+			where += literal;
+			subWhere += literal;
+		} else {
+			String property = literal.split("\\.")[1];
+			where += "(" + sourceTarget + "->>'" + property + "')";
+			subWhere += "(" + sourceTarget + "->>'" + property + "')";
 		}
 		
 		return subWhere;
