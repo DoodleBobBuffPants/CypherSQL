@@ -38,6 +38,8 @@ public class DatabaseHandler {
 			
 			String makeNodeQuery = makeNodeTable();
 			String makeEdgeQuery = makeEdgeTable();
+			String makeDetailedNodesQuery = makeDetailedNodesTable();
+			String makeDetailedEdgesQuery = makeDetailedEdgesTable();
 			List<String> makeLabelQueries = makeLabelTables();
 			List<String> makeTypeQueries = makeTypeTables();
 			List<String> makeASPQueries = makeASPTable();
@@ -47,6 +49,12 @@ public class DatabaseHandler {
 			queryLogger.newLine();
 			createTables.execute(makeEdgeQuery);
 			queryLogger.write(makeEdgeQuery);
+			queryLogger.newLine();
+			createTables.execute(makeDetailedNodesQuery);
+			queryLogger.write(makeDetailedNodesQuery);
+			queryLogger.newLine();
+			createTables.execute(makeDetailedEdgesQuery);
+			queryLogger.write(makeDetailedEdgesQuery);
 			queryLogger.newLine();
 			for (String query: makeLabelQueries) {
 				createTables.execute(query);
@@ -68,8 +76,10 @@ public class DatabaseHandler {
 				List<String> queries;
 				if (dbItem instanceof CreateNode) {
 					queries = fillNodeQueries((CreateNode) dbItem);
+					queries.addAll(fillDetailedNodesQueries((CreateNode) dbItem));
 				} else {
 					queries = fillEdgeQueries((CreateEdge) dbItem);
+					queries.addAll(fillDetailedEdgesQueries((CreateEdge) dbItem));
 				}
 				for (String query: queries) {
 					createTables.execute(query);
@@ -155,6 +165,27 @@ public class DatabaseHandler {
 		aspQueries.add("CREATE INDEX aspIndex ON allshortestpaths (source, target)");
 		return aspQueries;
 	}
+	
+	private String makeDetailedNodesTable() {
+		String query = "CREATE TABLE detailed_nodes("
+				+ "nodeid integer PRIMARY KEY,"
+				+ "labels text[]";
+		for (Map<String, Object> columns: labelTables.values()) {
+			query = addTableColumns(columns, query);
+		}
+		return query + ")";
+	}
+	
+	private String makeDetailedEdgesTable() {
+		String query = "CREATE TABLE detailed_edges("
+				+ "nodesrcid integer,"
+				+ "nodetrgtid integer,"
+				+ "type text";
+		for (Map<String, Object> columns: typeTables.values()) {
+			query = addTableColumns(columns, query);
+		}
+		return query + ",PRIMARY KEY (nodesrcid, nodetrgtid))";
+	}
 
 	private String addTableColumns(Map<String, Object> columns, String query) {
 		for (String columnName: columns.keySet()) {
@@ -169,7 +200,7 @@ public class DatabaseHandler {
 			} else {
 				type = "text[]";
 			}
-			query = query + "," + columnName + " " + type;
+			query += "," + columnName + " " + type;
 		}
 		return query;
 	}
@@ -225,7 +256,7 @@ public class DatabaseHandler {
 	private List<String> fillEdgeQueries(CreateEdge createEdge) {
 		List<String> queries = new ArrayList<String>();
 		queries.add("INSERT INTO Edges(NodeSrcID, NodeTrgtID, Type)"
-				+ "VALUES (" + createEdge.getSourceID() + ", '" + createEdge.getTargetID() + "', '" + createEdge.getType() + "')");
+				+ "VALUES (" + createEdge.getSourceID() + ", " + createEdge.getTargetID() + ", '" + createEdge.getType() + "')");
 		
 		if (createEdge.getColumnValueMap().size() == 0) {
 			String typeTable = createEdge.getType();
@@ -244,6 +275,26 @@ public class DatabaseHandler {
 			String typeTable = createEdge.getType();
 			String insert = "INSERT INTO " + (typeTable.equals("Order") ? "\"" + typeTable + "\"": typeTable) + "(NodeSrcID,NodeTrgtID";
 			String values = "VALUES (" + createEdge.getSourceID() + "," + createEdge.getTargetID();
+			fillInsertQuery(createEdge, queries, insert, values);
+		}
+		return queries;
+	}
+	
+	private List<String> fillDetailedNodesQueries(CreateNode createNode) {
+		List<String> queries = new ArrayList<String>();
+		String insert = "INSERT INTO detailed_nodes(nodeid, labels";
+		String values = "VALUES (" + createNode.getId() + ", '" + formatQueryStringList(createNode.getLabelList()) + "'";
+		if (createNode.getColumnValueMap().size() != 0) {
+			fillInsertQuery(createNode, queries, insert, values);
+		}
+		return queries;
+	}
+	
+	private List<String> fillDetailedEdgesQueries(CreateEdge createEdge) {
+		List<String> queries = new ArrayList<String>();
+		String insert = "INSERT INTO detailed_edges(nodesrcid, nodetrgtid, type";
+		String values = "VALUES (" + createEdge.getSourceID() + ", " + createEdge.getTargetID() + ", '" + createEdge.getType() + "'";
+		if (createEdge.getColumnValueMap().size() != 0) {
 			fillInsertQuery(createEdge, queries, insert, values);
 		}
 		return queries;
