@@ -152,16 +152,22 @@ public class DatabaseHandler {
 	
 	private List<String> makeASPTable() {
 		List<String> aspQueries = new ArrayList<String>();
+		aspQueries.add("CREATE TEMP TABLE json_nodes AS SELECT json_strip_nulls(row_to_json(detailed_nodes)) AS json_node FROM detailed_nodes");
+		aspQueries.add("CREATE INDEX jnIndex ON json_nodes (((json_node->>'nodeid')::int))");
+		aspQueries.add("CREATE TEMP TABLE json_edges AS SELECT json_strip_nulls(row_to_json(detailed_edges)) AS json_edge FROM detailed_edges");
+		aspQueries.add("CREATE INDEX jeIndex ON json_edges (((json_edge->>'nodesrcid')::int), ((json_edge->>'nodetrgtid')::int))");
 		aspQueries.add("CREATE TABLE allshortestpaths AS "
-				+ "WITH RECURSIVE asp(id_path, path_length, edge_type) AS ("
-				+ "SELECT ARRAY[nodeid], 0, NULL FROM nodes UNION "
-				+ "SELECT id_path || nodeid, path_length+1, "
-				+ "CASE WHEN edge_type = 'edges' OR edge_type = edges.type OR (edge_type IS NULL AND edges.type IS NULL) THEN edge_type "
-				+ "     WHEN edge_type IS NULL AND edges.type IS NOT NULL THEN edges.type ELSE 'edges' END"
-				+ "FROM nodes, edges, asp"
-				+ "WHERE ((nodesrcid = id_path[array_length(id_path, 1)] AND nodetrgtid = nodeid) OR (nodetrgtid = id_path[array_length(id_path, 1)] AND nodesrcid = nodeid)) AND"
-				+ "NOT nodeid = ANY(id_path) AND path_length < 6)"
-				+ "SELECT id_path[1] AS source, id_path[array_length(id_path,1)] AS target, id_path, path_length, edge_type FROM asp WHERE path_length > 0");
+				+ "WITH RECURSIVE asp(path, path_length, edge_type, closure) AS ("
+				+ "SELECT ARRAY[json_node], 0, NULL, ARRAY[((json_node->>'nodeid')::int)] FROM json_nodes UNION ALL "
+				+ "SELECT path || ARRAY[json_edge, json_node], path_length+1, "
+				+ "CASE WHEN edge_type = (json_edge->>'type') OR (edge_type IS NULL AND (json_edge->>'type') IS NULL) THEN edge_type "
+				+ "     WHEN edge_type IS NULL AND (json_edge->>'type') IS NOT NULL THEN (json_edge->>'type') ELSE NULL END, "
+				+ "closure || ((json_node->>'nodeid')::int) "
+				+ "FROM json_nodes, json_edges, asp "
+				+ "WHERE ((((json_edge->>'nodesrcid')::int) = ((path[array_length(path, 1)]->>'nodeid')::int) AND ((json_edge->>'nodetrgtid')::int) = ((json_node->>'nodeid')::int)) OR "
+				+ "       (((json_edge->>'nodetrgtid')::int) = ((path[array_length(path, 1)]->>'nodeid')::int) AND ((json_edge->>'nodesrcid')::int) = ((json_node->>'nodeid')::int))) AND "
+				+ "NOT ((json_node->>'nodeid')::int) = ANY(closure) AND path_length < 5) "
+				+ "SELECT path[1] AS source, path[array_length(path,1)] AS target, path, path_length, edge_type FROM asp WHERE path_length > 0");
 		aspQueries.add("CREATE INDEX aspIndex ON allshortestpaths (source, target)");
 		return aspQueries;
 	}
