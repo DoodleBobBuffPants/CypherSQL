@@ -66,11 +66,6 @@ public class DatabaseHandler {
 				queryLogger.write(query);
 				queryLogger.newLine();
 			}
-			for (String query: makeASPQueries) {
-				createTables.execute(query);
-				queryLogger.write(query);
-				queryLogger.newLine();
-			}
 			
 			for (Create dbItem: createStack) {
 				List<String> queries;
@@ -86,6 +81,12 @@ public class DatabaseHandler {
 					queryLogger.write(query);
 					queryLogger.newLine();
 				}
+			}
+			
+			for (String query: makeASPQueries) {
+				createTables.execute(query);
+				queryLogger.write(query);
+				queryLogger.newLine();
 			}
 			
 			connection.close();
