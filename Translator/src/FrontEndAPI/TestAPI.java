@@ -37,7 +37,7 @@ public class TestAPI {
 	
 	@Test
 	public void testQueryString() {
-		String[] args = {"--query", "MATCH (n) RETURN labels(n) AS labels, count(*) AS count"};
+		String[] args = {"--query", "graph", "MATCH (n) RETURN labels(n) AS labels, count(*) AS count"};
 		
 		API.main(args);
 		
@@ -46,7 +46,7 @@ public class TestAPI {
 	
 	@Test
 	public void testQueryPath() {
-		String[] args = {"--query", "resources\\query.txt"};
+		String[] args = {"--query", "graph", "resources\\query.txt"};
 		
 		API.main(args);
 		
