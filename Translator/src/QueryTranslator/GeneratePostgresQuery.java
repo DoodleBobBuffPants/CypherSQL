@@ -64,7 +64,7 @@ public class GeneratePostgresQuery {
 			translatedQuery += " LIMIT " + limit;
 		}
 		
-		return translatedQuery;
+		return translatedQuery.replace(" order ", " \"Order\" ");
 	}
 
 	private String uniqueStringConcat(String target, String concat, String delim) {

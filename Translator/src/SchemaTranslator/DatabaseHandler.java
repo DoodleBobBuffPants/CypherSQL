@@ -39,7 +39,7 @@ public class DatabaseHandler {
 			String makeNodeQuery = makeNodeTable();
 			String makeEdgeQuery = makeEdgeTable();
 			String makeDetailedNodesQuery = makeDetailedNodesTable();
-			String makeDetailedEdgesQuery = makeDetailedEdgesTable();
+			List<String> makeDetailedEdgesQueries = makeDetailedEdgesTable();
 			List<String> makeLabelQueries = makeLabelTables();
 			List<String> makeTypeQueries = makeTypeTables();
 			List<String> makeASPQueries = makeASPTable();
@@ -53,9 +53,11 @@ public class DatabaseHandler {
 			createTables.execute(makeDetailedNodesQuery);
 			queryLogger.write(makeDetailedNodesQuery);
 			queryLogger.newLine();
-			createTables.execute(makeDetailedEdgesQuery);
-			queryLogger.write(makeDetailedEdgesQuery);
-			queryLogger.newLine();
+			for (String query: makeDetailedEdgesQueries) {
+				createTables.execute(query);
+				queryLogger.write(query);
+				queryLogger.newLine();
+			}
 			for (String query: makeLabelQueries) {
 				createTables.execute(query);
 				queryLogger.write(query);
@@ -174,26 +176,31 @@ public class DatabaseHandler {
 	}
 	
 	private String makeDetailedNodesTable() {
+		List<String> columnClosure = new ArrayList<String>();
 		String query = "CREATE TABLE detailed_nodes("
 				+ "nodeid integer PRIMARY KEY,"
 				+ "labels text[]";
 		for (Map<String, Object> columns: labelTables.values()) {
-			query = addTableColumns(columns, query);
+			query = addDetailedTableColumns(columns, query, columnClosure);
 		}
 		return query + ")";
 	}
 	
-	private String makeDetailedEdgesTable() {
+	private List<String> makeDetailedEdgesTable() {
+		List<String> queries = new ArrayList<String>();
+		List<String> columnClosure = new ArrayList<String>();
 		String query = "CREATE TABLE detailed_edges("
 				+ "nodesrcid integer,"
 				+ "nodetrgtid integer,"
 				+ "type text";
 		for (Map<String, Object> columns: typeTables.values()) {
-			query = addTableColumns(columns, query);
+			query = addDetailedTableColumns(columns, query, columnClosure);
 		}
-		return query + ",PRIMARY KEY (nodesrcid, nodetrgtid))";
+		queries.add(query + ")");
+		queries.add("CREATE INDEX deIndex ON detailed_edges (nodesrcid, nodetrgtid)");
+		return queries;
 	}
-
+	
 	private String addTableColumns(Map<String, Object> columns, String query) {
 		for (String columnName: columns.keySet()) {
 			Object exampleType = columns.get(columnName);
@@ -208,6 +215,27 @@ public class DatabaseHandler {
 				type = "text[]";
 			}
 			query += "," + columnName + " " + type;
+		}
+		return query;
+	}
+
+	private String addDetailedTableColumns(Map<String, Object> columns, String query, List<String> columnClosure) {
+		for (String columnName: columns.keySet()) {
+			if (!columnClosure.contains(columnName)) {
+				Object exampleType = columns.get(columnName);
+				String type;
+				if (exampleType instanceof Integer) {
+					type = "integer";
+				} else if (exampleType instanceof String) {
+					type = "text";
+				} else if (exampleType instanceof List<?> && ((List<?>) exampleType).get(0) instanceof Integer) {
+					type = "integer[]";
+				} else {
+					type = "text[]";
+				}
+				query += "," + columnName + " " + type;
+				columnClosure.add(columnName);
+			}
 		}
 		return query;
 	}

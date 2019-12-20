@@ -6,16 +6,16 @@ import org.junit.Test;
 
 import ResultFormatter.Formatter;
 
-public class TestTranslatorGraph {
+public class TestTranslatorNorthwind {
 	@Test
 	public void testMatchNode() {
 		Translator queryTranslator = new Translator("MATCH (n) RETURN labels(n) AS labels, count(*) AS count");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\northwind.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
-		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		resultFormatter.getPostgresResult("northwind", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
 		
 		System.out.println(queryTranslator.getCypherQuery());
@@ -26,13 +26,13 @@ public class TestTranslatorGraph {
 	
 	@Test
 	public void testMatchNodeWithLabel() {
-		Translator queryTranslator = new Translator("MATCH (n:Movie) RETURN labels(n) AS labels, count(*) AS count");
+		Translator queryTranslator = new Translator("MATCH (n:Customer) RETURN labels(n) AS labels, count(*) AS count");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\northwind.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
-		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		resultFormatter.getPostgresResult("northwind", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
 		
 		System.out.println(queryTranslator.getCypherQuery());
@@ -43,13 +43,13 @@ public class TestTranslatorGraph {
 	
 	@Test
 	public void testMatchEdge() {
-		Translator queryTranslator = new Translator("MATCH (m)-[r:ACTED_IN]->(n) RETURN labels(m) AS srclabels");
+		Translator queryTranslator = new Translator("MATCH (m)-[r:PURCHASED]->(n) RETURN labels(m) AS srclabels");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\northwind.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
-		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		resultFormatter.getPostgresResult("northwind", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
 		
 		System.out.println(queryTranslator.getCypherQuery());
@@ -64,9 +64,9 @@ public class TestTranslatorGraph {
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\northwind.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
-		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		resultFormatter.getPostgresResult("northwind", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
 		
 		System.out.println(queryTranslator.getCypherQuery());
@@ -77,13 +77,13 @@ public class TestTranslatorGraph {
 	
 	@Test
 	public void testWhere() {
-		Translator queryTranslator = new Translator("MATCH (m)-[r:ACTED_IN]->(n) WHERE ID(m) = 34 AND ID(n) = 78 RETURN r.roles AS roles");
+		Translator queryTranslator = new Translator("MATCH (m)-[r:ORDERS]->(n) WHERE ID(m) = 205 AND ID(n) = 10 RETURN r.quantity AS quantity");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\northwind.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
-		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		resultFormatter.getPostgresResult("northwind", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
 		
 		System.out.println(queryTranslator.getCypherQuery());
@@ -94,13 +94,13 @@ public class TestTranslatorGraph {
 	
 	@Test
 	public void testOrderByLimit() {
-		Translator queryTranslator = new Translator("MATCH (n:Movie) RETURN n.title AS title, n.released AS released ORDER BY n.released DESC, n.title LIMIT 5");
+		Translator queryTranslator = new Translator("MATCH (n:Customer) RETURN n.country AS country, n.contactName AS contactname ORDER BY n.country, n.contactname LIMIT 5");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\northwind.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
-		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		resultFormatter.getPostgresResult("northwind", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
 		
 		System.out.println(queryTranslator.getCypherQuery());
@@ -115,9 +115,9 @@ public class TestTranslatorGraph {
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\northwind.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
-		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		resultFormatter.getPostgresResult("northwind", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
 		
 		System.out.println(queryTranslator.getCypherQuery());
@@ -132,9 +132,9 @@ public class TestTranslatorGraph {
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\northwind.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
-		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		resultFormatter.getPostgresResult("northwind", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
 		
 		System.out.println(queryTranslator.getCypherQuery());
@@ -145,13 +145,13 @@ public class TestTranslatorGraph {
 	
 	@Test
 	public void testMatchAnyPattern() {
-		Translator queryTranslator = new Translator("MATCH (n:Movie)<-[r:DIRECTED]-(p:Person)-[s:WROTE]->(n:Movie) WHERE ID(p) = 5 AND ID(n) = 121 RETURN p.name AS name, n.title AS title");
+		Translator queryTranslator = new Translator("MATCH (n:Product)<-[r:ORDERS]-(p)-[s:ORDERS]->(m:Product) WHERE ID(p) = 205 AND ID(n) <> ID(m) RETURN n.productName AS productname1, m.productName AS productname2");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\northwind.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
-		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		resultFormatter.getPostgresResult("northwind", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
 		
 		System.out.println(queryTranslator.getCypherQuery());
@@ -162,13 +162,13 @@ public class TestTranslatorGraph {
 	
 	@Test
 	public void testMatchCSV() {
-		Translator queryTranslator = new Translator("MATCH (n:Movie), (p:Person) WHERE ID(n) = 0 AND ID(p) = 5 RETURN p.name AS name, n.title AS title");
+		Translator queryTranslator = new Translator("MATCH (n:Product), (p:Customer) WHERE ID(n) = 10 AND ID(p) = 140 RETURN p.contactName AS contactname, n.productName AS productname");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\northwind.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
-		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		resultFormatter.getPostgresResult("northwind", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
 		
 		System.out.println(queryTranslator.getCypherQuery());
@@ -179,13 +179,13 @@ public class TestTranslatorGraph {
 	
 	@Test
 	public void testWith() {
-		Translator queryTranslator = new Translator("MATCH (n:Movie)<-[r:ACTED_IN]-(p:Person)-[s:ACTED_IN]->(m:Movie) WHERE ID(n) <> ID(m) WITH p.name AS name, count(*) AS total WHERE total > 10 RETURN name, total");
+		Translator queryTranslator = new Translator("MATCH (n:Product)<-[r:ORDERS]-(p)-[s:ORDERS]->(m:Product) WHERE ID(p) = 205 AND ID(n) <> ID(m) WITH n.productName AS productname, count(*) AS total WHERE total > 10 RETURN productname, total");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\northwind.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
-		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		resultFormatter.getPostgresResult("northwind", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
 		
 		System.out.println(queryTranslator.getCypherQuery());
@@ -196,13 +196,13 @@ public class TestTranslatorGraph {
 	
 	@Test
 	public void testUndirectedEdge() {
-		Translator queryTranslator = new Translator("MATCH (p:Person)-[:ACTED_IN]-(m:Movie) WHERE ID(p) = 1 RETURN m.title AS title");
+		Translator queryTranslator = new Translator("MATCH (p:Order)-[:ORDERS]-(m:Product) WHERE ID(p) = 205 RETURN m.productName AS productname");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\northwind.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
-		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		resultFormatter.getPostgresResult("northwind", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
 		
 		System.out.println(queryTranslator.getCypherQuery());
@@ -213,13 +213,13 @@ public class TestTranslatorGraph {
 	
 	@Test
 	public void testStarOperator() {
-		Translator queryTranslator = new Translator("MATCH (p:Person)-[r:ACTED_IN*2]-(q:Person) WHERE ID(p) = 1 RETURN q.name AS name");
+		Translator queryTranslator = new Translator("MATCH (p:Product)-[r:ORDERS*2]-(q:Product) WHERE ID(p) = 0 RETURN q.productName AS productname");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
+		resultFormatter.getNeo4JResult("resources\\northwind.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
-		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		resultFormatter.getPostgresResult("northwind", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
 		
 		System.out.println(queryTranslator.getCypherQuery());
@@ -230,13 +230,13 @@ public class TestTranslatorGraph {
 	
 	@Test
 	public void testAllShortestPaths() {
-		Translator queryTranslator = new Translator("MATCH path = allshortestpaths((p:Person)-[:ACTED_IN*]-(q:Person)) WHERE ID(p) = 1 AND ID(q) = 142 RETURN length(path)");
+		Translator queryTranslator = new Translator("MATCH path = allshortestpaths((p:Product)-[:ORDERS*]-(q:Product)) WHERE ID(p) = 0 AND ID(q) = 52 RETURN length(path)");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		//resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
+		//resultFormatter.getNeo4JResult("resources\\northwind.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
-		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		resultFormatter.getPostgresResult("northwind", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
 		
 		System.out.println(queryTranslator.getCypherQuery());
@@ -247,13 +247,13 @@ public class TestTranslatorGraph {
 	
 	@Test
 	public void testASPWithJSON() {
-		Translator queryTranslator = new Translator("MATCH path = allshortestpaths((p:Person)-[:ACTED_IN*]-(q:Person)) WHERE p.name = 'Keanu Reeves' AND q.name = 'Danny DeVito' RETURN length(path)");
+		Translator queryTranslator = new Translator("MATCH path = allshortestpaths((p:Product)-[:ORDERS*]-(q:Product)) WHERE p.productName = 'Chai' AND q.productName = 'Perth Pasties' RETURN length(path)");
 		Formatter resultFormatter = new Formatter();
 		
 		resultFormatter.initialiseResultSets();
-		//resultFormatter.getNeo4JResult("resources\\graph.db", queryTranslator.getCypherQuery());
+		//resultFormatter.getNeo4JResult("resources\\northwind.db", queryTranslator.getCypherQuery());
 		long startTime = System.currentTimeMillis();
-		resultFormatter.getPostgresResult("graph", queryTranslator.translate());
+		resultFormatter.getPostgresResult("northwind", queryTranslator.translate());
 		System.out.println("Postgres translation and execution time: " + (System.currentTimeMillis() - startTime));
 		
 		System.out.println(queryTranslator.getCypherQuery());
