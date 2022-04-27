@@ -1,4 +1,4 @@
-// Generated from Cypher.g4 by ANTLR 4.7.2
+// Generated from Cypher.g4 by ANTLR 4.7.1
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class CypherLexer extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.7.2", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.7.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -44,70 +44,60 @@ public class CypherLexer extends Lexer {
 		"DEFAULT_MODE"
 	};
 
-	private static String[] makeRuleNames() {
-		return new String[] {
-			"T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", "T__7", "T__8", 
-			"T__9", "T__10", "T__11", "T__12", "T__13", "T__14", "T__15", "T__16", 
-			"T__17", "T__18", "T__19", "T__20", "T__21", "T__22", "T__23", "T__24", 
-			"T__25", "T__26", "T__27", "T__28", "T__29", "T__30", "T__31", "T__32", 
-			"T__33", "T__34", "T__35", "T__36", "T__37", "T__38", "T__39", "T__40", 
-			"T__41", "T__42", "T__43", "T__44", "UNION", "ALL", "OPTIONAL", "MATCH", 
-			"UNWIND", "AS", "MERGE", "ON", "CREATE", "SET", "DETACH", "DELETE", "REMOVE", 
-			"CALL", "YIELD", "WITH", "DISTINCT", "RETURN", "ORDER", "BY", "L_SKIP", 
-			"LIMIT", "ASCENDING", "ASC", "DESCENDING", "DESC", "WHERE", "ALLSHORTESTPATHS", 
-			"OR", "XOR", "AND", "NOT", "IN", "STARTS", "ENDS", "CONTAINS", "IS", 
-			"NULL", "COUNT", "ANY", "NONE", "SINGLE", "TRUE", "FALSE", "EXISTS", 
-			"CASE", "ELSE", "END", "WHEN", "THEN", "StringLiteral", "EscapedChar", 
-			"HexInteger", "DecimalInteger", "OctalInteger", "HexLetter", "HexDigit", 
-			"Digit", "NonZeroDigit", "NonZeroOctDigit", "OctDigit", "ZeroDigit", 
-			"ExponentDecimalReal", "RegularDecimalReal", "CONSTRAINT", "DO", "FOR", 
-			"REQUIRE", "UNIQUE", "MANDATORY", "SCALAR", "OF", "ADD", "DROP", "FILTER", 
-			"EXTRACT", "UnescapedSymbolicName", "IdentifierStart", "IdentifierPart", 
-			"EscapedSymbolicName", "SP", "WHITESPACE", "Comment", "FF", "EscapedSymbolicName_0", 
-			"RS", "ID_Continue", "Comment_1", "StringLiteral_1", "Comment_3", "Comment_2", 
-			"GS", "FS", "CR", "Sc", "SPACE", "Pc", "TAB", "StringLiteral_0", "LF", 
-			"VT", "US", "ID_Start"
-		};
-	}
-	public static final String[] ruleNames = makeRuleNames();
+	public static final String[] ruleNames = {
+		"T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", "T__7", "T__8", 
+		"T__9", "T__10", "T__11", "T__12", "T__13", "T__14", "T__15", "T__16", 
+		"T__17", "T__18", "T__19", "T__20", "T__21", "T__22", "T__23", "T__24", 
+		"T__25", "T__26", "T__27", "T__28", "T__29", "T__30", "T__31", "T__32", 
+		"T__33", "T__34", "T__35", "T__36", "T__37", "T__38", "T__39", "T__40", 
+		"T__41", "T__42", "T__43", "T__44", "UNION", "ALL", "OPTIONAL", "MATCH", 
+		"UNWIND", "AS", "MERGE", "ON", "CREATE", "SET", "DETACH", "DELETE", "REMOVE", 
+		"CALL", "YIELD", "WITH", "DISTINCT", "RETURN", "ORDER", "BY", "L_SKIP", 
+		"LIMIT", "ASCENDING", "ASC", "DESCENDING", "DESC", "WHERE", "ALLSHORTESTPATHS", 
+		"OR", "XOR", "AND", "NOT", "IN", "STARTS", "ENDS", "CONTAINS", "IS", "NULL", 
+		"COUNT", "ANY", "NONE", "SINGLE", "TRUE", "FALSE", "EXISTS", "CASE", "ELSE", 
+		"END", "WHEN", "THEN", "StringLiteral", "EscapedChar", "HexInteger", "DecimalInteger", 
+		"OctalInteger", "HexLetter", "HexDigit", "Digit", "NonZeroDigit", "NonZeroOctDigit", 
+		"OctDigit", "ZeroDigit", "ExponentDecimalReal", "RegularDecimalReal", 
+		"CONSTRAINT", "DO", "FOR", "REQUIRE", "UNIQUE", "MANDATORY", "SCALAR", 
+		"OF", "ADD", "DROP", "FILTER", "EXTRACT", "UnescapedSymbolicName", "IdentifierStart", 
+		"IdentifierPart", "EscapedSymbolicName", "SP", "WHITESPACE", "Comment", 
+		"FF", "EscapedSymbolicName_0", "RS", "ID_Continue", "Comment_1", "StringLiteral_1", 
+		"Comment_3", "Comment_2", "GS", "FS", "CR", "Sc", "SPACE", "Pc", "TAB", 
+		"StringLiteral_0", "LF", "VT", "US", "ID_Start"
+	};
 
-	private static String[] makeLiteralNames() {
-		return new String[] {
-			null, "';'", "','", "'='", "'+='", "'*'", "'('", "')'", "'['", "']'", 
-			"':'", "'|'", "'..'", "'+'", "'-'", "'/'", "'%'", "'^'", "'<>'", "'<'", 
-			"'>'", "'<='", "'>='", "'.'", "'{'", "'}'", "'$'", "'\u27E8'", "'\u3008'", 
-			"'\uFE64'", "'\uFF1C'", "'\u27E9'", "'\u3009'", "'\uFE65'", "'\uFF1E'", 
-			"'\u00AD'", "'\u2010'", "'\u2011'", "'\u2012'", "'\u2013'", "'\u2014'", 
-			"'\u2015'", "'\u2212'", "'\uFE58'", "'\uFE63'", "'\uFF0D'", null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, "'0'"
-		};
-	}
-	private static final String[] _LITERAL_NAMES = makeLiteralNames();
-	private static String[] makeSymbolicNames() {
-		return new String[] {
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, "UNION", 
-			"ALL", "OPTIONAL", "MATCH", "UNWIND", "AS", "MERGE", "ON", "CREATE", 
-			"SET", "DETACH", "DELETE", "REMOVE", "CALL", "YIELD", "WITH", "DISTINCT", 
-			"RETURN", "ORDER", "BY", "L_SKIP", "LIMIT", "ASCENDING", "ASC", "DESCENDING", 
-			"DESC", "WHERE", "ALLSHORTESTPATHS", "OR", "XOR", "AND", "NOT", "IN", 
-			"STARTS", "ENDS", "CONTAINS", "IS", "NULL", "COUNT", "ANY", "NONE", "SINGLE", 
-			"TRUE", "FALSE", "EXISTS", "CASE", "ELSE", "END", "WHEN", "THEN", "StringLiteral", 
-			"EscapedChar", "HexInteger", "DecimalInteger", "OctalInteger", "HexLetter", 
-			"HexDigit", "Digit", "NonZeroDigit", "NonZeroOctDigit", "OctDigit", "ZeroDigit", 
-			"ExponentDecimalReal", "RegularDecimalReal", "CONSTRAINT", "DO", "FOR", 
-			"REQUIRE", "UNIQUE", "MANDATORY", "SCALAR", "OF", "ADD", "DROP", "FILTER", 
-			"EXTRACT", "UnescapedSymbolicName", "IdentifierStart", "IdentifierPart", 
-			"EscapedSymbolicName", "SP", "WHITESPACE", "Comment"
-		};
-	}
-	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
+	private static final String[] _LITERAL_NAMES = {
+		null, "';'", "','", "'='", "'+='", "'*'", "'('", "')'", "'['", "']'", 
+		"':'", "'|'", "'..'", "'+'", "'-'", "'/'", "'%'", "'^'", "'<>'", "'<'", 
+		"'>'", "'<='", "'>='", "'.'", "'{'", "'}'", "'$'", "'\u27E8'", "'\u3008'", 
+		"'\uFE64'", "'\uFF1C'", "'\u27E9'", "'\u3009'", "'\uFE65'", "'\uFF1E'", 
+		"'\u00AD'", "'\u2010'", "'\u2011'", "'\u2012'", "'\u2013'", "'\u2014'", 
+		"'\u2015'", "'\u2212'", "'\uFE58'", "'\uFE63'", "'\uFF0D'", null, null, 
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, null, null, null, null, null, null, null, "'0'"
+	};
+	private static final String[] _SYMBOLIC_NAMES = {
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, null, null, null, null, null, null, "UNION", "ALL", 
+		"OPTIONAL", "MATCH", "UNWIND", "AS", "MERGE", "ON", "CREATE", "SET", "DETACH", 
+		"DELETE", "REMOVE", "CALL", "YIELD", "WITH", "DISTINCT", "RETURN", "ORDER", 
+		"BY", "L_SKIP", "LIMIT", "ASCENDING", "ASC", "DESCENDING", "DESC", "WHERE", 
+		"ALLSHORTESTPATHS", "OR", "XOR", "AND", "NOT", "IN", "STARTS", "ENDS", 
+		"CONTAINS", "IS", "NULL", "COUNT", "ANY", "NONE", "SINGLE", "TRUE", "FALSE", 
+		"EXISTS", "CASE", "ELSE", "END", "WHEN", "THEN", "StringLiteral", "EscapedChar", 
+		"HexInteger", "DecimalInteger", "OctalInteger", "HexLetter", "HexDigit", 
+		"Digit", "NonZeroDigit", "NonZeroOctDigit", "OctDigit", "ZeroDigit", "ExponentDecimalReal", 
+		"RegularDecimalReal", "CONSTRAINT", "DO", "FOR", "REQUIRE", "UNIQUE", 
+		"MANDATORY", "SCALAR", "OF", "ADD", "DROP", "FILTER", "EXTRACT", "UnescapedSymbolicName", 
+		"IdentifierStart", "IdentifierPart", "EscapedSymbolicName", "SP", "WHITESPACE", 
+		"Comment"
+	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**

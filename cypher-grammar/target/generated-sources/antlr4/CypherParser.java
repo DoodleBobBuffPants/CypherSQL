@@ -1,4 +1,4 @@
-// Generated from Cypher.g4 by ANTLR 4.7.2
+// Generated from Cypher.g4 by ANTLR 4.7.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class CypherParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.7.2", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.7.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -70,74 +70,65 @@ public class CypherParser extends Parser {
 		RULE_oC_PropertyKeyName = 90, RULE_oC_IntegerLiteral = 91, RULE_oC_DoubleLiteral = 92, 
 		RULE_oC_SchemaName = 93, RULE_oC_ReservedWord = 94, RULE_oC_SymbolicName = 95, 
 		RULE_oC_LeftArrowHead = 96, RULE_oC_RightArrowHead = 97, RULE_oC_Dash = 98;
-	private static String[] makeRuleNames() {
-		return new String[] {
-			"oC_Cypher", "oC_Statement", "oC_Query", "oC_RegularQuery", "oC_Union", 
-			"oC_SingleQuery", "oC_SinglePartQuery", "oC_MultiPartQuery", "oC_UpdatingClause", 
-			"oC_ReadingClause", "oC_Match", "oC_Unwind", "oC_Merge", "oC_MergeAction", 
-			"oC_Create", "oC_Set", "oC_SetItem", "oC_Delete", "oC_Remove", "oC_RemoveItem", 
-			"oC_InQueryCall", "oC_StandaloneCall", "oC_YieldItems", "oC_YieldItem", 
-			"oC_With", "oC_Return", "oC_ReturnBody", "oC_ReturnItems", "oC_ReturnItem", 
-			"oC_Order", "oC_Skip", "oC_Limit", "oC_SortItem", "oC_Where", "oC_Pattern", 
-			"oC_PatternPart", "oC_AnonymousPatternPart", "oC_PatternElement", "oC_NodePattern", 
-			"oC_PatternElementChain", "oC_RelationshipPattern", "oC_RelationshipDetail", 
-			"oC_Properties", "oC_RelationshipTypes", "oC_NodeLabels", "oC_NodeLabel", 
-			"oC_RangeLiteral", "oC_LabelName", "oC_RelTypeName", "oC_Expression", 
-			"oC_OrExpression", "oC_XorExpression", "oC_AndExpression", "oC_NotExpression", 
-			"oC_ComparisonExpression", "oC_AddOrSubtractExpression", "oC_MultiplyDivideModuloExpression", 
-			"oC_PowerOfExpression", "oC_UnaryAddOrSubtractExpression", "oC_StringListNullOperatorExpression", 
-			"oC_ListOperatorExpression", "oC_StringOperatorExpression", "oC_NullOperatorExpression", 
-			"oC_PropertyOrLabelsExpression", "oC_Atom", "oC_Literal", "oC_BooleanLiteral", 
-			"oC_ListLiteral", "oC_PartialComparisonExpression", "oC_ParenthesizedExpression", 
-			"oC_RelationshipsPattern", "oC_FilterExpression", "oC_IdInColl", "oC_FunctionInvocation", 
-			"oC_FunctionName", "oC_ExplicitProcedureInvocation", "oC_ImplicitProcedureInvocation", 
-			"oC_ProcedureResultField", "oC_ProcedureName", "oC_Namespace", "oC_ListComprehension", 
-			"oC_PatternComprehension", "oC_PropertyLookup", "oC_CaseExpression", 
-			"oC_CaseAlternatives", "oC_Variable", "oC_NumberLiteral", "oC_MapLiteral", 
-			"oC_Parameter", "oC_PropertyExpression", "oC_PropertyKeyName", "oC_IntegerLiteral", 
-			"oC_DoubleLiteral", "oC_SchemaName", "oC_ReservedWord", "oC_SymbolicName", 
-			"oC_LeftArrowHead", "oC_RightArrowHead", "oC_Dash"
-		};
-	}
-	public static final String[] ruleNames = makeRuleNames();
+	public static final String[] ruleNames = {
+		"oC_Cypher", "oC_Statement", "oC_Query", "oC_RegularQuery", "oC_Union", 
+		"oC_SingleQuery", "oC_SinglePartQuery", "oC_MultiPartQuery", "oC_UpdatingClause", 
+		"oC_ReadingClause", "oC_Match", "oC_Unwind", "oC_Merge", "oC_MergeAction", 
+		"oC_Create", "oC_Set", "oC_SetItem", "oC_Delete", "oC_Remove", "oC_RemoveItem", 
+		"oC_InQueryCall", "oC_StandaloneCall", "oC_YieldItems", "oC_YieldItem", 
+		"oC_With", "oC_Return", "oC_ReturnBody", "oC_ReturnItems", "oC_ReturnItem", 
+		"oC_Order", "oC_Skip", "oC_Limit", "oC_SortItem", "oC_Where", "oC_Pattern", 
+		"oC_PatternPart", "oC_AnonymousPatternPart", "oC_PatternElement", "oC_NodePattern", 
+		"oC_PatternElementChain", "oC_RelationshipPattern", "oC_RelationshipDetail", 
+		"oC_Properties", "oC_RelationshipTypes", "oC_NodeLabels", "oC_NodeLabel", 
+		"oC_RangeLiteral", "oC_LabelName", "oC_RelTypeName", "oC_Expression", 
+		"oC_OrExpression", "oC_XorExpression", "oC_AndExpression", "oC_NotExpression", 
+		"oC_ComparisonExpression", "oC_AddOrSubtractExpression", "oC_MultiplyDivideModuloExpression", 
+		"oC_PowerOfExpression", "oC_UnaryAddOrSubtractExpression", "oC_StringListNullOperatorExpression", 
+		"oC_ListOperatorExpression", "oC_StringOperatorExpression", "oC_NullOperatorExpression", 
+		"oC_PropertyOrLabelsExpression", "oC_Atom", "oC_Literal", "oC_BooleanLiteral", 
+		"oC_ListLiteral", "oC_PartialComparisonExpression", "oC_ParenthesizedExpression", 
+		"oC_RelationshipsPattern", "oC_FilterExpression", "oC_IdInColl", "oC_FunctionInvocation", 
+		"oC_FunctionName", "oC_ExplicitProcedureInvocation", "oC_ImplicitProcedureInvocation", 
+		"oC_ProcedureResultField", "oC_ProcedureName", "oC_Namespace", "oC_ListComprehension", 
+		"oC_PatternComprehension", "oC_PropertyLookup", "oC_CaseExpression", "oC_CaseAlternatives", 
+		"oC_Variable", "oC_NumberLiteral", "oC_MapLiteral", "oC_Parameter", "oC_PropertyExpression", 
+		"oC_PropertyKeyName", "oC_IntegerLiteral", "oC_DoubleLiteral", "oC_SchemaName", 
+		"oC_ReservedWord", "oC_SymbolicName", "oC_LeftArrowHead", "oC_RightArrowHead", 
+		"oC_Dash"
+	};
 
-	private static String[] makeLiteralNames() {
-		return new String[] {
-			null, "';'", "','", "'='", "'+='", "'*'", "'('", "')'", "'['", "']'", 
-			"':'", "'|'", "'..'", "'+'", "'-'", "'/'", "'%'", "'^'", "'<>'", "'<'", 
-			"'>'", "'<='", "'>='", "'.'", "'{'", "'}'", "'$'", "'\u27E8'", "'\u3008'", 
-			"'\uFE64'", "'\uFF1C'", "'\u27E9'", "'\u3009'", "'\uFE65'", "'\uFF1E'", 
-			"'\u00AD'", "'\u2010'", "'\u2011'", "'\u2012'", "'\u2013'", "'\u2014'", 
-			"'\u2015'", "'\u2212'", "'\uFE58'", "'\uFE63'", "'\uFF0D'", null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, "'0'"
-		};
-	}
-	private static final String[] _LITERAL_NAMES = makeLiteralNames();
-	private static String[] makeSymbolicNames() {
-		return new String[] {
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, "UNION", 
-			"ALL", "OPTIONAL", "MATCH", "UNWIND", "AS", "MERGE", "ON", "CREATE", 
-			"SET", "DETACH", "DELETE", "REMOVE", "CALL", "YIELD", "WITH", "DISTINCT", 
-			"RETURN", "ORDER", "BY", "L_SKIP", "LIMIT", "ASCENDING", "ASC", "DESCENDING", 
-			"DESC", "WHERE", "ALLSHORTESTPATHS", "OR", "XOR", "AND", "NOT", "IN", 
-			"STARTS", "ENDS", "CONTAINS", "IS", "NULL", "COUNT", "ANY", "NONE", "SINGLE", 
-			"TRUE", "FALSE", "EXISTS", "CASE", "ELSE", "END", "WHEN", "THEN", "StringLiteral", 
-			"EscapedChar", "HexInteger", "DecimalInteger", "OctalInteger", "HexLetter", 
-			"HexDigit", "Digit", "NonZeroDigit", "NonZeroOctDigit", "OctDigit", "ZeroDigit", 
-			"ExponentDecimalReal", "RegularDecimalReal", "CONSTRAINT", "DO", "FOR", 
-			"REQUIRE", "UNIQUE", "MANDATORY", "SCALAR", "OF", "ADD", "DROP", "FILTER", 
-			"EXTRACT", "UnescapedSymbolicName", "IdentifierStart", "IdentifierPart", 
-			"EscapedSymbolicName", "SP", "WHITESPACE", "Comment"
-		};
-	}
-	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
+	private static final String[] _LITERAL_NAMES = {
+		null, "';'", "','", "'='", "'+='", "'*'", "'('", "')'", "'['", "']'", 
+		"':'", "'|'", "'..'", "'+'", "'-'", "'/'", "'%'", "'^'", "'<>'", "'<'", 
+		"'>'", "'<='", "'>='", "'.'", "'{'", "'}'", "'$'", "'\u27E8'", "'\u3008'", 
+		"'\uFE64'", "'\uFF1C'", "'\u27E9'", "'\u3009'", "'\uFE65'", "'\uFF1E'", 
+		"'\u00AD'", "'\u2010'", "'\u2011'", "'\u2012'", "'\u2013'", "'\u2014'", 
+		"'\u2015'", "'\u2212'", "'\uFE58'", "'\uFE63'", "'\uFF0D'", null, null, 
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, null, null, null, null, null, null, null, "'0'"
+	};
+	private static final String[] _SYMBOLIC_NAMES = {
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, null, null, null, null, null, null, "UNION", "ALL", 
+		"OPTIONAL", "MATCH", "UNWIND", "AS", "MERGE", "ON", "CREATE", "SET", "DETACH", 
+		"DELETE", "REMOVE", "CALL", "YIELD", "WITH", "DISTINCT", "RETURN", "ORDER", 
+		"BY", "L_SKIP", "LIMIT", "ASCENDING", "ASC", "DESCENDING", "DESC", "WHERE", 
+		"ALLSHORTESTPATHS", "OR", "XOR", "AND", "NOT", "IN", "STARTS", "ENDS", 
+		"CONTAINS", "IS", "NULL", "COUNT", "ANY", "NONE", "SINGLE", "TRUE", "FALSE", 
+		"EXISTS", "CASE", "ELSE", "END", "WHEN", "THEN", "StringLiteral", "EscapedChar", 
+		"HexInteger", "DecimalInteger", "OctalInteger", "HexLetter", "HexDigit", 
+		"Digit", "NonZeroDigit", "NonZeroOctDigit", "OctDigit", "ZeroDigit", "ExponentDecimalReal", 
+		"RegularDecimalReal", "CONSTRAINT", "DO", "FOR", "REQUIRE", "UNIQUE", 
+		"MANDATORY", "SCALAR", "OF", "ADD", "DROP", "FILTER", "EXTRACT", "UnescapedSymbolicName", 
+		"IdentifierStart", "IdentifierPart", "EscapedSymbolicName", "SP", "WHITESPACE", 
+		"Comment"
+	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**
@@ -187,7 +178,6 @@ public class CypherParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-
 	public static class OC_CypherContext extends ParserRuleContext {
 		public OC_StatementContext oC_Statement() {
 			return getRuleContext(OC_StatementContext.class,0);

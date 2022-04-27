@@ -1,0 +1,32 @@
+name: Build and Test
+
+on:
+  - push
+  - workflow_dispatch
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os:
+          - windows-latest
+          - ubuntu-latest
+          - macOS-latest
+        java:
+          - 17
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Java ${{ matrix.java }}
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: 'temurin'
+      - name: Cache packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ matrix.os }}-m2
+      - name: Build and Test
+        run: mvn -B package --file pom.xml
