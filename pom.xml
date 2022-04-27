@@ -11,9 +11,10 @@
   <packaging>pom</packaging>
 
   <modules>
+    <module>core</module>
     <module>cypher-grammar</module>
     <module>cypher-translator</module>
-    <module>core</module>
+    <module>postgresql-translator</module>
   </modules>
 
   <dependencyManagement>
