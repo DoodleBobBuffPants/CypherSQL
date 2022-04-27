@@ -1,3 +1,6 @@
+**/target
+!cypher-grammar/target/generated-sources/antlr4
+
 Translator/bin
 Translator/resources/got.db
 Translator/resources/graph.db

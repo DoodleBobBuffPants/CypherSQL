@@ -1,2 +1,3 @@
 # CypherSQL
-Part II Project at University Of Cambridge
+
+Java project for translating from Cypher to (PostgreSQL) SQL
