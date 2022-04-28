@@ -1,0 +1,23 @@
+<assembly xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns="http://maven.apache.org/ASSEMBLY/2.1.0"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.1.0 http://maven.apache.org/xsd/assembly-2.1.0.xsd">
+  <id>package</id>
+
+  <formats>
+    <format>zip</format>
+  </formats>
+
+  <includeBaseDirectory>false</includeBaseDirectory>
+
+  <dependencySets>
+    <dependencySet>
+      <useTransitiveFiltering>true</useTransitiveFiltering>
+      <includes>
+        <include>cyphersql:core</include>
+        <include>cyphersql:cypher-grammar</include>
+        <include>cyphersql:cypher-translator</include>
+        <include>cyphersql:postgresql-translator</include>
+      </includes>
+    </dependencySet>
+  </dependencySets>
+</assembly>

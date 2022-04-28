@@ -30,3 +30,8 @@ jobs:
           key: ${{ matrix.os }}-m2
       - name: Build and Test
         run: mvn -B package --file pom.xml
+      - name: Upload package
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.os }}-package
+          path: package/target/package.zip
