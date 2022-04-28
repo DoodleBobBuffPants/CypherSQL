@@ -1,6 +1,5 @@
 package cyphersql;
 
-import cyphersql.api.Translator;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +10,7 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CypherTranslatorTest {
-    private final Translator translator = new CypherTranslator();
+    private final CypherTranslator translator = new CypherTranslator();
 
     @Disabled("Required graph DB does not exist")
     @Test

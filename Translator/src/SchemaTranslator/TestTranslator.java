@@ -17,116 +17,82 @@ import SchemaAST.CreateEdge;
 import SchemaAST.CreateNode;
 
 public class TestTranslator {
-	@Test
-	public void testCreateASTStack() {
-		String createFile = "resources\\creates.txt";
-		Translator schemaTranslator = new Translator(createFile);
-		
-		schemaTranslator.createAST();
-		Stack<Create> createStack = schemaTranslator.getCreateStack();
-		
-		assertTrue(createStack.pop() instanceof CreateEdge);
-		assertTrue(createStack.pop() instanceof CreateNode);
-	}
-	
-	@Test
-	public void testCreateASTLabels() {
-		String createFile = "resources\\creates.txt";
-		Translator schemaTranslator = new Translator(createFile);
-		
-		schemaTranslator.createAST();
-		Map<String, Map<String, Object>> labelTables = schemaTranslator.getLabelTables();
-		
-		assertTrue(labelTables.keySet().contains("Movie"));
-	}
-	
-	@Test
-	public void testCreateASTTypes() {
-		String createFile = "resources\\creates.txt";
-		Translator schemaTranslator = new Translator(createFile);
-		
-		schemaTranslator.createAST();
-		Map<String, Map<String, Object>> typeTables = schemaTranslator.getTypeTables();
-		
-		assertTrue(typeTables.keySet().contains("REVIEWED"));
-	}
-	
-	@Test
-	public void testCreatePostgresDB() {
-		String createFile = "resources\\creates.txt";
-		Translator schemaTranslator = new Translator(createFile);
-		
-		schemaTranslator.translate();
-		
-		assertTrue(true);
-	}
-	
-	@Test
-	public void testPopulatedNodes() throws SQLException {
+    @Test
+    public void testCreatePostgresDB() {
+        String createFile = "resources\\creates.txt";
+        Translator schemaTranslator = new Translator(createFile);
+
+        schemaTranslator.translate();
+
+        assertTrue(true);
+    }
+
+    @Test
+    public void testPopulatedNodes() throws SQLException {
 //		String createFile = "resources\\creates.txt";
 //		Translator schemaTranslator = new Translator(createFile);
 //		
 //		schemaTranslator.translate();
-		
-		Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/creates", "postgres", "admin");
-		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM NODES");
-		result.next();
-		
-		assertTrue(result.getObject(1).toString().equals("0"));
-		assertTrue(result.getObject(2).toString().equals("{Movie}"));
-	}
-	
-	@Test
-	public void testPopulatedEdges() throws SQLException {
+
+        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/creates", "postgres", "admin");
+        Statement statement = connection.createStatement();
+        ResultSet result = statement.executeQuery("SELECT * FROM NODES");
+        result.next();
+
+        assertTrue(result.getObject(1).toString().equals("0"));
+        assertTrue(result.getObject(2).toString().equals("{Movie}"));
+    }
+
+    @Test
+    public void testPopulatedEdges() throws SQLException {
 //		String createFile = "resources\\creates.txt";
 //		Translator schemaTranslator = new Translator(createFile);
 //		
 //		schemaTranslator.translate();
-		
-		Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/creates", "postgres", "admin");
-		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM EDGES");
-		result.next();
-		
-		assertTrue(result.getObject(1).toString().equals("170"));
-		assertTrue(result.getObject(2).toString().equals("111"));
-		assertTrue(result.getObject(3).toString().equals("REVIEWED"));
-	}
-	
-	@Test
-	public void testPopulatedLabels() throws SQLException {
+
+        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/creates", "postgres", "admin");
+        Statement statement = connection.createStatement();
+        ResultSet result = statement.executeQuery("SELECT * FROM EDGES");
+        result.next();
+
+        assertTrue(result.getObject(1).toString().equals("170"));
+        assertTrue(result.getObject(2).toString().equals("111"));
+        assertTrue(result.getObject(3).toString().equals("REVIEWED"));
+    }
+
+    @Test
+    public void testPopulatedLabels() throws SQLException {
 //		String createFile = "resources\\creates.txt";
 //		Translator schemaTranslator = new Translator(createFile);
 //		
 //		schemaTranslator.translate();
-		
-		Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/creates", "postgres", "admin");
-		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM MOVIE");
-		result.next();
-		
-		assertTrue(result.getObject(1).toString().equals("0"));
-		assertTrue(result.getObject(2).toString().equals("Welcome to the Real World"));
-		assertTrue(result.getObject(3).toString().equals("The Matrix"));
-		assertTrue(result.getObject(4).toString().equals("1999"));
-	}
-	
-	@Test
-	public void testPopulatedTypes() throws SQLException {
+
+        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/creates", "postgres", "admin");
+        Statement statement = connection.createStatement();
+        ResultSet result = statement.executeQuery("SELECT * FROM MOVIE");
+        result.next();
+
+        assertTrue(result.getObject(1).toString().equals("0"));
+        assertTrue(result.getObject(2).toString().equals("Welcome to the Real World"));
+        assertTrue(result.getObject(3).toString().equals("The Matrix"));
+        assertTrue(result.getObject(4).toString().equals("1999"));
+    }
+
+    @Test
+    public void testPopulatedTypes() throws SQLException {
 //		String createFile = "resources\\creates.txt";
 //		Translator schemaTranslator = new Translator(createFile);
 //		
 //		schemaTranslator.translate();
-		
-		Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/creates", "postgres", "admin");
-		Statement statement = connection.createStatement();
-		ResultSet result = statement.executeQuery("SELECT * FROM REVIEWED");
-		result.next();
-		
-		assertTrue(result.getObject(1).toString().equals("170"));
-		assertTrue(result.getObject(2).toString().equals("111"));
-		assertTrue(result.getObject(3).toString().equals("Fun, but a little far fetched"));
-		assertTrue(result.getObject(4).toString().equals("65"));
-	}
+
+        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/creates", "postgres", "admin");
+        Statement statement = connection.createStatement();
+        ResultSet result = statement.executeQuery("SELECT * FROM REVIEWED");
+        result.next();
+
+        assertTrue(result.getObject(1).toString().equals("170"));
+        assertTrue(result.getObject(2).toString().equals("111"));
+        assertTrue(result.getObject(3).toString().equals("Fun, but a little far fetched"));
+        assertTrue(result.getObject(4).toString().equals("65"));
+    }
 }

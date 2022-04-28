@@ -31,6 +31,14 @@
             <goals>
               <goal>antlr4</goal>
             </goals>
+            <configuration>
+              <arguments>
+                <argument>-package</argument>
+                <argument>cyphersql.antlr</argument>
+              </arguments>
+              <sourceDirectory>${project.basedir}/src/main/resources</sourceDirectory>
+              <outputDirectory>${project.basedir}/src/main/java/cyphersql/antlr</outputDirectory>
+            </configuration>
           </execution>
         </executions>
       </plugin>

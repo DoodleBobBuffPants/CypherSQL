@@ -1,6 +1,5 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Run Tests" type="JUnit" factoryName="JUnit">
-    <module name="core" />
     <selectedOptions>
       <option name="environmentVariables" visible="false" />
     </selectedOptions>
