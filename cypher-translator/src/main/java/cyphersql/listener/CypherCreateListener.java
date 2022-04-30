@@ -1,6 +1,7 @@
 package cyphersql.listener;
 
 import cyphersql.antlr.CypherParser.*;
+import cyphersql.ast.EdgeDirection;
 import cyphersql.ast.create.Create;
 import cyphersql.ast.create.CreateEdge;
 import cyphersql.ast.create.CreateNode;
@@ -147,9 +148,5 @@ public class CypherCreateListener extends CypherQueryListener {
             }
         }
         existingColumns.put(existingIndex, columns);
-    }
-
-    private enum EdgeDirection {
-        NONE, LEFT_RIGHT, RIGHT_LEFT
     }
 }

@@ -19,12 +19,8 @@ public class CypherCreateListenerTest {
     @Test
     public void parsesNode() {
         listener = assertListenerIsCreateListener(translator.listen(CREATE_NODE_QUERY));
-        Create create = listener.creates.pop();
-        if (create instanceof CreateNode node) {
-            assertEquals(0, node.id);
-        } else {
-            fail();
-        }
+        CreateNode node = assertCreateIsCreateNode(listener.creates.pop());
+        assertEquals(0, node.id);
     }
 
     private CypherCreateListener assertListenerIsCreateListener(CypherQueryListener listener) {
@@ -34,16 +30,26 @@ public class CypherCreateListenerTest {
         return fail("Expected listener to be " + CypherCreateListener.class.getSimpleName() + " but was " + listener.getClass().getSimpleName());
     }
 
+    private CreateNode assertCreateIsCreateNode(Create create) {
+        if (create instanceof CreateNode createNode) {
+            return createNode;
+        }
+        return fail("Expected create object to be " + CreateNode.class.getSimpleName() + " but was " + create.getClass().getSimpleName());
+    }
+
     @Test
     public void parsesEdge() {
         listener = assertListenerIsCreateListener(translator.listen(CREATE_EDGE_QUERY));
-        Create create = listener.creates.pop();
-        if (create instanceof CreateEdge edge) {
-            assertEquals(170, edge.sourceID);
-            assertEquals(111, edge.targetID);
-        } else {
-            fail();
+        CreateEdge edge = assertCreateIsCreateEdge(listener.creates.pop());
+        assertEquals(170, edge.sourceID);
+        assertEquals(111, edge.targetID);
+    }
+
+    private CreateEdge assertCreateIsCreateEdge(Create create) {
+        if (create instanceof CreateEdge createEdge) {
+            return createEdge;
         }
+        return fail("Expected create object to be " + CreateEdge.class.getSimpleName() + " but was " + create.getClass().getSimpleName());
     }
 
     @Test

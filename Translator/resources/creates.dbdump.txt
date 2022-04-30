@@ -1,2 +1,0 @@
-create (_0:`Movie` {`released`:1999, `tagline`:"Welcome to the Real World", `title`:"The Matrix"})
-create (_170)-[:`REVIEWED` {`rating`:65, `summary`:"Fun, but a little far fetched"}]->(_111)
