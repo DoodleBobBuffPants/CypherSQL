@@ -17,6 +17,7 @@
         <include>cyphersql:cypher-grammar</include>
         <include>cyphersql:cypher-translator</include>
         <include>cyphersql:postgresql-translator</include>
+        <include>cyphersql:logging</include>
       </includes>
     </dependencySet>
   </dependencySets>

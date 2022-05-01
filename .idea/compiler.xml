@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="postgresql-translator" />
         <module name="core" />
+        <module name="logging" />
         <module name="package" />
         <module name="cypher-translator" />
         <module name="cypher-grammar" />

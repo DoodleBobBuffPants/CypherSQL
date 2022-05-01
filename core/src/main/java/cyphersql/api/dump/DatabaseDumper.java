@@ -4,9 +4,14 @@ import cyphersql.api.Translator;
 import cyphersql.api.exception.NoTranslatorFoundException;
 import cyphersql.register.TranslatorRegister;
 
+import java.lang.System.Logger;
 import java.nio.file.Path;
 
+import static java.lang.System.Logger.Level.INFO;
+import static java.lang.System.getLogger;
+
 public class DatabaseDumper {
+    private static final Logger logger = getLogger(DatabaseDumper.class.getSimpleName());
     private final Path sourceDatabase;
     private final Path targetLocation;
     private final Translator targetDatabase;
@@ -21,8 +26,8 @@ public class DatabaseDumper {
     }
 
     public void dump() {
-        System.out.println("Database dump starting...");
+        logger.log(INFO, "Database dump starting...");
         targetDatabase.dumpDatabase(sourceDatabase, targetLocation);
-        System.out.println("Database dump complete");
+        logger.log(INFO, "Database dump complete");
     }
 }

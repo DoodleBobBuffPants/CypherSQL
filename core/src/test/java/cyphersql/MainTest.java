@@ -77,7 +77,7 @@ public class MainTest {
     }
 
     @Test
-    public void successfullyPrintsHelp() throws ParseException {
+    public void successfullyPrintsHelp() throws Exception {
         Main.main(new String[] { });
     }
 }

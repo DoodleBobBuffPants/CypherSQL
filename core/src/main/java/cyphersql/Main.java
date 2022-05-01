@@ -9,12 +9,21 @@ import cyphersql.comparator.OptionComparator;
 import cyphersql.register.ParametersRegister;
 import org.apache.commons.cli.*;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.lang.System.Logger;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
+import static java.lang.System.Logger.Level.INFO;
+import static java.lang.System.getLogger;
+
 public class Main {
-    public static void main(String[] args) throws ParseException {
+    private static final Logger logger = getLogger(Main.class.getSimpleName());
+
+    public static void main(String[] args) throws Exception {
         CommandLine cmd = parseArguments(args);
 
         if (isConfigurationInvalid(cmd)) {
@@ -51,14 +60,17 @@ public class Main {
         return noOptionsConfigured || anyParametersAreInvalid || multipleExclusiveOptionsPresent;
     }
 
-    private static void printHelp() {
-        HelpFormatter hf = new HelpFormatter();
-        hf.setWidth(120);
-        hf.setOptionComparator(new OptionComparator());
-        ParametersRegister.getParameters().forEach(p -> {
-            hf.printHelp("all of these are required together", p.getAll());
-            System.out.println();
-        });
+    private static void printHelp() throws IOException {
+        try (StringWriter sw = new StringWriter(); PrintWriter pw = new PrintWriter(sw)) {
+            HelpFormatter hf = new HelpFormatter();
+            hf.setWidth(120);
+            hf.setOptionComparator(new OptionComparator());
+            ParametersRegister.getParameters().forEach(p -> {
+                hf.printHelp(pw, hf.getWidth(), " ", null, p.getAll(), hf.getLeftPadding(), hf.getDescPadding(), null, true);
+                pw.println();
+            });
+            logger.log(INFO, sw.toString());
+        }
     }
 
     protected static void handleDump(CommandLine cmd) {
@@ -72,6 +84,6 @@ public class Main {
         String source = cmd.getOptionValue(TranslateParameters.source);
         String target = cmd.getOptionValue(TranslateParameters.target);
         String translatedQuery = new QueryTranslator(query, source, target).translate();
-        System.out.println("The translated query is:\n" + translatedQuery);
+        logger.log(INFO, "The translated query is:\n" + translatedQuery);
     }
 }

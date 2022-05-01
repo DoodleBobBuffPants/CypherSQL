@@ -15,6 +15,7 @@
     <module>cypher-grammar</module>
     <module>cypher-translator</module>
     <module>postgresql-translator</module>
+    <module>logging</module>
     <module>package</module>
   </modules>
 

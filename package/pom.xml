@@ -35,6 +35,11 @@
       <artifactId>postgresql-translator</artifactId>
       <version>0-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>cyphersql</groupId>
+      <artifactId>logging</artifactId>
+      <version>0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
   <build>
