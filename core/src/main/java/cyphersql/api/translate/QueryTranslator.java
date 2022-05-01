@@ -1,5 +1,6 @@
 package cyphersql.api.translate;
 
+import cyphersql.Main;
 import cyphersql.api.Translator;
 import cyphersql.api.exception.NoTranslatorFoundException;
 import cyphersql.api.exception.UnableToReadQueryException;
@@ -7,8 +8,8 @@ import cyphersql.register.TranslatorRegister;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class QueryTranslator {
     // may be a query or a file containing a query
@@ -30,14 +31,15 @@ public class QueryTranslator {
 
     public String translate() {
         String queryToTranslate = query;
-        Path queryPath = Paths.get(query);
-        if (queryPath.toFile().exists()) {
-            try {
+        Path queryPath = null;
+        try {
+            queryPath = Path.of(query);
+            if (queryPath.toFile().exists()) {
                 queryToTranslate = String.join(" ", Files.readAllLines(queryPath));
-            } catch (IOException e) {
-                throw new UnableToReadQueryException("Unable to read the queries in " + queryPath, e);
             }
-        }
-        return source.translate(queryToTranslate, target);
+        } catch (IOException e) {
+            throw new UnableToReadQueryException("Unable to read the queries in " + queryPath, e);
+        } catch (InvalidPathException ignored) {}
+        return String.join("\n\n" + Main.QUERY_DELIMITER + "\n\n", source.translate(queryToTranslate, target));
     }
 }

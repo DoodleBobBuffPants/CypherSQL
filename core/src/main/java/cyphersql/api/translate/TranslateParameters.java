@@ -25,40 +25,10 @@ public class TranslateParameters implements Parameters {
     }
 
     @Override
-    public boolean isConfigurationInvalid(Options options) {
-        boolean isConfigurationInvalid = false;
-        if (options.hasOption(translate.getOpt())) {
-            String validationMessagePrefix = "'" + translate.getOpt() + "' is specified but '";
-            if (!options.hasOption(query.getOpt())) {
-                System.err.println(validationMessagePrefix + query.getOpt() + "' is missing");
-                isConfigurationInvalid = true;
-            }
-            if (!options.hasOption(source.getOpt())) {
-                System.err.println(validationMessagePrefix + source.getOpt() + "' is missing");
-                isConfigurationInvalid = true;
-            }
-            if (!options.hasOption(target.getOpt())) {
-                System.err.println(validationMessagePrefix + target.getOpt() + "' is missing");
-                isConfigurationInvalid = true;
-            }
-        } else {
-            String validationMessagePrefix = "'" + translate.getOpt() + "' is not specified but '";
-            if (options.hasOption(query.getOpt())) {
-                System.err.println(validationMessagePrefix + query.getOpt() + "' is");
-                isConfigurationInvalid = true;
-            }
-            if (options.hasOption(source.getOpt())) {
-                System.err.println(validationMessagePrefix + source.getOpt() + "' is");
-                isConfigurationInvalid = true;
-            }
-            if (options.hasOption(target.getOpt())) {
-                System.err.println(validationMessagePrefix + target.getOpt() + "' is");
-                isConfigurationInvalid = true;
-            }
-        }
-        if (isConfigurationInvalid) {
-            System.err.println();
-        }
-        return isConfigurationInvalid;
+    public boolean isConfigured(Options options) {
+        return options.hasOption(translate.getOpt()) &&
+               options.hasOption(query.getOpt()) &&
+               options.hasOption(source.getOpt()) &&
+               options.hasOption(target.getOpt());
     }
 }

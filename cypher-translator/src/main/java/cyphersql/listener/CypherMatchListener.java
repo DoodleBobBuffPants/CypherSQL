@@ -13,7 +13,10 @@ import cyphersql.ast.match.returnclause.Return;
 import cyphersql.ast.match.returnclause.ReturnItem;
 import cyphersql.ast.match.where.Where;
 import cyphersql.ast.match.where.WhereCondition;
+import cyphersql.postgresql.PostgreSQLMatchTranslator;
 import org.antlr.v4.runtime.tree.ParseTree;
+
+import java.util.List;
 
 public class CypherMatchListener extends CypherQueryListener {
     public Query query;
@@ -247,5 +250,10 @@ public class CypherMatchListener extends CypherQueryListener {
             orderByItem.function = ctx.oC_FunctionName().getText();
             orderByItem.functionArgument = ctx.oC_Expression(0).getText();
         }
+    }
+
+    @Override
+    public List<String> translate() {
+        return new PostgreSQLMatchTranslator(this).translate();
     }
 }

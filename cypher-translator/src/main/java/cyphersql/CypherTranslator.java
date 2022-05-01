@@ -25,9 +25,9 @@ public class CypherTranslator implements Translator {
     }
 
     @Override
-    public String translate(String query, Translator target) {
+    public List<String> translate(String query, Translator target) {
         return switch (target.getDatabaseName()) {
-            case "Neo4J" -> query;
+            case "Neo4J" -> List.of(query);
             case "PostgreSQL" -> translateToPostgreSQL(query);
             default -> throw new UnsupportedTranslationException(getDatabaseName(), target.getDatabaseName());
         };
@@ -50,10 +50,9 @@ public class CypherTranslator implements Translator {
         }
     }
 
-    private String translateToPostgreSQL(String query) {
+    private List<String> translateToPostgreSQL(String query) {
         try {
-            CypherQueryListener listener = listen(query);
-            throw new UnsupportedOperationException();
+            return listen(query).translate();
         } catch (Exception e) {
             throw new TranslationFailedException(getDatabaseName(), "PostgreSQL", e);
         }

@@ -8,6 +8,7 @@ import cyphersql.ast.create.CreateNode;
 import cyphersql.ast.terminal.SymbolLiteralTerminal;
 import cyphersql.ast.terminal.Terminal;
 import cyphersql.ast.terminal.Terminals;
+import cyphersql.postgresql.PostgreSQLCreateTranslator;
 
 import java.util.*;
 
@@ -148,5 +149,10 @@ public class CypherCreateListener extends CypherQueryListener {
             }
         }
         existingColumns.put(existingIndex, columns);
+    }
+
+    @Override
+    public List<String> translate() {
+        return new PostgreSQLCreateTranslator(this).translate();
     }
 }

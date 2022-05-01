@@ -1,6 +1,7 @@
 package cyphersql.api;
 
 import java.nio.file.Path;
+import java.util.List;
 
 public interface Translator {
     /**
@@ -10,7 +11,7 @@ public interface Translator {
     /**
      * @return {@code query} translated into SQL that can be executed by {@code target}
      */
-    String translate(String query, Translator target);
+    List<String> translate(String query, Translator target);
     /**
      * Dumps the database pointed to in {@code sourceDatabase} to the location pointed to in {@code targetLocation}
      */

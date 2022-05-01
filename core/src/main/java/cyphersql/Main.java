@@ -14,13 +14,13 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.System.Logger;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 
 import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.getLogger;
 
 public class Main {
+    public static final String QUERY_DELIMITER = "-- QUERY DELIMITER";
     private static final Logger logger = getLogger(Main.class.getSimpleName());
 
     public static void main(String[] args) throws Exception {
@@ -51,13 +51,13 @@ public class Main {
         Arrays.stream(cmd.getOptions()).forEach(options::addOption);
 
         boolean noOptionsConfigured = options.getOptions().size() == 0;
-        boolean anyParametersAreInvalid = ParametersRegister.getParameters().stream().anyMatch(p -> p.isConfigurationInvalid(options));
+        boolean noCommandsConfigured = ParametersRegister.getParameters().stream().noneMatch(p -> p.isConfigured(options));
         boolean multipleExclusiveOptionsPresent = options.getOptions().stream().filter(o -> ParametersRegister.getParameters().stream()
                                                                                                               .flatMap(p -> p.getExclusiveOptions().getOptions().stream())
                                                                                                               .toList().contains(o))
                                                          .count() > 1;
 
-        return noOptionsConfigured || anyParametersAreInvalid || multipleExclusiveOptionsPresent;
+        return noOptionsConfigured || noCommandsConfigured || multipleExclusiveOptionsPresent;
     }
 
     private static void printHelp() throws IOException {
@@ -74,8 +74,8 @@ public class Main {
     }
 
     protected static void handleDump(CommandLine cmd) {
-        Path sourceDatabase = Paths.get(cmd.getOptionValue(DumpParameters.source));
-        Path targetLocation = Paths.get(cmd.getOptionValue(DumpParameters.target));
+        Path sourceDatabase = Path.of(cmd.getOptionValue(DumpParameters.source));
+        Path targetLocation = Path.of(cmd.getOptionValue(DumpParameters.target));
         new DatabaseDumper(sourceDatabase, targetLocation, cmd.getOptionValue(DumpParameters.database)).dump();
     }
 

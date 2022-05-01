@@ -25,40 +25,10 @@ public class DumpParameters implements Parameters {
     }
 
     @Override
-    public boolean isConfigurationInvalid(Options options) {
-        boolean isConfigurationInvalid = false;
-        if (options.hasOption(dump.getOpt())) {
-            String validationMessagePrefix = "'" + dump.getOpt() + "' is specified but '";
-            if (!options.hasOption(source.getOpt())) {
-                System.err.println(validationMessagePrefix + source.getOpt() + "' is missing");
-                isConfigurationInvalid = true;
-            }
-            if (!options.hasOption(target.getOpt())) {
-                System.err.println(validationMessagePrefix + target.getOpt() + "' is missing");
-                isConfigurationInvalid = true;
-            }
-            if (!options.hasOption(database.getOpt())) {
-                System.err.println(validationMessagePrefix + database.getOpt() + "' is missing");
-                isConfigurationInvalid = true;
-            }
-        } else {
-            String validationMessagePrefix = "'" + dump.getOpt() + "' is not specified but '";
-            if (options.hasOption(source.getOpt())) {
-                System.err.println(validationMessagePrefix + source.getOpt() + "' is");
-                isConfigurationInvalid = true;
-            }
-            if (options.hasOption(target.getOpt())) {
-                System.err.println(validationMessagePrefix + target.getOpt() + "' is");
-                isConfigurationInvalid = true;
-            }
-            if (options.hasOption(database.getOpt())) {
-                System.err.println(validationMessagePrefix + database.getOpt() + "' is");
-                isConfigurationInvalid = true;
-            }
-        }
-        if (isConfigurationInvalid) {
-            System.err.println();
-        }
-        return isConfigurationInvalid;
+    public boolean isConfigured(Options options) {
+        return options.hasOption(dump.getOpt()) &&
+               options.hasOption(source.getOpt()) &&
+               options.hasOption(target.getOpt()) &&
+               options.hasOption(database.getOpt());
     }
 }

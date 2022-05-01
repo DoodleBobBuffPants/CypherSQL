@@ -10,6 +10,6 @@ public class TranslatorRegisterTest {
     @Test
     public void allTranslatorImplementationsAreLoaded() {
         List<String> translators = TranslatorRegister.getTranslators().stream().map(t -> t.getClass().getSimpleName()).toList();
-        assertEquals(1, translators.size());
+        assertEquals(2, translators.size());
     }
 }

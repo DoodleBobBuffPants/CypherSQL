@@ -2,4 +2,8 @@ package cyphersql.listener;
 
 import cyphersql.antlr.CypherBaseListener;
 
-public abstract class CypherQueryListener extends CypherBaseListener {}
+import java.util.List;
+
+public abstract class CypherQueryListener extends CypherBaseListener {
+    public abstract List<String> translate();
+}

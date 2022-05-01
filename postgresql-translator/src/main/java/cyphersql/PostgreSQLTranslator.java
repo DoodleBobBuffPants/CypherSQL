@@ -3,6 +3,7 @@ package cyphersql;
 import cyphersql.api.Translator;
 
 import java.nio.file.Path;
+import java.util.List;
 
 public class PostgreSQLTranslator implements Translator {
     @Override
@@ -11,7 +12,7 @@ public class PostgreSQLTranslator implements Translator {
     }
 
     @Override
-    public String translate(String query, Translator target) {
+    public List<String> translate(String query, Translator target) {
         throw new UnsupportedOperationException();
     }
 
