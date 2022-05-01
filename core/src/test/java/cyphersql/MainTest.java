@@ -23,6 +23,13 @@ public class MainTest {
     }
 
     @Test
+    public void invalidTranslatorThrowsDuringExecute() {
+        NoTranslatorFoundException exception = assertThrows(NoTranslatorFoundException.class, () ->
+                Main.handleExecute(Main.parseArguments(new String[] { "-execute", "-query", "SELECT 1", "-db", "invalid" })));
+        assertEquals("No translator found to handle database invalid", exception.getMessage());
+    }
+
+    @Test
     public void validationFailsForNoArguments() throws ParseException {
         assertTrue(Main.isConfigurationInvalid(Main.parseArguments(new String[] { })));
     }

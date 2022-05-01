@@ -1,6 +1,9 @@
 package cyphersql.api;
 
+import org.apache.commons.cli.CommandLine;
+
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface Translator {
@@ -16,4 +19,8 @@ public interface Translator {
      * Dumps the database pointed to in {@code sourceDatabase} to the location pointed to in {@code targetLocation}
      */
     void dumpDatabase(Path sourceDatabase, Path targetLocation);
+    /**
+     * Executes the specified query
+     */
+    void execute(String query, CommandLine cmd) throws SQLException;
 }

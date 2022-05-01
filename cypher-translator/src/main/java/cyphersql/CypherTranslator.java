@@ -10,6 +10,7 @@ import cyphersql.listener.CypherQueryListener;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.apache.commons.cli.CommandLine;
 import org.neo4j.shell.StartClient;
 
 import java.io.PrintStream;
@@ -48,6 +49,11 @@ public class CypherTranslator implements Translator {
         } catch (Exception e) {
             throw new DumpFailedException(sourceDatabase.toString(), targetLocation.toString(), e);
         }
+    }
+
+    @Override
+    public void execute(String query, CommandLine cmd) {
+        throw new UnsupportedOperationException();
     }
 
     private List<String> translateToPostgreSQL(String query) {

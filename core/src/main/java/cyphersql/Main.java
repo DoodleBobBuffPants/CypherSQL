@@ -3,6 +3,8 @@ package cyphersql;
 import cyphersql.api.Parameters;
 import cyphersql.api.dump.DatabaseDumper;
 import cyphersql.api.dump.DumpParameters;
+import cyphersql.api.execute.ExecuteParameters;
+import cyphersql.api.execute.QueryExecutor;
 import cyphersql.api.translate.QueryTranslator;
 import cyphersql.api.translate.TranslateParameters;
 import cyphersql.comparator.OptionComparator;
@@ -14,6 +16,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.System.Logger;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.util.Arrays;
 
 import static java.lang.System.Logger.Level.INFO;
@@ -34,6 +37,9 @@ public class Main {
             }
             if (cmd.hasOption(TranslateParameters.translate)) {
                 handleTranslate(cmd);
+            }
+            if (cmd.hasOption(ExecuteParameters.execute)) {
+                handleExecute(cmd);
             }
         }
     }
@@ -85,5 +91,11 @@ public class Main {
         String target = cmd.getOptionValue(TranslateParameters.target);
         String translatedQuery = new QueryTranslator(query, source, target).translate();
         logger.log(INFO, "The translated query is:\n" + translatedQuery);
+    }
+
+    protected static void handleExecute(CommandLine cmd) throws SQLException {
+        String query = cmd.getOptionValue(ExecuteParameters.query);
+        String db = cmd.getOptionValue(ExecuteParameters.db);
+        new QueryExecutor(query, db, cmd).execute();
     }
 }

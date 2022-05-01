@@ -1,2 +1,3 @@
 cyphersql.api.dump.DumpParameters
 cyphersql.api.translate.TranslateParameters
+cyphersql.api.execute.ExecuteParameters
