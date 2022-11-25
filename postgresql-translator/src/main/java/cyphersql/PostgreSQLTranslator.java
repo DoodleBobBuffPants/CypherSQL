@@ -1,7 +1,6 @@
 package cyphersql;
 
 import cyphersql.api.Translator;
-import cyphersql.parameters.PostgreSQLParameters;
 import org.apache.commons.cli.CommandLine;
 import org.postgresql.ds.PGSimpleDataSource;
 
@@ -10,6 +9,7 @@ import java.nio.file.Path;
 import java.sql.*;
 import java.util.List;
 
+import static cyphersql.PostgreSQLOptions.*;
 import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.getLogger;
 
@@ -17,7 +17,7 @@ public class PostgreSQLTranslator implements Translator {
     private static final Logger logger = getLogger(PostgreSQLTranslator.class.getSimpleName());
 
     @Override
-    public String getDatabaseName() {
+    public String getDatabaseEngineName() {
         return "PostgreSQL";
     }
 
@@ -27,15 +27,15 @@ public class PostgreSQLTranslator implements Translator {
     }
 
     @Override
-    public void dumpDatabase(Path sourceDatabase, Path targetLocation) {
+    public void dump(Path sourceDatabase, Path targetLocation) {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public void execute(String query, CommandLine cmd) throws SQLException {
-        String url = cmd.getOptionValue(PostgreSQLParameters.url);
-        String username = cmd.getOptionValue(PostgreSQLParameters.username);
-        String password = cmd.getOptionValue(PostgreSQLParameters.password);
+        String url = cmd.getOptionValue(URL);
+        String username = cmd.getOptionValue(USERNAME);
+        String password = cmd.getOptionValue(PASSWORD);
 
         try (Connection connection = getConnection(url, username, password); Statement statement = connection.createStatement()) {
             statement.execute(query);

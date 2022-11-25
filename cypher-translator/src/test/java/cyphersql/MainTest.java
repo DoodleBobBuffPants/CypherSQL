@@ -11,13 +11,11 @@ public class MainTest {
 
     @Test
     public void translatesMatchQuery() {
-        assertThrows(TranslationFailedException.class, () ->
-                Main.main(new String[] { "-translate", "-query", MATCH_QUERY, "-source", "neo4j", "-target", "postgresql" }));
+        assertThrows(TranslationFailedException.class, () -> Main.main(new String[] { "-translate", "-query", MATCH_QUERY, "-source", "neo4j", "-target", "postgresql" }));
     }
 
     @Test
     public void translatesCreateQuery() {
-        assertThrows(TranslationFailedException.class, () ->
-                Main.main(new String[] { "-translate", "-query", CREATE_QUERY, "-source", "neo4j", "-target", "postgresql" }));
+        assertThrows(TranslationFailedException.class, () -> Main.main(new String[] { "-translate", "-query", CREATE_QUERY, "-source", "neo4j", "-target", "postgresql" }));
     }
 }

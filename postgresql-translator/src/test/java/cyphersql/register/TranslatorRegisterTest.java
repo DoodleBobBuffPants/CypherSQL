@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TranslatorRegisterTest {
     @Test
     public void allTranslatorImplementationsAreLoaded() {
-        List<String> translators = TranslatorRegister.getTranslators().stream().map(t -> t.getClass().getSimpleName()).toList();
-        assertEquals(1, translators.size());
+        List<String> translators = TranslatorRegister.get().stream().map(t -> t.getClass().getSimpleName()).toList();
+        assertEquals(1, translators.size(), translators.toString());
     }
 }

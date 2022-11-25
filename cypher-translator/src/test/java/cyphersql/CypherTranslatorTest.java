@@ -15,10 +15,10 @@ public class CypherTranslatorTest {
     @Disabled("Required graph DB does not exist")
     @Test
     public void databaseDumpsSuccessfully() {
-        Path dbPath = Path.of("src", "test", "resources", "databases", "graph.db");
+        Path databaseDump = Path.of("src", "test", "resources", "databases", "graph.db");
         Path dumpLocation = Path.of("src", "test", "resources", "databases", "dump", "graph_dump.txt");
 
-        translator.dumpDatabase(dbPath, dumpLocation);
+        translator.dump(databaseDump, dumpLocation);
         File dumpFile = dumpLocation.toFile();
 
         assertTrue(dumpFile.exists());

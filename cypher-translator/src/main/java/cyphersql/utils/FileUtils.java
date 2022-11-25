@@ -6,8 +6,8 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class FileUtils {
-    public static void trimLines(Path location, int start, int end) throws IOException {
-        List<String> contents = Files.readAllLines(location);
-        Files.write(location, contents.subList(start, contents.size() - end));
+    public static void trimLines(Path path, int start, int end) throws IOException {
+        List<String> contents = Files.readAllLines(path);
+        Files.write(path, contents.subList(start, contents.size() - end));
     }
 }

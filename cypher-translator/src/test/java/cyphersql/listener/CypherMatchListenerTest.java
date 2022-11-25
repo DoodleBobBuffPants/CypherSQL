@@ -31,9 +31,7 @@ public class CypherMatchListenerTest {
     }
 
     private CypherMatchListener assertListenerIsMatchListener(CypherQueryListener listener) {
-        if (listener instanceof CypherMatchListener matchListener) {
-            return matchListener;
-        }
+        if (listener instanceof CypherMatchListener matchListener) return matchListener;
         return fail("Expected listener to be " + CypherMatchListener.class.getSimpleName() + " but was " + listener.getClass().getSimpleName());
     }
 

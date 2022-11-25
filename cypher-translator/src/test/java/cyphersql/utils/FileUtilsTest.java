@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static cyphersql.utils.FileUtils.trimLines;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FileUtilsTest {
@@ -29,7 +30,7 @@ public class FileUtilsTest {
 
     @Test
     public void trimsLines() throws IOException {
-        FileUtils.trimLines(file, 2, 2);
+        trimLines(file, 2, 2);
         List<String> contents = Files.readAllLines(file);
         assertEquals(contents, Arrays.asList("3", "4", "5", "6", "7"));
     }

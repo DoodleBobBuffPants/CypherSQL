@@ -24,16 +24,12 @@ public class CypherCreateListenerTest {
     }
 
     private CypherCreateListener assertListenerIsCreateListener(CypherQueryListener listener) {
-        if (listener instanceof CypherCreateListener createListener) {
-            return createListener;
-        }
+        if (listener instanceof CypherCreateListener createListener) return createListener;
         return fail("Expected listener to be " + CypherCreateListener.class.getSimpleName() + " but was " + listener.getClass().getSimpleName());
     }
 
     private CreateNode assertCreateIsCreateNode(Create create) {
-        if (create instanceof CreateNode createNode) {
-            return createNode;
-        }
+        if (create instanceof CreateNode createNode) return createNode;
         return fail("Expected create object to be " + CreateNode.class.getSimpleName() + " but was " + create.getClass().getSimpleName());
     }
 
@@ -46,9 +42,7 @@ public class CypherCreateListenerTest {
     }
 
     private CreateEdge assertCreateIsCreateEdge(Create create) {
-        if (create instanceof CreateEdge createEdge) {
-            return createEdge;
-        }
+        if (create instanceof CreateEdge createEdge) return createEdge;
         return fail("Expected create object to be " + CreateEdge.class.getSimpleName() + " but was " + create.getClass().getSimpleName());
     }
 

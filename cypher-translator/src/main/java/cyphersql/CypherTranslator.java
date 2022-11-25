@@ -21,30 +21,30 @@ import static cyphersql.utils.FileUtils.trimLines;
 
 public class CypherTranslator implements Translator {
     @Override
-    public String getDatabaseName() {
+    public String getDatabaseEngineName() {
         return "Neo4J";
     }
 
     @Override
     public List<String> translate(String query, Translator target) {
-        return switch (target.getDatabaseName()) {
+        return switch (target.getDatabaseEngineName()) {
             case "Neo4J" -> List.of(query);
             case "PostgreSQL" -> translateToPostgreSQL(query);
-            default -> throw new UnsupportedTranslationException(getDatabaseName(), target.getDatabaseName());
+            default -> throw new UnsupportedTranslationException(getDatabaseEngineName(), target.getDatabaseEngineName());
         };
     }
 
     @Override
-    public void dumpDatabase(Path sourceDatabase, Path targetLocation) {
+    public void dump(Path sourceDatabase, Path targetLocation) {
         try {
             PrintStream old = System.out;
-            PrintStream sourceDatabasePrintStream = new PrintStream(targetLocation.toString());
+            PrintStream targetLocationPrintStream = new PrintStream(targetLocation.toString());
 
-            System.setOut(sourceDatabasePrintStream);
+            System.setOut(targetLocationPrintStream);
             StartClient.main(new String[] { "-path", sourceDatabase.toString(), "-c", "dump" });
 
             System.setOut(old);
-            sourceDatabasePrintStream.close();
+            targetLocationPrintStream.close();
             trimLines(targetLocation, 4, 2);
         } catch (Exception e) {
             throw new DumpFailedException(sourceDatabase.toString(), targetLocation.toString(), e);
@@ -52,7 +52,7 @@ public class CypherTranslator implements Translator {
     }
 
     @Override
-    public void execute(String query, CommandLine cmd) {
+    public void execute(String statement, CommandLine cmd) {
         throw new UnsupportedOperationException();
     }
 
@@ -60,7 +60,7 @@ public class CypherTranslator implements Translator {
         try {
             return listen(query).translate();
         } catch (Exception e) {
-            throw new TranslationFailedException(getDatabaseName(), "PostgreSQL", e);
+            throw new TranslationFailedException(getDatabaseEngineName(), "PostgreSQL", e);
         }
     }
 

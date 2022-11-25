@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface Translator {
     /**
-     * @return The name of the database this translator is for
+     * @return The name of the database engine this translator is for
      */
-    String getDatabaseName();
+    String getDatabaseEngineName();
     /**
      * @return {@code query} translated into SQL that can be executed by {@code target}
      */
@@ -18,9 +18,9 @@ public interface Translator {
     /**
      * Dumps the database pointed to in {@code sourceDatabase} to the location pointed to in {@code targetLocation}
      */
-    void dumpDatabase(Path sourceDatabase, Path targetLocation);
+    void dump(Path sourceDatabase, Path targetLocation);
     /**
-     * Executes the specified query
+     * Executes the specified statement
      */
-    void execute(String query, CommandLine cmd) throws SQLException;
+    void execute(String statement, CommandLine cmd) throws SQLException;
 }

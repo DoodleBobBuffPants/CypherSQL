@@ -5,6 +5,8 @@
       <list>
         <fileSet type="globPattern" pattern=".idea/*" />
         <fileSet type="globPattern" pattern=".idea/**/*" />
+        <fileSet type="globPattern" pattern="Translator/**/*" />
+        <fileSet type="globPattern" pattern="cypher-grammar/**/*" />
       </list>
     </option>
     <HTMLCodeStyleSettings>
