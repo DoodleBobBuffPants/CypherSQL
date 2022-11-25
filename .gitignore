@@ -1,6 +1,1 @@
 **/target
-
-Translator/bin
-Translator/resources/got.db
-Translator/resources/graph.db
-Translator/resources/northwind.db

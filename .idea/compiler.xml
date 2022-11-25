@@ -14,8 +14,5 @@
         <module name="cypher-grammar" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="CypherSQL" target="17" />
-    </bytecodeTargetLevel>
   </component>
 </project>

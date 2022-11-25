@@ -23,11 +23,6 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: 'temurin'
-      - name: Cache packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2
-          key: ${{ matrix.os }}-m2
       - name: Build and Test
         run: mvn -B package --file pom.xml
       - name: Upload package
