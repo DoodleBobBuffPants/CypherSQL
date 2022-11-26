@@ -4,8 +4,8 @@ import cyphersql.listener.CypherMatchListener;
 
 import java.util.List;
 
-public record PostgreSQLMatchTranslator(CypherMatchListener listener) {
-    public List<String> translate() {
+public class PostgreSQLMatchVisitor {
+    public static List<String> visit(CypherMatchListener listener) {
         throw new UnsupportedOperationException();
     }
 }

@@ -1,6 +1,5 @@
 package cyphersql;
 
-import cyphersql.api.exception.TranslationFailedException;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -28,12 +27,12 @@ public class CypherTranslatorTest {
     @Test
     public void translatesMatchNodeWithCount() {
         String query = "MATCH (n) RETURN count(*) AS count";
-        assertThrows(TranslationFailedException.class, () -> translator.translate(query, new PostgreSQLTranslator()));
+        assertThrows(UnsupportedOperationException.class, () -> translator.translate(query, new PostgreSQLTranslator()));
     }
 
     @Test
     public void translatesCreateNode() {
         String query = "CREATE (_0: `Movie` {`released`: 1999, `tagline`: \"Welcome to the Real World\", `title`: \"The Matrix\"})";
-        assertThrows(TranslationFailedException.class, () -> translator.translate(query, new PostgreSQLTranslator()));
+        assertThrows(UnsupportedOperationException.class, () -> translator.translate(query, new PostgreSQLTranslator()));
     }
 }

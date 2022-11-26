@@ -3,10 +3,13 @@ package cyphersql;
 import cyphersql.antlr.CypherLexer;
 import cyphersql.antlr.CypherParser;
 import cyphersql.api.Translator;
-import cyphersql.api.exception.*;
+import cyphersql.api.exception.DumpFailedException;
+import cyphersql.api.exception.UnsupportedQueryException;
+import cyphersql.api.exception.UnsupportedTranslationException;
 import cyphersql.listener.CypherCreateListener;
 import cyphersql.listener.CypherMatchListener;
 import cyphersql.listener.CypherQueryListener;
+import cyphersql.postgresql.PostgreSQLListenerVisitor;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
@@ -29,7 +32,7 @@ public class CypherTranslator implements Translator {
     public List<String> translate(String query, Translator target) {
         return switch (target.getDatabaseEngineName()) {
             case "Neo4J" -> List.of(query);
-            case "PostgreSQL" -> translateToPostgreSQL(query);
+            case "PostgreSQL" -> listen(query).accept(new PostgreSQLListenerVisitor());
             default -> throw new UnsupportedTranslationException(getDatabaseEngineName(), target.getDatabaseEngineName());
         };
     }
@@ -54,14 +57,6 @@ public class CypherTranslator implements Translator {
     @Override
     public void execute(String statement, CommandLine cmd) {
         throw new UnsupportedOperationException();
-    }
-
-    private List<String> translateToPostgreSQL(String query) {
-        try {
-            return listen(query).translate();
-        } catch (Exception e) {
-            throw new TranslationFailedException(getDatabaseEngineName(), "PostgreSQL", e);
-        }
     }
 
     public CypherQueryListener listen(String query) {

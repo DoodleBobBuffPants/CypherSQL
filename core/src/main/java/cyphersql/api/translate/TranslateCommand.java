@@ -2,6 +2,7 @@ package cyphersql.api.translate;
 
 import cyphersql.api.Command;
 import cyphersql.api.Translator;
+import cyphersql.api.exception.TranslationFailedException;
 import cyphersql.api.exception.UnableToReadQueryException;
 import cyphersql.register.CypherSqlOptionsRegister;
 import cyphersql.register.TranslatorRegister;
@@ -43,6 +44,10 @@ public class TranslateCommand implements Command<String> {
         } catch (InvalidPathException ignored) {
         }
 
-        return String.join("\n\n" + QUERY_DELIMITER + "\n\n", source.translate(query, target));
+        try {
+            return String.join("\n\n" + QUERY_DELIMITER + "\n\n", source.translate(query, target));
+        } catch (Exception e) {
+            throw new TranslationFailedException(source.getDatabaseEngineName(), target.getDatabaseEngineName(), e);
+        }
     }
 }
